@@ -1,0 +1,16 @@
+[
+    {
+      "modid": "BetterAchievements",
+      "name": "Better Achievements",
+      "description": "",
+      "version": "${version}",
+      "mcversion": "${mcversion}",
+      "url": "https://github.com/way2muchnoise/BetterAchievements",
+      "updateUrl": "",
+      "authors": ["way2muchnoise"],
+      "credits": "Authored by way2muchnoise",
+      "logoFile": "",
+      "screenshots": [],
+      "dependencies": []
+    }
+]

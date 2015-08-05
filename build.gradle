@@ -1,0 +1,100 @@
+buildscript {
+    repositories {
+        mavenCentral()
+		jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            // Add maven repo for SpecialSource
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+repositories {
+    maven {
+        name = "forge"
+        url = "http://files.minecraftforge.net/maven"
+    }
+    maven { // the repo from which to get NEI and stuff
+        name 'CB Repo'
+        url "http://chickenbones.net/maven"
+    }
+    maven {
+        name "Waila Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    ivy {
+        name 'FMP'
+        artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
+    }
+
+}
+
+dependencies {
+    compile group: 'codechicken', name: 'NotEnoughItems', version: "${version_minecraft}-${version_nei}", ext: 'jar', classifier: "dev"
+    compile group: 'codechicken', name: 'CodeChickenCore', version: "${version_minecraft}-${version_cccore}", ext: 'jar', classifier: "dev"
+    compile group: 'codechicken', name: 'CodeChickenLib', version: "${version_minecraft}-${version_cclib}", ext: 'jar', classifier: "dev"
+    compile "mcp.mobius.waila:Waila:${waila_version}_${version_minecraft}:dev"
+
+	compile fileTree(dir: 'lib', include: '*.jar')
+}
+
+group = "BetterAchiements"
+archivesBaseName = "BetterAchiements"
+
+minecraft {
+    version = "${version_minecraft}-${version_forge}"
+
+    replaceIn "reference/Reference.java"
+    replace "@MAJOR@", version_major
+    replace "@MINOR@", version_minor
+    replace "@REVIS@", version_revis
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.info'
+        expand 'version':"${version_major}.${version_minor}.${version_revis}", 'mcversion':version_minecraft
+    }
+
+    from(sourceSets.main.resources.srcDirs) { exclude '**/*.info' }
+}
+
+version = "${version_minecraft}-${version_major}.${version_minor}.${version_revis}"
+
+jar {
+    from "build/sources/main"
+    destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+}
+
+task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
+    from "build/sources/java"
+    from "build/resources/main/java"
+    classifier "sources"
+    destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+}
+
+artifacts {
+    archives sourceJar, deobfJar
+}
