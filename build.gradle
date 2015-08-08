@@ -98,3 +98,11 @@ task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
 artifacts {
     archives sourceJar, deobfJar
 }
+
+sourceSets {
+    main {
+        java {
+            srcDirs += "src/demo/java"
+        }
+    }
+}
