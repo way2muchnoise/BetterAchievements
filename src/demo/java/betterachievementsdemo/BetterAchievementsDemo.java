@@ -1,8 +1,8 @@
 package betterachievementsdemo;
 
 import betterachievementsdemo.proxy.CommonProxy;
-import betterachievementsdemo.registry.MetaData;
-import betterachievementsdemo.registry.Reference;
+import betterachievementsdemo.reference.MetaData;
+import betterachievementsdemo.reference.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;

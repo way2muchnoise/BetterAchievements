@@ -1,4 +1,4 @@
-package betterachievements.registry;
+package betterachievementsdemo.reference;
 
 import cpw.mods.fml.common.ModMetadata;
 
@@ -10,7 +10,7 @@ public class MetaData
     {
         metadata.modId = Reference.ID;
         metadata.name = Reference.NAME;
-        metadata.description = "A rewrite of the achievement screen so it makes more sense";
+        metadata.description = "A demo of the features in BetterAchievements";
         metadata.url = "https://github.com/way2muchnoise/BetterAchievements";
         metadata.version = Reference.VERSION_FULL;
         metadata.authorList = Arrays.asList("way2muchnoise");

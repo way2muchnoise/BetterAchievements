@@ -1,6 +1,5 @@
-package betterachievementsdemo.registry;
+package betterachievements.reference;
 
-import betterachievementsdemo.registry.Reference;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.util.Arrays;
@@ -11,7 +10,7 @@ public class MetaData
     {
         metadata.modId = Reference.ID;
         metadata.name = Reference.NAME;
-        metadata.description = "A demo of the features in BetterAchievements";
+        metadata.description = "A rewrite of the achievement screen so it makes more sense";
         metadata.url = "https://github.com/way2muchnoise/BetterAchievements";
         metadata.version = Reference.VERSION_FULL;
         metadata.authorList = Arrays.asList("way2muchnoise");

@@ -1,6 +1,6 @@
 package thevault.asm;
 
-import betterachievements.registry.Reference;
+import betterachievements.reference.Reference;
 import thevault.asm.obfuscation.ASMString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,6 +110,14 @@ public abstract class Transformer<T> implements ITransformer, Opcodes
         public String getClassName()
         {
             return name.getText();
+        }
+
+        public byte[] transform(byte[] bytes)
+        {
+            ClassNode node = ASMHelper.readClassFromBytes(bytes);
+            if (transform(node))
+                return ASMHelper.writeClassToBytesNoDeobfSkipFrames(node);
+            return bytes;
         }
 
         @Override
