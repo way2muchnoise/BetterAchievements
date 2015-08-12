@@ -4,20 +4,27 @@ public class ASMString
 {
     public static boolean OBFUSCATED;
     private String text;
+    private String obfText;
 
     public ASMString(String text)
     {
-        this.text = text;
+        this(text, text);
     }
 
     public ASMString(Class clazz)
     {
-        this.text = clazz.getCanonicalName();
+        this(clazz.getCanonicalName());
+    }
+
+    public ASMString(String text, String obfText)
+    {
+        this.text = text;
+        this.obfText = obfText;
     }
 
     public String getText()
     {
-        return text;
+        return OBFUSCATED ? obfText : text;
     }
 
     public String getReadableText()
@@ -33,21 +40,5 @@ public class ASMString
     public String getASMTypeName()
     {
         return "L" + getASMClassName() +";";
-    }
-
-    public static class ASMObfString extends ASMString
-    {
-        private String obfText;
-        public ASMObfString(String text, String obfText)
-        {
-            super(text);
-            this.obfText = obfText;
-        }
-
-        @Override
-        public String getText()
-        {
-            return OBFUSCATED ? obfText : super.getText();
-        }
     }
 }
