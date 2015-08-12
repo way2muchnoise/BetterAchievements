@@ -2,15 +2,12 @@ package betterachievements.asm;
 
 import codechicken.core.launch.DepLoader;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import net.minecraftforge.classloading.FMLForgePlugin;
 
 import java.util.Map;
 
 @IFMLLoadingPlugin.TransformerExclusions({"betterachievements.asm."})
 public class LoadingPlugin implements IFMLLoadingPlugin
 {
-    public static boolean runtimeDeobfEnabled = FMLForgePlugin.RUNTIME_DEOBF;
-
     public LoadingPlugin()
     {
         DepLoader.load();
@@ -43,6 +40,6 @@ public class LoadingPlugin implements IFMLLoadingPlugin
     @Override
     public String getAccessTransformerClass()
     {
-        return "betterachievements.asm.MinechemTransformer";
+        return null;
     }
 }

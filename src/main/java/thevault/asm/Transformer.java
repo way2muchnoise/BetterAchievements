@@ -97,7 +97,7 @@ public abstract class Transformer<T> implements ITransformer, Opcodes
 
         public ClassTransformer(String name, String obfName, Transformer... transformers)
         {
-            this(new ASMString.ASMObfString(name, obfName), transformers);
+            this(new ASMString(name, obfName), transformers);
         }
 
         public ClassTransformer(ASMString name, Transformer... transformers)
@@ -167,7 +167,7 @@ public abstract class Transformer<T> implements ITransformer, Opcodes
         
         public FieldTransformer(String name, String obfName, String desc)
         {
-            this(new ASMString.ASMObfString(name, obfName), desc);
+            this(new ASMString(name, obfName), desc);
         }
         
         public FieldTransformer(ASMString name, String desc)
@@ -243,7 +243,7 @@ public abstract class Transformer<T> implements ITransformer, Opcodes
 
         public MethodTransformer(String name, String obfName, String desc)
         {
-            this(new ASMString.ASMObfString(name, obfName), desc);
+            this(new ASMString(name, obfName), desc);
         }
 
         public MethodTransformer(ASMString name, String desc)
