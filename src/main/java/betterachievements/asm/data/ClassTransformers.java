@@ -14,7 +14,9 @@ public enum ClassTransformers
      * Also take a look at {@link net.minecraft.client.gui.achievement.GuiAchievement}
      * if that needs replacement
      */
-    NULL(null);
+    GUI_INVENTORY(null),
+    GUI_CONTAINER_CREATIVE(null),
+    GUI_INGAME_MENU(null);
 
     private Transformer.ClassTransformer transformer;
 
