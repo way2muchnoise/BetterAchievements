@@ -256,7 +256,7 @@ public abstract class Transformer<T> implements ITransformer, Opcodes
 
         public MethodTransformer(ASMString name, String desc)
         {
-            this(NODE_ACCESS, Access.PUBLIC, name, desc);
+            this(NODE_MODIFY, Access.PUBLIC, name, desc);
         }
 
         public MethodTransformer(int action, ASMString name, String desc)

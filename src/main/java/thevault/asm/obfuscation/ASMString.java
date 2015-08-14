@@ -34,7 +34,7 @@ public class ASMString
 
     public String getASMClassName()
     {
-        return text.replaceAll("\\.","/");
+        return OBFUSCATED ? obfText : text.replaceAll("\\.","/");
     }
 
     public String getASMTypeName()

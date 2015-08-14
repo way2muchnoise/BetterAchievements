@@ -4,19 +4,10 @@ import thevault.asm.Transformer;
 
 public enum ClassTransformers
 {
-    /**
-     * Replace instantiations of {@link net.minecraft.client.gui.achievement.GuiAchievements}
-     * To Transform classes
-     * {@link net.minecraft.client.gui.inventory.GuiInventory} line 130
-     * {@link net.minecraft.client.gui.inventory.GuiContainerCreative} line 979
-     * {@link net.minecraft.client.gui.GuiIngameMenu} line 66
-     * TODO: look at byte code and replace instantiations with own GuiAchievements
-     * Also take a look at {@link net.minecraft.client.gui.achievement.GuiAchievement}
-     * if that needs replacement
-     */
-    GUI_INVENTORY(null),
-    GUI_CONTAINER_CREATIVE(null),
-    GUI_INGAME_MENU(null);
+    GUI_INVENTORY(new Transformer.ClassTransformer(ASMStrings.GUI_INVENTORY, MethodTransformers.actionPerformed)),
+    GUI_CONTAINER_CREATIVE(new Transformer.ClassTransformer(ASMStrings.GUI_CONTAINER_CREATIVE, MethodTransformers.actionPerformed)),
+    GUI_INGAME_MENU(new Transformer.ClassTransformer(ASMStrings.GUI_INGAME_MENU, MethodTransformers.actionPerformed));
+    // TODO: take a look at {@link net.minecraft.client.gui.achievement.GuiAchievement} if that needs replacement
 
     private Transformer.ClassTransformer transformer;
 
@@ -27,7 +18,7 @@ public enum ClassTransformers
 
     public Transformer.ClassTransformer getTransformer()
     {
-        return null;
+        return this.transformer;
     }
 
     public String getClassName()

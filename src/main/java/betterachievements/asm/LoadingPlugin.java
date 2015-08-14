@@ -16,7 +16,7 @@ public class LoadingPlugin implements IFMLLoadingPlugin
     @Override
     public String[] getASMTransformerClass()
     {
-        return new String[]{getAccessTransformerClass()};
+        return new String[]{"betterachievements.asm.BetterAchievementTransformer"};
     }
 
     @Override

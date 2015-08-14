@@ -6,8 +6,14 @@ import net.minecraft.stats.StatFileWriter;
 
 public class GuiBetterAchievements extends GuiAchievements
 {
-    public GuiBetterAchievements(GuiScreen currentScreeen, StatFileWriter statFileWriter)
+    public GuiBetterAchievements(GuiScreen currentScreen, StatFileWriter statFileWriter)
     {
-        super(currentScreeen, statFileWriter);
+        super(currentScreen, statFileWriter);
+    }
+
+    @Override
+    public void drawWorldBackground(int p_146270_1_)
+    {
+        this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
     }
 }

@@ -1,0 +1,32 @@
+package betterachievements.asm.data;
+
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
+import thevault.asm.Transformer;
+
+public final class MethodTransformers
+{
+    public static final Transformer.MethodTransformer actionPerformed =
+            new Transformer.MethodTransformer("actionPerformed", "a","(" + ASMStrings.GUI_BUTTON.getASMTypeName() + ")V")
+            {
+                @Override
+                protected void modify(MethodNode node)
+                {
+                    AbstractInsnNode insnNode = node.instructions.getFirst();
+                    while (insnNode != null)
+                    {
+                        if (insnNode instanceof TypeInsnNode && insnNode.getOpcode() == Opcodes.NEW)
+                        {
+                            if (((TypeInsnNode) insnNode).desc.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
+                            {
+                                node.instructions.insertBefore(insnNode, new TypeInsnNode(Opcodes.NEW, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName()));
+                                node.instructions.remove(insnNode);
+                            }
+                        }
+                        insnNode = insnNode.getNext();
+                    }
+                }
+            };
+}
