@@ -2,6 +2,7 @@ package betterachievements.asm.data;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import thevault.asm.Transformer;
@@ -17,11 +18,11 @@ public final class MethodTransformers
                     AbstractInsnNode insnNode = node.instructions.getFirst();
                     while (insnNode != null)
                     {
-                        if (insnNode instanceof TypeInsnNode && insnNode.getOpcode() == Opcodes.NEW)
+                        if (insnNode instanceof MethodInsnNode && insnNode.getOpcode() == Opcodes.INVOKESPECIAL)
                         {
-                            if (((TypeInsnNode) insnNode).desc.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
+                            if (((MethodInsnNode) insnNode).owner.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
                             {
-                                node.instructions.insertBefore(insnNode, new TypeInsnNode(Opcodes.NEW, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName()));
+                                node.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESPECIAL, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName(), "<init>", "(" + ASMStrings.GUI_SCREEN.getASMTypeName() + ASMStrings.STAT_FILE_WRITER.getASMTypeName() + ")V", false));
                                 node.instructions.remove(insnNode);
                             }
                         }
