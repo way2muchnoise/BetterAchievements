@@ -18,7 +18,15 @@ public final class MethodTransformers
                     AbstractInsnNode insnNode = node.instructions.getFirst();
                     while (insnNode != null)
                     {
-                        if (insnNode instanceof MethodInsnNode && insnNode.getOpcode() == Opcodes.INVOKESPECIAL)
+                        if (insnNode instanceof TypeInsnNode && insnNode.getOpcode() == Opcodes.NEW)
+                        {
+                            if (((TypeInsnNode) insnNode).desc.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
+                            {
+                                node.instructions.insertBefore(insnNode, new TypeInsnNode(Opcodes.NEW, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName()));
+                                node.instructions.remove(insnNode);
+                            }
+                        }
+                        else if (insnNode instanceof MethodInsnNode && insnNode.getOpcode() == Opcodes.INVOKESPECIAL)
                         {
                             if (((MethodInsnNode) insnNode).owner.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
                             {
