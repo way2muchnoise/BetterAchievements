@@ -9,6 +9,10 @@ import thevault.asm.Transformer;
 
 public final class MethodTransformers
 {
+    /**
+     * TODO: Find out what goes wrong in the ASMing
+     * Type 'betterachievements/gui/GuiBetterAchievements' (constant pool 272) is not assignable to 'net/minecraft/client/gui/achievement/GuiAchievements' (constant pool 283)
+     */
     public static final Transformer.MethodTransformer actionPerformed =
             new Transformer.MethodTransformer("actionPerformed", "a","(" + ASMStrings.GUI_BUTTON.getASMTypeName() + ")V")
             {
