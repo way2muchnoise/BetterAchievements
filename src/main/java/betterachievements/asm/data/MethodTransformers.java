@@ -9,10 +9,6 @@ import thevault.asm.Transformer;
 
 public final class MethodTransformers
 {
-    /**
-     * TODO: Find out what goes wrong in the ASMing
-     * Type 'betterachievements/gui/GuiBetterAchievements' (constant pool 272) is not assignable to 'net/minecraft/client/gui/achievement/GuiAchievements' (constant pool 283)
-     */
     public static final Transformer.MethodTransformer actionPerformed =
             new Transformer.MethodTransformer("actionPerformed", "a","(" + ASMStrings.GUI_BUTTON.getASMTypeName() + ")V")
             {
@@ -20,23 +16,25 @@ public final class MethodTransformers
                 protected void modify(MethodNode node)
                 {
                     AbstractInsnNode insnNode = node.instructions.getFirst();
+                    AbstractInsnNode newNode = null;
                     while (insnNode != null)
                     {
                         if (insnNode instanceof TypeInsnNode && insnNode.getOpcode() == Opcodes.NEW)
                         {
                             if (((TypeInsnNode) insnNode).desc.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
-                            {
-                                node.instructions.insertBefore(insnNode, new TypeInsnNode(Opcodes.NEW, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName()));
-                                node.instructions.remove(insnNode);
-                            }
+                                newNode = new TypeInsnNode(Opcodes.NEW, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName());
                         }
                         else if (insnNode instanceof MethodInsnNode && insnNode.getOpcode() == Opcodes.INVOKESPECIAL)
                         {
                             if (((MethodInsnNode) insnNode).owner.equals(ASMStrings.GUI_ACHIEVEMENTS.getASMClassName()))
-                            {
-                                node.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESPECIAL, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName(), "<init>", "(" + ASMStrings.GUI_SCREEN.getASMTypeName() + ASMStrings.STAT_FILE_WRITER.getASMTypeName() + ")V", false));
-                                node.instructions.remove(insnNode);
-                            }
+                                newNode = new MethodInsnNode(Opcodes.INVOKESPECIAL, ASMStrings.GUI_BETTER_ACHIEVEMENTS.getASMClassName(), "<init>", "(" + ASMStrings.GUI_SCREEN.getASMTypeName() + ASMStrings.STAT_FILE_WRITER.getASMTypeName() + ")V", false);
+                        }
+                        if (newNode != null)
+                        {
+                            node.instructions.insertBefore(insnNode, newNode);
+                            node.instructions.remove(insnNode);
+                            insnNode = newNode;
+                            newNode = null;
                         }
                         insnNode = insnNode.getNext();
                     }
