@@ -3,7 +3,6 @@ package betterachievements.gui;
 import betterachievements.reference.Resources;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -73,6 +72,24 @@ public class GuiBetterAchievements extends GuiScreen
         this.drawDefaultBackground();
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         this.drawTexturedModalRect(this.left, this.top, 0, 0, guiWidth, guiHeight);
+        this.drawAchievementsBackground();
+        this.drawAchievements();
+        this.drawMouseOver(mouseX, mouseY);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
+    }
+
+    private void drawAchievementsBackground()
+    {
+
+    }
+
+    private void drawAchievements()
+    {
+
+    }
+
+    private void drawMouseOver(int mouseX, int mouseY)
+    {
+
     }
 }
