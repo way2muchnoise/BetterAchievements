@@ -13,4 +13,6 @@ public final class ASMStrings
     public static final ASMString GUI_BETTER_ACHIEVEMENTS = new ASMString("betterachievements.gui.GuiBetterAchievements");
     public static final ASMString GUI_SCREEN = new ASMString("net.minecraft.client.gui.GuiScreen","bdw");
     public static final ASMString STAT_FILE_WRITER = new ASMString("net.minecraft.stats.StatFileWriter","pq");
+    public static final ASMString BETTER_ACHIEVEMENTS_HOOKS = new ASMString("betterachievements.asm.BetterAchievementsHooks");
+    public static final ASMString ACHIEVEMENT = new ASMString("net.minecraft.stats.Achievement", "pb");
 }

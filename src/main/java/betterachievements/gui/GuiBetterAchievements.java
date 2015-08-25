@@ -1,6 +1,9 @@
 package betterachievements.gui;
 
+import betterachievements.api.IAchievementPageRenderer;
+import betterachievements.api.IAchievementRenderer;
 import betterachievements.reference.Resources;
+import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
@@ -8,7 +11,11 @@ import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatFileWriter;
+import net.minecraftforge.common.AchievementPage;
+
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiBetterAchievements extends GuiScreen
@@ -18,6 +25,8 @@ public class GuiBetterAchievements extends GuiScreen
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
+    private float scale;
+    private int columnWidth, rowHeight;
 
     public GuiBetterAchievements(GuiScreen currentScreen, StatFileWriter statFileWriter)
     {
@@ -72,23 +81,33 @@ public class GuiBetterAchievements extends GuiScreen
         this.drawDefaultBackground();
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         this.drawTexturedModalRect(this.left, this.top, 0, 0, guiWidth, guiHeight);
-        this.drawAchievementsBackground();
-        this.drawAchievements();
-        this.drawMouseOver(mouseX, mouseY);
+        AchievementPage page = AchievementRegistry.mcPage;
+        this.drawAchievementsBackground(page);
+        this.drawAchievements(AchievementRegistry.instance().getAchievements(page), mouseX, mouseY);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
     }
 
-    private void drawAchievementsBackground()
+    private void drawAchievementsBackground(AchievementPage page)
     {
-
+        if (page instanceof IAchievementPageRenderer)
+            ((IAchievementPageRenderer) page).drawBackground(zLevel, this.scale, this.columnWidth, this.rowHeight);
+        else
+        {
+            // Do default background rendering
+        }
     }
 
-    private void drawAchievements()
+    private void drawAchievements(List<Achievement> achievements, int mouseX, int mouseY)
     {
-
+        for (Achievement achievement : achievements)
+        {
+            // Get colour for achievement background
+            // Render icon
+            drawMouseOver(achievement, mouseX, mouseY);
+        }
     }
 
-    private void drawMouseOver(int mouseX, int mouseY)
+    private void drawMouseOver(Achievement achievement, int mouseX, int mouseY)
     {
 
     }
