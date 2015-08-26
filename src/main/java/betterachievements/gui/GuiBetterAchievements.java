@@ -84,6 +84,7 @@ public class GuiBetterAchievements extends GuiScreen
         AchievementPage page = AchievementRegistry.mcPage;
         this.drawAchievementsBackground(page);
         this.drawAchievements(AchievementRegistry.instance().getAchievements(page), mouseX, mouseY);
+        this.fontRendererObj.drawString(I18n.format("gui.achievements"), this.left + 15, this.top + 5, 4210752);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
     }
 
