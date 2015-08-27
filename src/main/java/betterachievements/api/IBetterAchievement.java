@@ -2,9 +2,10 @@ package betterachievements.api;
 
 
 /**
- * This can be applied and will be hooked into the render code of an {@link net.minecraft.stats.Achievement} during the rendering in the {@link net.minecraft.client.gui.achievement.GuiAchievement}
+ * Implemented on {@link net.minecraft.stats.Achievement}
+ * Used for more in depth control
  */
-public interface IAchievementRenderer
+public interface IBetterAchievement
 {
     /**
      * Recolour the background of the {@link net.minecraft.stats.Achievement} icon in the {@link net.minecraft.client.gui.achievement.GuiAchievement}

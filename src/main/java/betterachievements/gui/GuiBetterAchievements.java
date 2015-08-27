@@ -1,7 +1,6 @@
 package betterachievements.gui;
 
-import betterachievements.api.IAchievementPageRenderer;
-import betterachievements.api.IAchievementRenderer;
+import betterachievements.api.IBetterAchievementPage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +25,7 @@ public class GuiBetterAchievements extends GuiScreen
     private StatFileWriter statFileWriter;
     private int top, left;
     private float scale;
-    private int columnWidth, rowHeight;
+    private int columnWidth, rowHeight; // TODO: find out if these are really needed
 
     public GuiBetterAchievements(GuiScreen currentScreen, StatFileWriter statFileWriter)
     {
@@ -40,6 +39,7 @@ public class GuiBetterAchievements extends GuiScreen
     {
         this.left = (this.width - guiWidth) / 2;
         this.top = (this.height - guiHeight) / 2;
+        this.scale = 1.0F;
         this.buttonList.clear();
         this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + 24, this.height / 2 + 74, 125, 20, I18n.format("betterachievements.gui.old")));
@@ -81,6 +81,7 @@ public class GuiBetterAchievements extends GuiScreen
         this.drawDefaultBackground();
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         this.drawTexturedModalRect(this.left, this.top, 0, 0, guiWidth, guiHeight);
+        this.drawTabs();
         AchievementPage page = AchievementRegistry.mcPage;
         this.drawAchievementsBackground(page);
         this.drawAchievements(AchievementRegistry.instance().getAchievements(page), mouseX, mouseY);
@@ -88,10 +89,15 @@ public class GuiBetterAchievements extends GuiScreen
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
     }
 
+    private void drawTabs()
+    {
+        //Draw all tabs
+    }
+
     private void drawAchievementsBackground(AchievementPage page)
     {
-        if (page instanceof IAchievementPageRenderer)
-            ((IAchievementPageRenderer) page).drawBackground(zLevel, this.scale, this.columnWidth, this.rowHeight);
+        if (page instanceof IBetterAchievementPage)
+            ((IBetterAchievementPage) page).drawBackground(this.columnWidth, this.rowHeight, this.zLevel, this.scale);
         else
         {
             // Do default background rendering
