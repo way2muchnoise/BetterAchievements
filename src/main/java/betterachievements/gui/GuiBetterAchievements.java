@@ -1,5 +1,6 @@
 package betterachievements.gui;
 
+import betterachievements.api.IBetterAchievement;
 import betterachievements.api.IBetterAchievementPage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
@@ -12,20 +13,27 @@ import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatFileWriter;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.AchievementPage;
+import org.lwjgl.input.Mouse;
 
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiBetterAchievements extends GuiScreen
 {
-    private static final int buttonDone = 1, buttonOld = 2;
-    private static final int guiWidth = 256, guiHeight = 202;
+    private static final int
+            buttonDone = 1, buttonOld = 2,
+            guiWidth = 256, guiHeight = 202,
+            mouseOffsetX = 8, mouseOffsetY = 17;
+    private static final float scaleJump = 0.25F;
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
     private float scale;
     private int columnWidth, rowHeight; // TODO: find out if these are really needed
+    private boolean newDrag;
+    private int prevMouseX, prevMouseY;
 
     public GuiBetterAchievements(GuiScreen currentScreen, StatFileWriter statFileWriter)
     {
@@ -81,12 +89,19 @@ public class GuiBetterAchievements extends GuiScreen
         this.drawDefaultBackground();
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         this.drawTexturedModalRect(this.left, this.top, 0, 0, guiWidth, guiHeight);
-        this.drawTabs();
         AchievementPage page = AchievementRegistry.mcPage;
+        this.handleMouseInput(mouseX, mouseY, page);
+        this.drawTabs();
         this.drawAchievementsBackground(page);
         this.drawAchievements(AchievementRegistry.instance().getAchievements(page), mouseX, mouseY);
         this.fontRendererObj.drawString(I18n.format("gui.achievements"), this.left + 15, this.top + 5, 4210752);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
+    }
+
+    private void handleMouseInput(int mouseX, int mouseY, AchievementPage page)
+    {
+        doDrag(mouseX, mouseY);
+        doZoom(page);
     }
 
     private void drawTabs()
@@ -117,5 +132,53 @@ public class GuiBetterAchievements extends GuiScreen
     private void drawMouseOver(Achievement achievement, int mouseX, int mouseY)
     {
 
+    }
+
+    private void doZoom(AchievementPage page)
+    {
+        int dWheel = Mouse.getDWheel();
+        float prevScale = this.scale;
+
+        if (dWheel < 0)
+            this.scale += scaleJump;
+        else if (dWheel > 0)
+            this.scale -= scaleJump;
+
+        float minZoom = page instanceof IBetterAchievementPage ? ((IBetterAchievementPage) page).getMinZoom() : 1.0F;
+        float maxZoom = page instanceof IBetterAchievementPage ? ((IBetterAchievementPage) page).getMaxZoom() : 2.0F;
+        this.scale = MathHelper.clamp_float(this.scale, minZoom, maxZoom);
+
+        if (this.scale != prevScale)
+        {
+            // Recalculate things here
+        }
+    }
+
+    private void doDrag(int mouseX, int mouseY)
+    {
+        if (Mouse.isButtonDown(0))
+        {
+            if (mouseX > this.left + mouseOffsetX
+                && mouseX < this.left + guiWidth - mouseOffsetX
+                && mouseY >= this.top + mouseOffsetY
+                && mouseY > this.top + guiHeight - mouseOffsetY)
+            {
+                if (this.newDrag)
+                {
+                    this.newDrag = false;
+                }
+                else
+                {
+                    // Handle drag
+                }
+
+                this.prevMouseX = mouseX;
+                this.prevMouseY = mouseY;
+            }
+        }
+        else
+        {
+            this.newDrag = true;
+        }
     }
 }

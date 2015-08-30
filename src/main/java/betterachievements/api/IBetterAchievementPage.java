@@ -35,14 +35,14 @@ public interface IBetterAchievementPage
     /**
      * Highest possible zoom value
      *
-     * @return max zoom out level
+     * @return max zoom level
      */
-    float getMaxZoomOut();
+    float getMaxZoom();
 
     /**
      * Lowest possible zoom value
      *
-     * @return max zoom in level
+     * @return min zoom level
      */
-    float getMaxZoomIn();
+    float getMinZoom();
 }
