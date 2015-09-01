@@ -1,6 +1,5 @@
 package betterachievements.gui;
 
-import betterachievements.api.IBetterAchievement;
 import betterachievements.api.IBetterAchievementPage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
@@ -10,12 +9,16 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.AchievementPage;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import java.util.List;
 
@@ -24,7 +27,8 @@ public class GuiBetterAchievements extends GuiScreen
 {
     private static final int
             buttonDone = 1, buttonOld = 2,
-            guiWidth = 256, guiHeight = 202,
+            guiWidth = 252, guiHeight = 175,
+            tabWidth = 28, tabHeight = 32,
             mouseOffsetX = 8, mouseOffsetY = 17;
     private static final float scaleJump = 0.25F;
     private GuiScreen prevScreen;
@@ -49,8 +53,8 @@ public class GuiBetterAchievements extends GuiScreen
         this.top = (this.height - guiHeight) / 2;
         this.scale = 1.0F;
         this.buttonList.clear();
-        this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done")));
-        this.buttonList.add(new GuiButton(buttonOld, this.left + 24, this.height / 2 + 74, 125, 20, I18n.format("betterachievements.gui.old")));
+        this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + 24, this.height / 2 + 78, 80, 20, I18n.format("gui.done")));
+        this.buttonList.add(new GuiButton(buttonOld, this.left + 24, this.height / 2 + 78, 125, 20, I18n.format("betterachievements.gui.old")));
     }
 
     @Override
@@ -87,14 +91,16 @@ public class GuiBetterAchievements extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float renderPartialTicks)
     {
         this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
-        this.drawTexturedModalRect(this.left, this.top, 0, 0, guiWidth, guiHeight);
         AchievementPage page = AchievementRegistry.mcPage;
+        GL11.glEnable(GL11.GL_BLEND);
+        this.drawUnselectedTabs(page);
+        this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
+        this.drawTexturedModalRect(this.left, this.top + tabHeight / 2, 0, 0, guiWidth, guiHeight);
+        this.drawCurrentTab(page);
         this.handleMouseInput(mouseX, mouseY, page);
-        this.drawTabs();
         this.drawAchievementsBackground(page);
         this.drawAchievements(AchievementRegistry.instance().getAchievements(page), mouseX, mouseY);
-        this.fontRendererObj.drawString(I18n.format("gui.achievements"), this.left + 15, this.top + 5, 4210752);
+        this.fontRendererObj.drawString(page.getName() + " " + I18n.format("gui.achievements"), this.left + 15, this.top + tabHeight / 2 + 5, 4210752);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
     }
 
@@ -104,9 +110,53 @@ public class GuiBetterAchievements extends GuiScreen
         doZoom(page);
     }
 
-    private void drawTabs()
+    private void drawUnselectedTabs(AchievementPage selected)
     {
-        //Draw all tabs
+        List<AchievementPage> pages = AchievementRegistry.instance().getAllPages();
+        this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
+        for (int i = 0; i < 9; i++)
+        {
+            AchievementPage page = pages.size() > i ? pages.get(i) : null;
+            if (page == selected) continue;
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            int j = i * tabWidth;
+            this.drawTexturedModalRect(this.left + j, this.top - 12, j, 0, tabWidth, tabHeight);
+            this.drawPageIcon(page, this.left + j, this.top - 12, false);
+        }
+    }
+
+    private void drawCurrentTab(AchievementPage selected)
+    {
+        List<AchievementPage> pages = AchievementRegistry.instance().getAllPages();
+        this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
+        for (int i = 0; i < 9; i++)
+        {
+            AchievementPage page = pages.size() > i ? pages.get(i) : null;
+            if (page != selected) continue;
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            int j = i * tabWidth;
+            this.drawTexturedModalRect(this.left + j, this.top - 12, j, 32, tabWidth, tabHeight);
+            this.drawPageIcon(page, this.left + j, this.top - 12, true);
+        }
+    }
+
+    private void drawPageIcon(AchievementPage page, int tabLeft, int tabTop, boolean selected)
+    {
+        ItemStack itemStack = AchievementRegistry.instance().getItemStack(page);
+        if (itemStack!= null)
+        {
+            this.zLevel = 100.0F;
+            itemRender.zLevel = 100.0F;
+            RenderHelper.enableGUIStandardItemLighting();
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
+            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
+            itemRender.zLevel = 0.0F;
+            GL11.glDisable(GL11.GL_LIGHTING);
+            this.zLevel = 0.0F;
+        }
     }
 
     private void drawAchievementsBackground(AchievementPage page)

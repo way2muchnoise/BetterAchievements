@@ -37,23 +37,4 @@ public final class MethodTransformers
                     }
                 }
             };
-    public static final Transformer.MethodTransformer registerStat =
-            new Transformer.MethodTransformer("registerStat", "c", "()" + ASMStrings.ACHIEVEMENT.getASMTypeName())
-            {
-                @Override
-                protected void modify(MethodNode node)
-                {
-                    AbstractInsnNode insnNode = node.instructions.getFirst();
-                    while (insnNode != null)
-                    {
-                        if (insnNode.getOpcode() == Opcodes.ARETURN)
-                        {
-                            node.instructions.insertBefore(insnNode, new VarInsnNode(ALOAD, 0));
-                            node.instructions.insertBefore(insnNode, new MethodInsnNode(INVOKESTATIC, ASMStrings.BETTER_ACHIEVEMENTS_HOOKS.getASMClassName(), "addAchievement", "(" + ASMStrings.ACHIEVEMENT.getASMTypeName() + ")V", false));
-                            return;
-                        }
-                        insnNode = insnNode.getNext();
-                    }
-                }
-            };
 }

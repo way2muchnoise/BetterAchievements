@@ -1,6 +1,8 @@
 package betterachievements.api;
 
 
+import net.minecraft.item.ItemStack;
+
 /**
  * Implemented on {@link net.minecraftforge.common.AchievementPage}
  * Used for more in depth control
@@ -45,4 +47,11 @@ public interface IBetterAchievementPage
      * @return min zoom level
      */
     float getMinZoom();
+
+    /**
+     * Get the {@link ItemStack} to be displayed on the tab
+     *
+     * @return if null one will be picked for the page
+     */
+    ItemStack getPageIcon();
 }
