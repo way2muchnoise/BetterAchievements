@@ -19,12 +19,12 @@ public interface IBetterAchievementPage
      * Drawing the background of the achievement page if {@link #hasCustomBackGround()} is true
      * Can be left unimplemented if {@link #hasCustomBackGround()} is false
      *
-     * @param columnWidth the width of a column
-     * @param rowHeight   the height of a row
+     * @param left the x coord of the left side of the background area
+     * @param top   the y coord of the top side of the background area
      * @param z           the z level
      * @param scale       the current scale
      */
-    void drawBackground(int columnWidth, int rowHeight, float z, float scale);
+    void drawBackground(int left, int top, float z, float scale);
 
     /**
      * Set the zoom level on page load
