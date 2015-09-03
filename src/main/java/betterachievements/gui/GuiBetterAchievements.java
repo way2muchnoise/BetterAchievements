@@ -367,7 +367,7 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawMouseOverAchievement(int mouseX, int mouseY)
     {
-        if (this.hoveredAchievement == null) return;
+        if (this.hoveredAchievement == null || inInnerScreen(mouseX, mouseY)) return;
 
         String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
         String desc = this.hoveredAchievement.getDescription();

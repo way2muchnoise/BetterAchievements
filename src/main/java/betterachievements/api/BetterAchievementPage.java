@@ -35,7 +35,7 @@ public class BetterAchievementPage extends AchievementPage implements IBetterAch
     @Override
     public float setScale()
     {
-        return 0;
+        return 1.0F;
     }
 
     @Override
@@ -47,13 +47,13 @@ public class BetterAchievementPage extends AchievementPage implements IBetterAch
     @Override
     public float getMaxZoom()
     {
-        return 0;
+        return 2.0F;
     }
 
     @Override
     public float getMinZoom()
     {
-        return 0;
+        return 1.0F;
     }
 
     @Override
