@@ -84,12 +84,14 @@ jar {
         attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+    exclude('betterachievementsdemo/**')
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+    exclude('betterachievementsdemo/**')
 }
 
 task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
