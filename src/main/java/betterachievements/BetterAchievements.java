@@ -32,4 +32,10 @@ public class BetterAchievements
     {
 
     }
+    
+    @NetworkCheckHandler
+    public final boolean networkCheck(Map<String, String> remoteVersions, Side side)
+    {
+        return true;
+    }
 }
