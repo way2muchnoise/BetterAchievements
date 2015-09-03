@@ -19,12 +19,19 @@ public interface IBetterAchievementPage
      * Drawing the background of the achievement page if {@link #hasCustomBackGround()} is true
      * Can be left unimplemented if {@link #hasCustomBackGround()} is false
      *
-     * @param left the x coord of the left side of the background area
-     * @param top   the y coord of the top side of the background area
+     * @param left the x coord of the left side of the {@link betterachievements.gui.GuiBetterAchievements}
+     * @param top   the y coord of the top side of the {@link betterachievements.gui.GuiBetterAchievements}
      * @param z           the z level
      * @param scale       the current scale
      */
     void drawBackground(int left, int top, float z, float scale);
+
+    /**
+     * Resets the current scale to a given one on page open
+     *
+     * @return true to set scale to the one provided by {@link #setScaleOnLoad()}
+     */
+    boolean setScaleOnLoad();
 
     /**
      * Set the zoom level on page load
@@ -32,7 +39,7 @@ public interface IBetterAchievementPage
      *
      * @return the startup scale
      */
-    float setScaleOnLoad();
+    float setScale();
 
     /**
      * Highest possible zoom value

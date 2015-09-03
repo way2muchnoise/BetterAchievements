@@ -1,5 +1,6 @@
 package betterachievements.gui;
 
+import betterachievements.api.IBetterAchievement;
 import betterachievements.api.IBetterAchievementPage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
@@ -33,7 +34,7 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class GuiBetterAchievements extends GuiScreen
 {
-    private static final int blockSize = 16, lineSize = 12,
+    private static final int blockSize = 16, lineSize = 12, defaultTooltipWidth = 120,
             arrowHeadWidth = 11, arrowHeadHeight = 7, arrowOffset = 5,
             arrowRightX = 114, arrowRightY = 234,
             arrowLeftX = 107, arrowLeftY = 234,
@@ -211,7 +212,7 @@ public class GuiBetterAchievements extends GuiScreen
     private void drawAchievementsBackground(AchievementPage page)
     {
         if (page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).hasCustomBackGround())
-            ((IBetterAchievementPage) page).drawBackground(this.left + borderWidthX, this.top + borderWidthY, this.zLevel, this.scale);
+            ((IBetterAchievementPage) page).drawBackground(this.left, this.top, this.zLevel, this.scale);
         else
         {
             float scaleInverse = 1.0F / this.scale;
@@ -336,7 +337,13 @@ public class GuiBetterAchievements extends GuiScreen
         else
             return;
 
-        GL11.glColor4f(brightness, brightness, brightness, 1.0F);
+        if (achievement instanceof IBetterAchievement && ((IBetterAchievement) achievement).recolourBackground())
+        {
+            int colour = ((IBetterAchievement) achievement).recolourBackground(brightness);
+            GL11.glColor4f((colour >> 16 & 255) / 255.0F, (colour >> 8 & 255) / 255.0F, (colour & 255) / 255.0F, 1.0F);
+        }
+        else
+            GL11.glColor4f(brightness, brightness, brightness, 1.0F);
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         GL11.glEnable(GL11.GL_BLEND);
         if (special)
@@ -370,7 +377,7 @@ public class GuiBetterAchievements extends GuiScreen
         boolean unlocked = this.statFileWriter.hasAchievementUnlocked(this.hoveredAchievement);
         boolean canUnlock = this.statFileWriter.canUnlockAchievement(this.hoveredAchievement);
         boolean special = this.hoveredAchievement.getSpecial();
-        int tooltipWidth = 120;
+        int tooltipWidth = defaultTooltipWidth;
 
         if (!canUnlock)
         {
@@ -381,7 +388,6 @@ public class GuiBetterAchievements extends GuiScreen
 
             if (depth == 3)
                 title = I18n.format("achievement.unknown");
-
         }
 
         tooltipWidth = Math.max(this.fontRendererObj.getStringWidth(title), tooltipWidth);
@@ -418,6 +424,9 @@ public class GuiBetterAchievements extends GuiScreen
         int onTab = onTab(mouseX, mouseY);
         if (onTab == -1 || this.pages.size() <= onTab || this.currentPage == onTab) return;
         this.currentPage = onTab;
+        AchievementPage page =  this.pages.get(this.currentPage);
+        if (page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).setScaleOnLoad())
+            this.scale = ((IBetterAchievementPage) page).setScale();
     }
 
     private void doZoom(AchievementPage page)
@@ -452,9 +461,7 @@ public class GuiBetterAchievements extends GuiScreen
             if (inInnerScreen(mouseX, mouseY))
             {
                 if (this.newDrag)
-                {
                     this.newDrag = false;
-                }
                 else
                 {
                     this.xPos -= (mouseX - this.prevMouseX)*scale;

@@ -8,7 +8,14 @@ package betterachievements.api;
 public interface IBetterAchievement
 {
     /**
-     * Recolour the background of the {@link net.minecraft.stats.Achievement} icon in the {@link net.minecraft.client.gui.achievement.GuiAchievement}
+     * Has custom background colour for the {@link net.minecraft.stats.Achievement}
+     *
+     * @return
+     */
+    boolean recolourBackground();
+
+    /**
+     * Recolour the background of the {@link net.minecraft.stats.Achievement} icon in the {@link betterachievements.gui.GuiBetterAchievements}
      *
      * @param greyScale the current gray scale
      *
@@ -19,12 +26,12 @@ public interface IBetterAchievement
     /**
      * Is there any special Icon rendering
      *
-     * @return if true renderIcon will be executed, if false the regular item rendering will be done
+     * @return if true {@link #renderIcon(int, int)} will be executed, if false the regular item rendering will be done
      */
     boolean hasSpecialIconRenderer();
 
     /**
-     * Any special render code
+     * Any special render code executed if {@link #hasSpecialIconRenderer()} is true
      *
      * @param top  top of the achievement icon
      * @param left left of the achievement icon
