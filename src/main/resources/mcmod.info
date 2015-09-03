@@ -2,14 +2,14 @@
     {
       "modid": "BetterAchievements",
       "name": "Better Achievements",
-      "description": "",
+      "description": "An improvement to the Achievementscreen",
       "version": "${version}",
       "mcversion": "${mcversion}",
       "url": "https://github.com/way2muchnoise/BetterAchievements",
       "updateUrl": "",
       "authors": ["way2muchnoise"],
       "credits": "Authored by way2muchnoise",
-      "logoFile": "",
+      "logoFile": "",S
       "screenshots": [],
       "dependencies": []
     }
