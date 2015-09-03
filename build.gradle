@@ -51,8 +51,8 @@ dependencies {
 	compile fileTree(dir: 'lib', include: '*.jar')
 }
 
-group = "BetterAchiements"
-archivesBaseName = "BetterAchiements"
+group = "BetterAchievements"
+archivesBaseName = "BetterAchievements"
 
 minecraft {
     version = "${version_minecraft}-${version_forge}"
