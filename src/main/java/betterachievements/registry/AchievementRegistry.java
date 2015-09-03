@@ -43,6 +43,7 @@ public final class AchievementRegistry
                 mcAchievements.add(achievement);
         }
         this.iconMap.put(mcPage.getName(), new ItemStack(Blocks.grass));
+        this.firstLoad = false;
     }
 
     public List<Achievement> getAchievements(AchievementPage page)
@@ -72,7 +73,7 @@ public final class AchievementRegistry
             {
                 for (Achievement achievement : page.getAchievements())
                 {
-                    if (achievement.parentAchievement == null)
+                    if (achievement.parentAchievement == null && !achievement.getSpecial())
                     {
                         itemStack = achievement.theItemStack;
                         this.iconMap.put(page.getName(), itemStack);
