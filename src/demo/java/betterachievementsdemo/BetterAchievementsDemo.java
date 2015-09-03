@@ -3,6 +3,7 @@ package betterachievementsdemo;
 import betterachievementsdemo.proxy.CommonProxy;
 import betterachievementsdemo.reference.MetaData;
 import betterachievementsdemo.reference.Reference;
+import betterachievementsdemo.registry.AchievementRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
@@ -30,6 +31,6 @@ public class BetterAchievementsDemo
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-
+        AchievementRegistry.registerAchievements();
     }
 }
