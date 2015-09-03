@@ -2,6 +2,7 @@ package betterachievements.api;
 
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 
 /**
  * Implemented on {@link net.minecraftforge.common.AchievementPage}
@@ -40,6 +41,13 @@ public interface IBetterAchievementPage
      * @return the startup scale
      */
     float setScale();
+
+    /**
+     * Set position on load located at given {@link Achievement}
+     *
+     * @return an {@link Achievement} to set position if null previous position will be kept
+     */
+    Achievement setPositionOnLoad();
 
     /**
      * Highest possible zoom value

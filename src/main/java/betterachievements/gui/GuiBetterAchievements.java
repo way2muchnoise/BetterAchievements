@@ -87,8 +87,8 @@ public class GuiBetterAchievements extends GuiScreen
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
         this.pages = AchievementRegistry.instance().getAllPages();
         this.currentPage = 0;
-        this.xPos = 0;
-        this.yPos = 0;
+        this.xPos = achievementSize*3;
+        this.yPos = achievementSize;
         this.hoveredAchievement = null;
     }
 
@@ -424,9 +424,18 @@ public class GuiBetterAchievements extends GuiScreen
         int onTab = onTab(mouseX, mouseY);
         if (onTab == -1 || this.pages.size() <= onTab || this.currentPage == onTab) return;
         this.currentPage = onTab;
-        AchievementPage page =  this.pages.get(this.currentPage);
-        if (page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).setScaleOnLoad())
-            this.scale = ((IBetterAchievementPage) page).setScale();
+        AchievementPage page = this.pages.get(this.currentPage);
+        if (page instanceof IBetterAchievementPage)
+        {
+            if (((IBetterAchievementPage) page).setScaleOnLoad())
+                this.scale = ((IBetterAchievementPage) page).setScale();
+            Achievement center = ((IBetterAchievementPage) page).setPositionOnLoad();
+            if (center != null)
+            {
+                this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
+                this.yPos = center.displayRow * achievementSize + achievementSize;
+            }
+        }
     }
 
     private void doZoom(AchievementPage page)

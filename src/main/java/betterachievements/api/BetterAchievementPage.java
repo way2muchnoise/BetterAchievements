@@ -39,6 +39,12 @@ public class BetterAchievementPage extends AchievementPage implements IBetterAch
     }
 
     @Override
+    public Achievement setPositionOnLoad()
+    {
+        return null;
+    }
+
+    @Override
     public float getMaxZoom()
     {
         return 0;
