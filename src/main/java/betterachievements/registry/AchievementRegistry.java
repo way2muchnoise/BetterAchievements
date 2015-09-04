@@ -57,7 +57,9 @@ public final class AchievementRegistry
         if (this.firstLoad) init();
         List<AchievementPage> pages = new LinkedList<AchievementPage>();
         pages.add(mcPage);
-        pages.addAll(AchievementPage.getAchievementPages());
+        int size = AchievementPage.getAchievementPages().size();
+        for (int i = 0; i < size; i++) // Make sure to get pages in same order
+            pages.add(AchievementPage.getAchievementPage(i));
         return pages;
     }
 
