@@ -83,13 +83,28 @@ public class GuiBetterAchievements extends GuiScreen
         this.left = (this.width - guiWidth) / 2;
         this.top = (this.height - guiHeight) / 2;
         this.scale = 1.0F;
+        this.xPos = achievementSize*3;
+        this.yPos = achievementSize;
+
         this.buttonList.clear();
         this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
-        this.pages = AchievementRegistry.instance().getAllPages();
-        this.xPos = achievementSize*3;
-        this.yPos = achievementSize;
+
         this.hoveredAchievement = null;
+        this.pages = AchievementRegistry.instance().getAllPages();
+
+        AchievementPage page = this.pages.get(this.currentPage);
+        if (page instanceof IBetterAchievementPage)
+        {
+            if (((IBetterAchievementPage) page).setScaleOnLoad())
+                this.scale = ((IBetterAchievementPage) page).setScale();
+            Achievement center = ((IBetterAchievementPage) page).setPositionOnLoad();
+            if (center != null)
+            {
+                this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
+                this.yPos = center.displayRow * achievementSize + achievementSize;
+            }
+        }
     }
 
     @Override
