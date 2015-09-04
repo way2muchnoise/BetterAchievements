@@ -6,10 +6,10 @@ import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -69,10 +69,11 @@ public class GuiBetterAchievements extends GuiScreen
     private int xPos, yPos;
     private Achievement hoveredAchievement;
 
-    public GuiBetterAchievements(GuiScreen currentScreen, StatFileWriter statFileWriter)
+    public GuiBetterAchievements(GuiScreen currentScreen, int page)
     {
         this.prevScreen = currentScreen;
-        this.statFileWriter = statFileWriter;
+        this.currentPage = page;
+        this.statFileWriter = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +87,6 @@ public class GuiBetterAchievements extends GuiScreen
         this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
         this.pages = AchievementRegistry.instance().getAllPages();
-        this.currentPage = 0;
         this.xPos = achievementSize*3;
         this.yPos = achievementSize;
         this.hoveredAchievement = null;
@@ -112,7 +112,7 @@ public class GuiBetterAchievements extends GuiScreen
         switch (button.id)
         {
             case buttonOld:
-                this.mc.displayGuiScreen(new GuiAchievements(this.prevScreen, this.statFileWriter));
+                this.mc.displayGuiScreen(new GuiAchievementsOld(this.prevScreen, this.statFileWriter));
                 break;
             case buttonDone:
                 this.mc.displayGuiScreen(this.prevScreen);

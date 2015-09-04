@@ -34,7 +34,7 @@ public class BetterAchievements
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-
+        proxy.registerHandlers();
     }
     
     @NetworkCheckHandler
