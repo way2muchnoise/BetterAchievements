@@ -1,6 +1,5 @@
 package betterachievements.asm;
 
-import codechicken.core.launch.DepLoader;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import java.util.Map;
@@ -10,7 +9,6 @@ public class LoadingPlugin implements IFMLLoadingPlugin
 {
     public LoadingPlugin()
     {
-        DepLoader.load();
     }
 
     @Override
