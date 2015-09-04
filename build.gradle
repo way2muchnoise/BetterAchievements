@@ -79,10 +79,10 @@ version = "${version_minecraft}-${version_major}.${version_minor}.${version_revi
 
 jar {
     from "build/sources/main"
-    manifest {
+    /*manifest {
         attributes 'FMLCorePlugin': 'betterachievements.asm.LoadingPlugin'
         attributes 'FMLCorePluginContainsFMLMod': 'true'
-    }
+    }*/
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
     exclude('betterachievementsdemo/**')
 }
