@@ -8,6 +8,10 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkCheckHandler;
+import cpw.mods.fml.relauncher.Side;
+
+import java.util.Map;
 
 @Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL)
 public class BetterAchievements

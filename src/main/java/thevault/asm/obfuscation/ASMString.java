@@ -1,8 +1,10 @@
 package thevault.asm.obfuscation;
 
+import net.minecraftforge.classloading.FMLForgePlugin;
+
 public class ASMString
 {
-    public static boolean OBFUSCATED;
+    public static boolean OBFUSCATED = FMLForgePlugin.RUNTIME_DEOBF;
     private String text;
     private String obfText;
 
