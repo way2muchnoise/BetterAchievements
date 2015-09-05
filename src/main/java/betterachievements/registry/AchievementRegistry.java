@@ -75,7 +75,7 @@ public final class AchievementRegistry
             {
                 for (Achievement achievement : page.getAchievements())
                 {
-                    if (achievement.parentAchievement == null && !achievement.getSpecial())
+                    if (achievement.parentAchievement == null)
                     {
                         itemStack = achievement.theItemStack;
                         this.iconMap.put(page.getName(), itemStack);
