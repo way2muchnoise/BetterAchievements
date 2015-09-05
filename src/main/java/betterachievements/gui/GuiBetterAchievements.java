@@ -241,13 +241,15 @@ public class GuiBetterAchievements extends GuiScreen
             float scale = blockSize / this.scale;
             int dragX = this.xPos - minDisplayColumn >> 4;
             int dragY = this.yPos - minDisplayRow >> 4;
+            int antiJumpX = (this.xPos - minDisplayColumn) % 16;
+            int antiJumpY = (this.yPos - minDisplayRow) % 16;
             // TODO: some smarter background gen
             this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-            for (int y = 1; y * scale < innerHeight + borderWidthY * 2; y++)
+            for (int y = 1; y * scale - antiJumpY < innerHeight + borderWidthY * 2; y++)
             {
                 float darkness = 0.7F - (dragY + y) / 80.0F;
                 GL11.glColor4f(darkness, darkness, darkness, 1.0F);
-                for (int x = 1; x * scale < innerWidth + borderWidthX; x++)
+                for (int x = 1; x * scale - antiJumpX < innerWidth + borderWidthX; x++)
                 {
                     random.setSeed(this.mc.getSession().getPlayerID().hashCode() + dragY + y + (dragX + x) * 16);
                     int r = random.nextInt(1 + dragY + y) + (dragY + y) / 2;
@@ -270,7 +272,7 @@ public class GuiBetterAchievements extends GuiScreen
                     else if (r > 0)
                         block = Blocks.dirt.getIcon(0, 0);
 
-                    this.drawTexturedModelRectFromIcon(x * blockSize, y * blockSize, block, blockSize, blockSize);
+                    this.drawTexturedModelRectFromIcon(x * blockSize - antiJumpX, y * blockSize - antiJumpY, block, blockSize, blockSize);
                 }
             }
             GL11.glEnable(GL11.GL_DEPTH_TEST);
