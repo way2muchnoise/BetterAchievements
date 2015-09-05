@@ -39,7 +39,7 @@ public class GuiBetterAchievements extends GuiScreen
             arrowHeadWidth = 11, arrowHeadHeight = 7, arrowOffset = 5,
             arrowRightX = 114, arrowRightY = 234,
             arrowLeftX = 107, arrowLeftY = 234,
-            arrowDownX = 96, arrowDownY = 124,
+            arrowDownX = 96, arrowDownY = 234,
             arrowUpX = 96, arrowUpY = 241,
             achievementX = 0, achievementY = 202,
             achievementTooltipOffset = 3,
