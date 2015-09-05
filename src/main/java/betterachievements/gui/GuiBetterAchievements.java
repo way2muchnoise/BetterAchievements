@@ -27,6 +27,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -314,7 +315,8 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawAchievements(AchievementPage page, int mouseX, int mouseY)
     {
-        List<Achievement> achievements = AchievementRegistry.instance().getAchievements(page);
+        List<Achievement> achievements = new LinkedList<Achievement>(AchievementRegistry.instance().getAchievements(page));
+        Collections.reverse(achievements);
         for (Achievement achievement : achievements)
             if (achievement.parentAchievement != null && achievements.contains(achievement.parentAchievement))
                 this.drawArrow(achievement);
