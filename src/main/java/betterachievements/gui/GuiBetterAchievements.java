@@ -92,7 +92,7 @@ public class GuiBetterAchievements extends GuiScreen
         this.yPos = achievementSize;
 
         this.buttonList.clear();
-        this.buttonList.add(new GuiOptionButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
+        this.buttonList.add(new GuiButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
 
         this.hoveredAchievement = null;
@@ -209,9 +209,9 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawCurrentTab(AchievementPage selected)
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 9 && this.pages.size() > i; i++)
         {
-            AchievementPage page = this.pages.size() > i ? this.pages.get(i) : null;
+            AchievementPage page = this.pages.get(i);
             if (page != selected) continue;
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -392,7 +392,7 @@ public class GuiBetterAchievements extends GuiScreen
             renderItem.renderWithColor = false;
         }
 
-        GL11.glDisable(GL11.GL_LIGHTING);
+        RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL11.GL_CULL_FACE);
         renderItem.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
