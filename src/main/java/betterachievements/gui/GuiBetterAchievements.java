@@ -97,7 +97,7 @@ public class GuiBetterAchievements extends GuiScreen
 
         this.hoveredAchievement = null;
         this.pages = AchievementRegistry.instance().getAllPages();
-        this.tabsOffset = this.currentPage / maxTabs;
+        this.tabsOffset = this.currentPage - maxTabs;
 
         AchievementPage page = this.pages.get(this.currentPage);
         if (page instanceof IBetterAchievementPage)
