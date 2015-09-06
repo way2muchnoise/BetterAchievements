@@ -254,7 +254,7 @@ public class GuiBetterAchievements extends GuiScreen
             int antiJumpY = (this.yPos - minDisplayRow) % 16;
             // TODO: some smarter background gen
             this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-            for (int y = 1; y * scale - antiJumpY < innerHeight + borderWidthY * 2; y++)
+            for (int y = 1; y * scale - antiJumpY < innerHeight + borderWidthY; y++)
             {
                 float darkness = 0.7F - (dragY + y) / 80.0F;
                 GL11.glColor4f(darkness, darkness, darkness, 1.0F);
