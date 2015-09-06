@@ -69,13 +69,14 @@ public class GuiBetterAchievements extends GuiScreen
     private int prevMouseX, prevMouseY;
     private List<AchievementPage> pages;
     private int currentPage;
+    private static int lastPage = 0;
     private int xPos, yPos;
     private Achievement hoveredAchievement;
 
     public GuiBetterAchievements(GuiScreen currentScreen, int page)
     {
         this.prevScreen = currentScreen;
-        this.currentPage = page;
+        this.currentPage = page == 0 ? lastPage : page;
         this.statFileWriter = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
         this.pause = true;
     }
@@ -109,6 +110,11 @@ public class GuiBetterAchievements extends GuiScreen
                 this.yPos = center.displayRow * achievementSize + achievementSize;
             }
         }
+    }
+
+    public void onGuiClosed()
+    {
+        lastPage = this.currentPage;
     }
 
     @Override
