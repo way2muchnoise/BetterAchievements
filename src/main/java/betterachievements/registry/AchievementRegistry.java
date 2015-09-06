@@ -17,6 +17,7 @@ public final class AchievementRegistry
     private static AchievementRegistry instance;
     public static final AchievementPage mcPage = new AchievementPage("Minecraft");
     private List<Achievement> mcAchievements;
+    private Map<String, Achievement> statIdMap;
     private Map<String, ItemStack> iconMap;
     private boolean firstLoad;
 
@@ -32,6 +33,7 @@ public final class AchievementRegistry
         this.firstLoad = true;
         this.mcAchievements = new LinkedList<Achievement>();
         this.iconMap = new LinkedHashMap<String, ItemStack>();
+        this.statIdMap = new LinkedHashMap<String, Achievement>();
     }
 
     private void init()
@@ -39,8 +41,9 @@ public final class AchievementRegistry
         for (Object oa : AchievementList.achievementList)
         {
             Achievement achievement = (Achievement)oa;
+            this.statIdMap.put(achievement.statId, achievement);
             if (!AchievementPage.isAchievementInPages(achievement))
-                mcAchievements.add(achievement);
+               this.mcAchievements.add(achievement);
         }
         this.iconMap.put(mcPage.getName(), new ItemStack(Blocks.grass));
         this.firstLoad = false;
@@ -85,5 +88,10 @@ public final class AchievementRegistry
             }
         }
         return itemStack;
+    }
+
+    public Achievement getAchievement(String statId)
+    {
+        return this.statIdMap.get(statId);
     }
 }

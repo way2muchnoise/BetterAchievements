@@ -1,5 +1,6 @@
 package betterachievements;
 
+import betterachievements.handler.MessageHandler;
 import betterachievements.proxy.CommonProxy;
 import betterachievements.reference.MetaData;
 import betterachievements.reference.Reference;
@@ -29,6 +30,7 @@ public class BetterAchievements
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = MetaData.init(metadata);
+        MessageHandler.init();
     }
 
     @Mod.EventHandler

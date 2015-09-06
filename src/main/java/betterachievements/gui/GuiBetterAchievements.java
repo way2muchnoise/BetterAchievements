@@ -2,6 +2,8 @@ package betterachievements.gui;
 
 import betterachievements.api.IBetterAchievement;
 import betterachievements.api.IBetterAchievementPage;
+import betterachievements.handler.MessageHandler;
+import betterachievements.handler.message.AchievementUnlockMessage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -63,7 +65,7 @@ public class GuiBetterAchievements extends GuiScreen
     private StatFileWriter statFileWriter;
     private int top, left;
     private float scale;
-    private boolean newDrag;
+    private boolean pause, newDrag;
     private int prevMouseX, prevMouseY;
     private List<AchievementPage> pages;
     private int currentPage;
@@ -75,6 +77,7 @@ public class GuiBetterAchievements extends GuiScreen
         this.prevScreen = currentScreen;
         this.currentPage = page;
         this.statFileWriter = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
+        this.pause = true;
     }
 
     @SuppressWarnings("unchecked")
@@ -136,6 +139,12 @@ public class GuiBetterAchievements extends GuiScreen
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean doesGuiPauseGame()
+    {
+        return this.pause;
     }
 
     @Override
@@ -424,6 +433,16 @@ public class GuiBetterAchievements extends GuiScreen
         this.fontRendererObj.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
         if (unlocked)
             this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
+
+        if (Mouse.isButtonDown(1))
+        {
+            this.pause = false;
+            MessageHandler.INSTANCE.sendToServer(new AchievementUnlockMessage(this.hoveredAchievement));
+        }
+        else
+        {
+            this.pause = true;
+        }
 
         this.hoveredAchievement = null;
     }
