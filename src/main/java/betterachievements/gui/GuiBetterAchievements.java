@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -37,7 +36,8 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class GuiBetterAchievements extends GuiScreen
 {
-    private static final int blockSize = 16, lineSize = 12, defaultTooltipWidth = 120,
+    private static final int blockSize = 16, maxTabs = 9,
+            lineSize = 12, defaultTooltipWidth = 120,
             arrowHeadWidth = 11, arrowHeadHeight = 7, arrowOffset = 5,
             arrowRightX = 114, arrowRightY = 234,
             arrowLeftX = 107, arrowLeftY = 234,
@@ -68,7 +68,7 @@ public class GuiBetterAchievements extends GuiScreen
     private boolean pause, newDrag;
     private int prevMouseX, prevMouseY;
     private List<AchievementPage> pages;
-    private int currentPage;
+    private int currentPage, tabsOffset;
     private static int lastPage = 0;
     private int xPos, yPos;
     private Achievement hoveredAchievement;
@@ -97,6 +97,7 @@ public class GuiBetterAchievements extends GuiScreen
 
         this.hoveredAchievement = null;
         this.pages = AchievementRegistry.instance().getAllPages();
+        this.tabsOffset = this.currentPage / maxTabs;
 
         AchievementPage page = this.pages.get(this.currentPage);
         if (page instanceof IBetterAchievementPage)
@@ -179,7 +180,10 @@ public class GuiBetterAchievements extends GuiScreen
     private void handleMouseInput(int mouseX, int mouseY, AchievementPage page)
     {
         doDrag(mouseX, mouseY);
-        doZoom(page);
+        if (onTab(mouseX, mouseY) != -1)
+            doTabScroll();
+        else
+            doZoom(page);
         if (this.xPos < minDisplayColumn)
             this.xPos = minDisplayColumn;
         if (this.xPos > maxDisplayColumn)
@@ -194,13 +198,13 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawUnselectedTabs(AchievementPage selected)
     {
-        for (int i = 0; i < 9 && this.pages.size() > i; i++)
+        for (int i = this.tabsOffset; i < maxTabs + this.tabsOffset && this.pages.size() > i; i++)
         {
             AchievementPage page = this.pages.get(i);
             if (page == selected) continue;
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int j = i * tabWidth;
+            int j = (i - this.tabsOffset) * tabWidth;
             this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
             this.drawTexturedModalRect(this.left + tabOffsetX + j, this.top + tabOffsetY, j, 0, tabWidth, tabHeight);
             this.drawPageIcon(page, this.left + tabOffsetX + j, this.top + tabOffsetY);
@@ -209,13 +213,13 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawCurrentTab(AchievementPage selected)
     {
-        for (int i = 0; i < 9 && this.pages.size() > i; i++)
+        for (int i = this.tabsOffset; i < maxTabs + this.tabsOffset && this.pages.size() > i; i++)
         {
             AchievementPage page = this.pages.get(i);
             if (page != selected) continue;
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int j = i * tabWidth;
+            int j = (i - this.tabsOffset) * tabWidth;
             this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
             this.drawTexturedModalRect(this.left + tabOffsetX + j, this.top + tabOffsetY, j, 32, tabWidth, tabHeight);
             this.drawPageIcon(page, this.left + tabOffsetX + j, this.top + tabOffsetY);
@@ -482,6 +486,21 @@ public class GuiBetterAchievements extends GuiScreen
         }
     }
 
+    private void doTabScroll()
+    {
+        int dWheel = Mouse.getDWheel();
+
+        if (dWheel < 0)
+            this.tabsOffset--;
+        else if (dWheel > 0)
+            this.tabsOffset++;
+
+        if (this.pages.size() <= this.tabsOffset)
+            this.tabsOffset = this.pages.size() - 1;
+        else if(this.tabsOffset < 0)
+            this.tabsOffset = 0;
+    }
+
     private void doZoom(AchievementPage page)
     {
         int dWheel = Mouse.getDWheel();
@@ -563,7 +582,7 @@ public class GuiBetterAchievements extends GuiScreen
                 && mouseY > this.top + tabOffsetY
                 && mouseY < this.top + tabOffsetY + tabHeight)
         {
-            return (mouseX - (this.left + tabOffsetX)) / tabWidth;
+            return ((mouseX - (this.left + tabOffsetX)) / tabWidth) + tabsOffset;
         }
         return -1;
     }
