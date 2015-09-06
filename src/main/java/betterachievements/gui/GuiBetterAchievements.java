@@ -397,6 +397,16 @@ public class GuiBetterAchievements extends GuiScreen
     {
         if (this.hoveredAchievement == null || !inInnerScreen(mouseX, mouseY)) return;
 
+        if (Mouse.isButtonDown(1))
+        {
+            this.pause = false;
+            MessageHandler.INSTANCE.sendToServer(new AchievementUnlockMessage(this.hoveredAchievement));
+        }
+        else
+        {
+            this.pause = true;
+        }
+
         String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
         String desc = this.hoveredAchievement.getDescription();
         int tooltipX = mouseX + 12;
@@ -433,16 +443,6 @@ public class GuiBetterAchievements extends GuiScreen
         this.fontRendererObj.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
         if (unlocked)
             this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
-
-        if (Mouse.isButtonDown(1))
-        {
-            this.pause = false;
-            MessageHandler.INSTANCE.sendToServer(new AchievementUnlockMessage(this.hoveredAchievement));
-        }
-        else
-        {
-            this.pause = true;
-        }
 
         this.hoveredAchievement = null;
     }
