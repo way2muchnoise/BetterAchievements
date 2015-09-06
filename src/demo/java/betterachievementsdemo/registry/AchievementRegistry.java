@@ -40,8 +40,45 @@ public class AchievementRegistry
                     return Colours.tone(Colours.RED, greyScale);
                 }
             };
-    private static AchievementPage page =
-            new BetterAchievementPage("demoPage", blue, red)
+    private static AchievementPage page1 =
+            new BetterAchievementPage("demoPage1", blue, red)
+            {
+                @Override
+                public ItemStack getPageIcon()
+                {
+                    return new ItemStack(Blocks.diamond_block);
+                }
+            };
+    private static AchievementPage page2 =
+            new BetterAchievementPage("demoPage2", blue, red)
+            {
+                @Override
+                public ItemStack getPageIcon()
+                {
+                    return new ItemStack(Blocks.diamond_block);
+                }
+            };
+    private static AchievementPage page3 =
+            new BetterAchievementPage("demoPage3", blue, red)
+            {
+                @Override
+                public ItemStack getPageIcon()
+                {
+                    return new ItemStack(Blocks.diamond_block);
+                }
+            };
+    private static AchievementPage page4 =
+            new BetterAchievementPage("demoPage4", blue, red)
+            {
+                @Override
+                public ItemStack getPageIcon()
+                {
+                    return new ItemStack(Blocks.diamond_block);
+                }
+            };
+
+    private static AchievementPage page5 =
+            new BetterAchievementPage("demoPage5", blue, red)
             {
                 @Override
                 public ItemStack getPageIcon()
@@ -55,6 +92,10 @@ public class AchievementRegistry
         blue.initIndependentStat().registerStat();
         red.registerStat();
 
-        AchievementPage.registerAchievementPage(page);
+        AchievementPage.registerAchievementPage(page1);
+        AchievementPage.registerAchievementPage(page2);
+        AchievementPage.registerAchievementPage(page3);
+        AchievementPage.registerAchievementPage(page4);
+        AchievementPage.registerAchievementPage(page5);
     }
 }
