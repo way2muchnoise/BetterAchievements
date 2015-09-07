@@ -189,7 +189,7 @@ public class GuiBetterAchievements extends GuiScreen
                 if (this.tabsOffset > this.pages.size())
                     this.tabsOffset = 0;
                 else if (this.tabsOffset > this.pages.size() - maxTabs / 3 * 2)
-                    this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2 - 1;
+                    this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2;
                 break;
             default:
                 break;
@@ -288,7 +288,7 @@ public class GuiBetterAchievements extends GuiScreen
             itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.zLevel = 0.0F;
         }
     }
