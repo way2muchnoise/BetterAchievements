@@ -27,6 +27,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.AchievementPage;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -131,6 +132,32 @@ public class GuiBetterAchievements extends GuiScreen
             this.mc.displayGuiScreen(null);
             this.mc.setIngameFocus();
         }
+        else if (i == Keyboard.KEY_LEFT)
+        {
+            this.currentPage--;
+            if (currentPage < 0)
+            {
+                this.currentPage = this.pages.size() - 1;
+                this.tabsOffset += (this.pages.size() / maxTabs) * maxTabs;
+            }
+            if (this.currentPage - this.tabsOffset < 0)
+                this.tabsOffset -= maxTabs;
+            if(this.tabsOffset < 0)
+                this.tabsOffset = 0;
+        }
+        else if (i == Keyboard.KEY_RIGHT)
+        {
+            this.currentPage++;
+            if (this.currentPage >= this.pages.size())
+            {
+                this.currentPage = 0;
+                this.tabsOffset = 0;
+            }
+            if (this.currentPage - this.tabsOffset >= maxTabs)
+                this.tabsOffset += maxTabs;
+            if (this.pages.size() <= this.tabsOffset)
+                this.tabsOffset = this.pages.size() - 1;
+        }
         else
         {
             super.keyTyped(c, i);
@@ -150,12 +177,13 @@ public class GuiBetterAchievements extends GuiScreen
                 break;
             case buttonPrev:
                 this.tabsOffset -= maxTabs;
-                if(this.tabsOffset < 0) this.tabsOffset = 0;
+                if (this.tabsOffset == -maxTabs) this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs;
+                else if (this.tabsOffset < 0) this.tabsOffset = 0;
                 break;
             case buttonNext:
                 this.tabsOffset += maxTabs;
-                if (this.pages.size() <= this.tabsOffset)
-                    this.tabsOffset = this.pages.size() - 1;
+                if (this.tabsOffset > this.pages.size() - 1)
+                    this.tabsOffset = 0;
                 break;
             default:
                 break;
