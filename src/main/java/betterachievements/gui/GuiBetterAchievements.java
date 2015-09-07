@@ -289,7 +289,7 @@ public class GuiBetterAchievements extends GuiScreen
     private void drawAchievementsBackground(AchievementPage page)
     {
         if (page instanceof ICustomBackground)
-            ((ICustomBackground) page).drawBackground(this.left, this.top, this.zLevel, this.scale);
+            ((ICustomBackground) page).drawBackground(this.left, this.top, innerWidth, innerHeight, borderWidthX, borderWidthY, this.zLevel, this.scale);
         else
         {
             float scaleInverse = 1.0F / this.scale;
