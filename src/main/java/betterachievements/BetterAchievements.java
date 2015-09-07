@@ -32,8 +32,12 @@ public class BetterAchievements
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = MetaData.init(metadata);
-        ConfigHandler.init(event.getSuggestedConfigurationFile());
-        FMLCommonHandler.instance().bus().register(new ConfigHandler());
+        if (event.getSide() == Side.CLIENT)
+        {
+            // Config is only needed client side since no server side things need setting
+            ConfigHandler.init(event.getSuggestedConfigurationFile());
+            FMLCommonHandler.instance().bus().register(new ConfigHandler());
+        }
         MessageHandler.init();
     }
 
