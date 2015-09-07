@@ -66,14 +66,7 @@ public class AchievementRegistry
             };
 
     private static AchievementPage page5 =
-            new DemoPage("demoPage5", blue, red)
-            {
-                @Override
-                public ItemStack getPageIcon()
-                {
-                    return new ItemStack(Blocks.diamond_block);
-                }
-            };
+            new AchievementPage("demoPage5", blue, red);
 
     public static void registerAchievements()
     {

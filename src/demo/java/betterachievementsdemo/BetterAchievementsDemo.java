@@ -1,5 +1,6 @@
 package betterachievementsdemo;
 
+import betterachievements.api.util.IMCHelper;
 import betterachievementsdemo.proxy.CommonProxy;
 import betterachievementsdemo.reference.MetaData;
 import betterachievementsdemo.reference.Reference;
@@ -9,6 +10,7 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.init.Blocks;
 
 @Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL)
 public class BetterAchievementsDemo
@@ -32,5 +34,6 @@ public class BetterAchievementsDemo
     public void init(FMLInitializationEvent event)
     {
         AchievementRegistry.registerAchievements();
+        IMCHelper.sendIconForPage("demoPage5", Blocks.gold_block);
     }
 }
