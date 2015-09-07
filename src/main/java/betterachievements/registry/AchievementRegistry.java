@@ -90,6 +90,11 @@ public final class AchievementRegistry
         return itemStack;
     }
 
+    public void registerIcon(String pageName, ItemStack itemStack)
+    {
+        this.iconMap.put(pageName, itemStack);
+    }
+
     public Achievement getAchievement(String statId)
     {
         return this.statIdMap.get(statId);
