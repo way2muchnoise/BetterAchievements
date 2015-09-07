@@ -1,4 +1,4 @@
-package betterachievements.util;
+package betterachievements.api.util;
 
 public class ColourHelper
 {

@@ -312,7 +312,7 @@ public class GuiBetterAchievements extends GuiScreen
         }
     }
 
-    private void drawArrow(Achievement achievement)
+    private void drawArrow(Achievement achievement, int colourCantUnlock, int colourCanUnlock, int colourUnlocked)
     {
         int depth = this.statFileWriter.func_150874_c(achievement); // How far is the nearest unlocked parent
 
@@ -350,10 +350,14 @@ public class GuiBetterAchievements extends GuiScreen
     private void drawAchievements(AchievementPage page, int mouseX, int mouseY)
     {
         List<Achievement> achievements = new LinkedList<Achievement>(AchievementRegistry.instance().getAchievements(page));
+        boolean customColours = page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).hasCustomArrowColours();
+        int colourCantUnlock = customColours ? ((IBetterAchievementPage) page).getColourForCantUnlockArrow() : GuiBetterAchievements.colourCantUnlock;
+        int colourCanUnlock = customColours ? ((IBetterAchievementPage) page).getColourForCanUnlockArrow() : GuiBetterAchievements.colourCanUnlock;
+        int colourUnlocked = customColours ? ((IBetterAchievementPage) page).getColourForUnlockedArrow() : GuiBetterAchievements.colourUnlocked;
         Collections.reverse(achievements);
         for (Achievement achievement : achievements)
             if (achievement.parentAchievement != null && achievements.contains(achievement.parentAchievement))
-                this.drawArrow(achievement);
+                this.drawArrow(achievement, colourCantUnlock, colourCanUnlock, colourUnlocked);
         for (Achievement achievement : achievements)
         {
             drawAchievement(achievement);

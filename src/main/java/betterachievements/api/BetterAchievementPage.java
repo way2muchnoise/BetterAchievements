@@ -1,5 +1,6 @@
 package betterachievements.api;
 
+import betterachievements.api.util.ColourHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
@@ -60,5 +61,29 @@ public class BetterAchievementPage extends AchievementPage implements IBetterAch
     public ItemStack getPageIcon()
     {
         return null;
+    }
+
+    @Override
+    public boolean hasCustomArrowColours()
+    {
+        return false;
+    }
+
+    @Override
+    public int getColourForUnlockedArrow()
+    {
+        return ColourHelper.RGB("#00FF00");
+    }
+
+    @Override
+    public int getColourForCanUnlockArrow()
+    {
+        return ColourHelper.RGB("#A0A0A0");
+    }
+
+    @Override
+    public int getColourForCantUnlockArrow()
+    {
+        return ColourHelper.RGB("#000000");
     }
 }
