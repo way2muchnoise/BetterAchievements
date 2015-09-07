@@ -181,13 +181,15 @@ public class GuiBetterAchievements extends GuiScreen
                 break;
             case buttonPrev:
                 this.tabsOffset -= maxTabs;
-                if (this.tabsOffset == -maxTabs) this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs;
+                if (this.tabsOffset == -maxTabs) this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2 - 1;
                 else if (this.tabsOffset < 0) this.tabsOffset = 0;
                 break;
             case buttonNext:
                 this.tabsOffset += maxTabs;
-                if (this.tabsOffset > this.pages.size() - 1)
+                if (this.tabsOffset > this.pages.size())
                     this.tabsOffset = 0;
+                else if (this.tabsOffset > this.pages.size() - maxTabs / 3 * 2)
+                    this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2 - 1;
                 break;
             default:
                 break;
@@ -543,8 +545,8 @@ public class GuiBetterAchievements extends GuiScreen
         else if (dWheel > 0)
             this.tabsOffset++;
 
-        if (this.pages.size() <= this.tabsOffset)
-            this.tabsOffset = this.pages.size() - 1;
+        if (this.tabsOffset > this.pages.size() - maxTabs / 3 * 2)
+            this.tabsOffset = this.pages.size() - maxTabs / 3 * 2;
         else if(this.tabsOffset < 0)
             this.tabsOffset = 0;
     }
