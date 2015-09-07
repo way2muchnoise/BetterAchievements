@@ -60,6 +60,9 @@ public class ConfigHandler
         prop.comment = StatCollector.translateToLocal("betterachievements.config.completeArrowColour.desc");
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
         GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(prop.getString());
+
+        if (config.hasChanged())
+            config.save();
     }
 
     @SuppressWarnings("unchecked")
