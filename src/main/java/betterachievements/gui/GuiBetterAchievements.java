@@ -67,6 +67,7 @@ public class GuiBetterAchievements extends GuiScreen
             minZoom = 1.0F, maxZoom = 2.0F;
     private static final Random random = new Random();
     public static int colourUnlocked, colourCanUnlock, colourCantUnlock;
+    public static boolean scrollButtons;
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
@@ -100,8 +101,11 @@ public class GuiBetterAchievements extends GuiScreen
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
-        this.buttonList.add(new GuiButton(buttonPrev, this.left - 24, this.top - 5, 20, 20, "<"));
-        this.buttonList.add(new GuiButton(buttonNext, this.left + 256, this.top - 5, 20, 20, ">"));
+        if (scrollButtons)
+        {
+            this.buttonList.add(new GuiButton(buttonPrev, this.left - 24, this.top - 5, 20, 20, "<"));
+            this.buttonList.add(new GuiButton(buttonNext, this.left + 256, this.top - 5, 20, 20, ">"));
+        }
 
         this.hoveredAchievement = null;
         this.pages = AchievementRegistry.instance().getAllPages();

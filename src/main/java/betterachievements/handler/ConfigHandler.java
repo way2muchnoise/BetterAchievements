@@ -9,6 +9,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,12 +39,27 @@ public class ConfigHandler
 
     private static void loadConfig()
     {
-        String cantUnlock = config.getString(StatCollector.translateToLocal("betterachievements.config.cantUnlockArrowColour"), Configuration.CATEGORY_GENERAL, "#000000" , StatCollector.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc"));
-        String canUnlock = config.getString(StatCollector.translateToLocal("betterachievements.config.canUnlockArrowColour"), Configuration.CATEGORY_GENERAL, "#00FF00" , StatCollector.translateToLocal("betterachievements.config.canUnlockArrowColour.desc"));
-        String unlocked = config.getString(StatCollector.translateToLocal("betterachievements.config.completeArrowColour"), Configuration.CATEGORY_GENERAL, "#A0A0A0" , StatCollector.translateToLocal("betterachievements.config.completeArrowColour.desc"));
-        GuiBetterAchievements.colourCantUnlock = ColourHelper.RGB(cantUnlock);
-        GuiBetterAchievements.colourCanUnlock = ColourHelper.RGB(canUnlock);
-        GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(unlocked);
+        Property prop;
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "scrollButtons", true);
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.scrollButtons.desc");
+        prop.setLanguageKey("betterachievements.config.scrollButtons");
+        GuiBetterAchievements.scrollButtons = prop.getBoolean();
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "cantUnlockArrowColour", "#000000");
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc");
+        prop.setLanguageKey("betterachievements.config.cantUnlockArrowColour");
+        GuiBetterAchievements.colourCantUnlock = ColourHelper.RGB(prop.getString());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "canUnlockArrowColour", "#00FF00");
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.canUnlockArrowColour.desc");
+        prop.setLanguageKey("betterachievements.config.canUnlockArrowColour");
+        GuiBetterAchievements.colourCanUnlock = ColourHelper.RGB(prop.getString());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "completeArrowColour", "#A0A0A0");
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.completeArrowColour.desc");
+        prop.setLanguageKey("betterachievements.config.completeArrowColour");
+        GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(prop.getString());
     }
 
     @SuppressWarnings("unchecked")
