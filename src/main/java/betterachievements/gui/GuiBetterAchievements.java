@@ -267,6 +267,7 @@ public class GuiBetterAchievements extends GuiScreen
             AchievementPage page = this.pages.get(i);
             if (page != selected) continue;
             GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             int j = (i - this.tabsOffset) * tabWidth;
             this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
@@ -284,10 +285,12 @@ public class GuiBetterAchievements extends GuiScreen
             itemRender.zLevel = 100.0F;
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GL11.glDisable(GL11.GL_BLEND);
             itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.zLevel = 0.0F;
         }
     }
