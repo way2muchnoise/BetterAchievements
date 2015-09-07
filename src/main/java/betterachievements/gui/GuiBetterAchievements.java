@@ -292,17 +292,17 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawAchievementsBackground(AchievementPage page)
     {
+        GL11.glTranslatef(this.left, this.top + borderWidthY, -200.0F);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         if (page instanceof ICustomBackground)
-            ((ICustomBackground) page).drawBackground(this.left, this.top, innerWidth, innerHeight, borderWidthX, borderWidthY, this.zLevel, this.scale);
+            ((ICustomBackground) page).drawBackground(this.left, this.top, innerWidth + borderWidthX, innerHeight + borderWidthY, this.zLevel, this.scale);
         else
         {
             float scaleInverse = 1.0F / this.scale;
-            GL11.glTranslatef(this.left, this.top + borderWidthY, -200.0F);
             GL11.glScalef(scaleInverse, scaleInverse, 1.0F);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             float scale = blockSize / this.scale;
             int dragX = this.xPos - minDisplayColumn >> 4;
             int dragY = this.yPos - minDisplayRow >> 4;
@@ -340,9 +340,9 @@ public class GuiBetterAchievements extends GuiScreen
                     this.drawTexturedModelRectFromIcon(x * blockSize - antiJumpX, y * blockSize - antiJumpY, block, blockSize, blockSize);
                 }
             }
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
         }
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
     }
 
     private void drawArrow(Achievement achievement, int colourCantUnlock, int colourCanUnlock, int colourUnlocked)
