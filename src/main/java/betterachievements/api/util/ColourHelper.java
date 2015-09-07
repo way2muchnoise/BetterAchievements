@@ -126,29 +126,21 @@ public class ColourHelper
      */
     public static int tone(int colour, float scale)
     {
-        float r = getRed(colour);
-        float g = getGreen(colour);
-        float b = getBlue(colour);
+        float r = (colour >> 16) & 255;
+        float g = (colour >> 8) & 255;
+        float b = colour & 255;
         return RGB(r * scale, g * scale, b * scale);
     }
 
-    public static float getRed(int color)
+    /**
+     * Blend colour with given grey scale
+     *
+     * @param colour colour in int form
+     * @param greyScale grayScale as float
+     * @return the toned colour
+     */
+    public static int blendWithGreyScale(int colour, float greyScale)
     {
-        return (color >> 16 & 255) / 255.0F;
-    }
-
-    public static float getGreen(int color)
-    {
-        return ((color >> 8) & 255) / 255.0F;
-    }
-
-    public static float getBlue(int color)
-    {
-        return (color & 255) / 255.0F;
-    }
-
-    public static float getAlpha(int color)
-    {
-        return ((color >> 24) & 255) / 255.0F;
+        return ColourHelper.blend(colour, ColourHelper.RGB(greyScale, greyScale, greyScale));
     }
 }
