@@ -1,7 +1,10 @@
 package betterachievements.gui;
 
-import betterachievements.api.IBetterAchievement;
-import betterachievements.api.IBetterAchievementPage;
+import betterachievements.api.components.achievement.ICustomBackgroundColour;
+import betterachievements.api.components.page.ICustomArrows;
+import betterachievements.api.components.page.ICustomBackground;
+import betterachievements.api.components.page.ICustomPosition;
+import betterachievements.api.components.page.ICustomScale;
 import betterachievements.handler.MessageHandler;
 import betterachievements.handler.message.AchievementUnlockMessage;
 import betterachievements.reference.Resources;
@@ -104,16 +107,14 @@ public class GuiBetterAchievements extends GuiScreen
         this.tabsOffset = this.currentPage < maxTabs/3*2 ? 0 : this.currentPage - maxTabs/3*2;
 
         AchievementPage page = this.pages.get(this.currentPage);
-        if (page instanceof IBetterAchievementPage)
+        if (page instanceof ICustomScale)
+            this.scale = ((ICustomScale) page).setScale();
+
+        if (page instanceof ICustomPosition)
         {
-            if (((IBetterAchievementPage) page).setScaleOnLoad())
-                this.scale = ((IBetterAchievementPage) page).setScale();
-            Achievement center = ((IBetterAchievementPage) page).setPositionOnLoad();
-            if (center != null)
-            {
-                this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
-                this.yPos = center.displayRow * achievementSize + achievementSize;
-            }
+            Achievement center = ((ICustomPosition) page).setPositionOnLoad();
+            this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
+            this.yPos = center.displayRow * achievementSize + achievementSize;
         }
     }
 
@@ -252,15 +253,14 @@ public class GuiBetterAchievements extends GuiScreen
             itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
             this.zLevel = 0.0F;
         }
     }
 
     private void drawAchievementsBackground(AchievementPage page)
     {
-        if (page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).hasCustomBackGround())
-            ((IBetterAchievementPage) page).drawBackground(this.left, this.top, this.zLevel, this.scale);
+        if (page instanceof ICustomBackground)
+            ((ICustomBackground) page).drawBackground(this.left, this.top, this.zLevel, this.scale);
         else
         {
             float scaleInverse = 1.0F / this.scale;
@@ -350,10 +350,10 @@ public class GuiBetterAchievements extends GuiScreen
     private void drawAchievements(AchievementPage page, int mouseX, int mouseY)
     {
         List<Achievement> achievements = new LinkedList<Achievement>(AchievementRegistry.instance().getAchievements(page));
-        boolean customColours = page instanceof IBetterAchievementPage && ((IBetterAchievementPage) page).hasCustomArrowColours();
-        int colourCantUnlock = customColours ? ((IBetterAchievementPage) page).getColourForCantUnlockArrow() : GuiBetterAchievements.colourCantUnlock;
-        int colourCanUnlock = customColours ? ((IBetterAchievementPage) page).getColourForCanUnlockArrow() : GuiBetterAchievements.colourCanUnlock;
-        int colourUnlocked = customColours ? ((IBetterAchievementPage) page).getColourForUnlockedArrow() : GuiBetterAchievements.colourUnlocked;
+        boolean customColours = page instanceof ICustomArrows;
+        int colourCantUnlock = customColours ? ((ICustomArrows) page).getColourForCantUnlockArrow() : GuiBetterAchievements.colourCantUnlock;
+        int colourCanUnlock = customColours ? ((ICustomArrows) page).getColourForCanUnlockArrow() : GuiBetterAchievements.colourCanUnlock;
+        int colourUnlocked = customColours ? ((ICustomArrows) page).getColourForUnlockedArrow() : GuiBetterAchievements.colourUnlocked;
         Collections.reverse(achievements);
         for (Achievement achievement : achievements)
             if (achievement.parentAchievement != null && achievements.contains(achievement.parentAchievement))
@@ -392,9 +392,9 @@ public class GuiBetterAchievements extends GuiScreen
         else
             return;
 
-        if (achievement instanceof IBetterAchievement && ((IBetterAchievement) achievement).recolourBackground())
+        if (achievement instanceof ICustomBackgroundColour)
         {
-            int colour = ((IBetterAchievement) achievement).recolourBackground(brightness);
+            int colour = ((ICustomBackgroundColour) achievement).recolourBackground(brightness);
             GL11.glColor4f((colour >> 16 & 255) / 255.0F, (colour >> 8 & 255) / 255.0F, (colour & 255) / 255.0F, 1.0F);
         }
         else
@@ -490,16 +490,14 @@ public class GuiBetterAchievements extends GuiScreen
         if (onTab == -1 || this.pages.size() <= onTab || this.currentPage == onTab) return;
         this.currentPage = onTab;
         AchievementPage page = this.pages.get(this.currentPage);
-        if (page instanceof IBetterAchievementPage)
+        if (page instanceof ICustomScale && ((ICustomScale) page).resetScaleOnLoad())
+            this.scale = ((ICustomScale) page).setScale();
+
+        if (page instanceof ICustomPosition)
         {
-            if (((IBetterAchievementPage) page).setScaleOnLoad())
-                this.scale = ((IBetterAchievementPage) page).setScale();
-            Achievement center = ((IBetterAchievementPage) page).setPositionOnLoad();
-            if (center != null)
-            {
-                this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
-                this.yPos = center.displayRow * achievementSize + achievementSize;
-            }
+            Achievement center = ((ICustomPosition) page).setPositionOnLoad();
+            this.xPos = center.displayColumn * achievementSize + achievementSize * 3;
+            this.yPos = center.displayRow * achievementSize + achievementSize;
         }
     }
 
@@ -528,8 +526,9 @@ public class GuiBetterAchievements extends GuiScreen
         else if (dWheel > 0)
             this.scale -= scaleJump;
 
-        float minZoom = page instanceof IBetterAchievementPage ? ((IBetterAchievementPage) page).getMinZoom() : GuiBetterAchievements.minZoom;
-        float maxZoom = page instanceof IBetterAchievementPage ? ((IBetterAchievementPage) page).getMaxZoom() : GuiBetterAchievements.maxZoom;
+        boolean customScale = page instanceof ICustomScale;
+        float minZoom =  customScale ? ((ICustomScale) page).getMinScale() : GuiBetterAchievements.minZoom;
+        float maxZoom = customScale ? ((ICustomScale) page).getMaxScale() : GuiBetterAchievements.maxZoom;
         this.scale = MathHelper.clamp_float(this.scale, minZoom, maxZoom);
 
         if (this.scale != prevScale)

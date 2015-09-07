@@ -1,6 +1,6 @@
 package betterachievements.registry;
 
-import betterachievements.api.IBetterAchievementPage;
+import betterachievements.api.components.page.ICustomIcon;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
@@ -72,8 +72,8 @@ public final class AchievementRegistry
         ItemStack itemStack = this.iconMap.get(page.getName());
         if (itemStack == null)
         {
-            if (page instanceof IBetterAchievementPage)
-                itemStack = ((IBetterAchievementPage) page).getPageIcon();
+            if (page instanceof ICustomIcon)
+                itemStack = ((ICustomIcon) page).getPageIcon();
             if (itemStack == null)
             {
                 for (Achievement achievement : page.getAchievements())

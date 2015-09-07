@@ -7,6 +7,7 @@ public class Reference
 
     // Internal mod name used for reference purposes and resource gathering.
     public static final String ID = "BetterAchievements";
+    public static final String RESOURCE_ID = ID.toLowerCase();
 
     // Main version information that will be displayed in mod listing and for other purposes.
     public static final String V_MAJOR = "@MAJOR@";
