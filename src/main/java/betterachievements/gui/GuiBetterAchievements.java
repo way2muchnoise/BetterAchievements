@@ -48,6 +48,7 @@ public class GuiBetterAchievements extends GuiScreen
             achievementTextureSize = 26, achievementOffset = 2,
             achievementSize = 24, achievementInnerSize = 22,
             buttonDone = 1, buttonOld = 2,
+            buttonPrev = 3, buttonNext = 4,
             buttonOffsetX = 24, buttonOffsetY = 92,
             guiWidth = 252, guiHeight = 202,
             tabWidth = 28, tabHeight = 32,
@@ -94,6 +95,8 @@ public class GuiBetterAchievements extends GuiScreen
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(buttonDone, this.width / 2 + buttonOffsetX, this.height / 2 + buttonOffsetY, 80, 20, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(buttonOld, this.left + buttonOffsetX, this.height / 2 + buttonOffsetY, 125, 20, I18n.format("betterachievements.gui.old")));
+        this.buttonList.add(new GuiButton(buttonPrev, this.left - 24, this.top - 5, 20, 20, "<"));
+        this.buttonList.add(new GuiButton(buttonNext, this.left + 256, this.top - 5, 20, 20, ">"));
 
         this.hoveredAchievement = null;
         this.pages = AchievementRegistry.instance().getAllPages();
@@ -142,6 +145,15 @@ public class GuiBetterAchievements extends GuiScreen
                 break;
             case buttonDone:
                 this.mc.displayGuiScreen(this.prevScreen);
+                break;
+            case buttonPrev:
+                this.tabsOffset -= maxTabs;
+                if(this.tabsOffset < 0) this.tabsOffset = 0;
+                break;
+            case buttonNext:
+                this.tabsOffset += maxTabs;
+                if (this.pages.size() <= this.tabsOffset)
+                    this.tabsOffset = this.pages.size() - 1;
                 break;
             default:
                 break;
