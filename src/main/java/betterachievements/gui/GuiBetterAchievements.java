@@ -62,6 +62,7 @@ public class GuiBetterAchievements extends GuiScreen
     private static final float scaleJump = 0.25F,
             minZoom = 1.0F, maxZoom = 2.0F;
     private static final Random random = new Random();
+    public static int colourUnlocked, colourCanUnlock, colourCantUnlock;
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
@@ -323,12 +324,12 @@ public class GuiBetterAchievements extends GuiScreen
             int parentYPos = achievement.parentAchievement.displayRow * achievementSize - this.yPos + achievementInnerSize/2;
             boolean unlocked = this.statFileWriter.hasAchievementUnlocked(achievement);
             boolean canUnlock = this.statFileWriter.canUnlockAchievement(achievement);
-            int colour = -16777216;
+            int colour = colourCantUnlock;
 
             if (unlocked)
-                colour = -6250336;
+                colour = colourUnlocked;
             else if (canUnlock)
-                colour = -16711936;
+                colour = colourCanUnlock;
 
             this.drawHorizontalLine(achievementXPos, parentXPos, achievementYPos, colour);
             this.drawVerticalLine(parentXPos, achievementYPos, parentYPos, colour);

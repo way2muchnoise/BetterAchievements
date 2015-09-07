@@ -1,9 +1,11 @@
 package betterachievements;
 
+import betterachievements.handler.ConfigHandler;
 import betterachievements.handler.MessageHandler;
 import betterachievements.proxy.CommonProxy;
 import betterachievements.reference.MetaData;
 import betterachievements.reference.Reference;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
@@ -14,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 
 import java.util.Map;
 
-@Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL)
+@Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL, guiFactory = Reference.MOD_GUI_FACTORY)
 public class BetterAchievements
 {
     @Mod.Instance
@@ -30,6 +32,8 @@ public class BetterAchievements
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = MetaData.init(metadata);
+        ConfigHandler.init(event.getSuggestedConfigurationFile());
+        FMLCommonHandler.instance().bus().register(new ConfigHandler());
         MessageHandler.init();
     }
 

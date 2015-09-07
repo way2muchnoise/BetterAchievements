@@ -17,4 +17,5 @@ public class Reference
     // proxy info
     public static final String SERVER_PROXY = "betterachievements.proxy.CommonProxy";
     public static final String CLIENT_PROXY = "betterachievements.proxy.ClientProxy";
+    public static final String MOD_GUI_FACTORY = "betterachievements.gui.ModGuiFactory";
 }
