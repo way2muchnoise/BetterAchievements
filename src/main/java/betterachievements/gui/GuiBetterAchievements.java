@@ -285,7 +285,6 @@ public class GuiBetterAchievements extends GuiScreen
             itemRender.zLevel = 100.0F;
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glDisable(GL11.GL_BLEND);
             itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
@@ -643,10 +642,10 @@ public class GuiBetterAchievements extends GuiScreen
 
     private boolean onScreen(int x, int y)
     {
-        return x >= -achievementSize
-                && x <= guiWidth * scale
-                && y >= -achievementSize
-                && y <= guiHeight * scale;
+        return x > 0
+                && x < guiWidth * scale - achievementSize
+                && y > 0
+                && y < guiHeight * scale - achievementSize;
     }
 
     private String getChatComponentTranslation(String s, Object... objects)
