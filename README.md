@@ -6,6 +6,7 @@ An improvement to the Minecraft achievement screen
 * Tabs per Achievement page. So no more spamming the button to find a page.
 * Scroll on the tabs to see more tabs.
 * Set the colours of your arrows.
+* User settable tab icons (by middle clicking on an achievement on the page, off by default. Can also be set text wise in the config)
 * Unlock achievements in creative by right clicking on them.
 * API
     * Use of IMC message to register a page icon (no interface implementation needed)
