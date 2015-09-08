@@ -1,12 +1,10 @@
 package betterachievements;
 
-import betterachievements.handler.ConfigHandler;
 import betterachievements.handler.MessageHandler;
 import betterachievements.proxy.CommonProxy;
 import betterachievements.reference.MetaData;
 import betterachievements.reference.Reference;
 import betterachievements.registry.AchievementRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
@@ -34,12 +32,7 @@ public class BetterAchievements
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = MetaData.init(metadata);
-        if (event.getSide() == Side.CLIENT)
-        {
-            // Config is only needed client side since no server side things need setting
-            ConfigHandler.init(event.getSuggestedConfigurationFile());
-            FMLCommonHandler.instance().bus().register(new ConfigHandler());
-        }
+        proxy.initConfig(event.getSuggestedConfigurationFile());
         MessageHandler.init();
     }
 
@@ -60,6 +53,6 @@ public class BetterAchievements
     {
         for (FMLInterModComms.IMCMessage message : event.getMessages())
             if (message.isItemStackMessage())
-                AchievementRegistry.instance().registerIcon(message.key, message.getItemStackValue());
+                AchievementRegistry.instance().registerIcon(message.key, message.getItemStackValue(), false);
     }
 }

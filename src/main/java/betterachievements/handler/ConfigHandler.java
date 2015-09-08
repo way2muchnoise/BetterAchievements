@@ -3,6 +3,7 @@ package betterachievements.handler;
 import betterachievements.gui.GuiBetterAchievements;
 import betterachievements.reference.Reference;
 import betterachievements.api.util.ColourHelper;
+import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -61,8 +62,24 @@ public class ConfigHandler
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
         GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(prop.getString());
 
+        prop = config.get(Configuration.CATEGORY_GENERAL, "iconReset", false);
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.iconReset.desc");
+        prop.setLanguageKey("betterachievements.config.iconReset");
+        GuiBetterAchievements.iconReset = prop.getBoolean();
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]);
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.listTabIcons.desc");
+        prop.setLanguageKey("betterachievements.config.listTabIcons");
+        SaveHandler.userSetIcons = prop.getStringList();
+
         if (config.hasChanged())
             config.save();
+    }
+
+    public static void saveUserSetIcons()
+    {
+        config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]).set(AchievementRegistry.instance().dumpUserSetIcons());
+        config.save();
     }
 
     @SuppressWarnings("unchecked")

@@ -67,7 +67,7 @@ public class GuiBetterAchievements extends GuiScreen
             minZoom = 1.0F, maxZoom = 2.0F;
     private static final Random random = new Random();
     public static int colourUnlocked, colourCanUnlock, colourCantUnlock;
-    public static boolean scrollButtons;
+    public static boolean scrollButtons, iconReset;
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
@@ -468,6 +468,11 @@ public class GuiBetterAchievements extends GuiScreen
         else
         {
             this.pause = true;
+        }
+
+        if (iconReset && Mouse.isButtonDown(2))
+        {
+            AchievementRegistry.instance().registerIcon(this.pages.get(this.currentPage).getName(), this.hoveredAchievement.theItemStack, true);
         }
 
         String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
