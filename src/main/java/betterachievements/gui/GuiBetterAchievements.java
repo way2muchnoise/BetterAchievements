@@ -1,6 +1,7 @@
 package betterachievements.gui;
 
 import betterachievements.api.components.achievement.ICustomBackgroundColour;
+import betterachievements.api.components.achievement.ICustomIconRenderer;
 import betterachievements.api.components.page.ICustomArrows;
 import betterachievements.api.components.page.ICustomBackground;
 import betterachievements.api.components.page.ICustomPosition;
@@ -442,16 +443,21 @@ public class GuiBetterAchievements extends GuiScreen
         else
             this.drawTexturedModalRect(achievementXPos - achievementOffset, achievementYPos - achievementOffset, achievementX, achievementY, achievementTextureSize, achievementTextureSize);
 
-        RenderItem renderItem = new RenderItem();
-        if (!canUnlock)
+        if (achievement instanceof ICustomIconRenderer)
+            ((ICustomIconRenderer) achievement).renderIcon(achievementXPos, achievementYPos);
+        else
         {
-            GL11.glColor4f(0.1F, 0.1F, 0.1F, 1.0F);
-            renderItem.renderWithColor = false;
-        }
+            RenderItem renderItem = new RenderItem();
+            if (!canUnlock)
+            {
+                GL11.glColor4f(0.1F, 0.1F, 0.1F, 1.0F);
+                renderItem.renderWithColor = false;
+            }
 
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        renderItem.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
+            RenderHelper.enableGUIStandardItemLighting();
+            GL11.glEnable(GL11.GL_CULL_FACE);
+            renderItem.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
+        }
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_LIGHTING);
     }
