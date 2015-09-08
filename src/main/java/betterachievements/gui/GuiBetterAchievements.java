@@ -181,7 +181,7 @@ public class GuiBetterAchievements extends GuiScreen
                 break;
             case buttonPrev:
                 this.tabsOffset -= maxTabs;
-                if (this.tabsOffset == -maxTabs) this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2 - 1;
+                if (this.tabsOffset == -maxTabs) this.tabsOffset = this.pages.size() - maxTabs / 3 * 2;
                 else if (this.tabsOffset < 0) this.tabsOffset = 0;
                 break;
             case buttonNext:
@@ -189,7 +189,7 @@ public class GuiBetterAchievements extends GuiScreen
                 if (this.tabsOffset > this.pages.size())
                     this.tabsOffset = 0;
                 else if (this.tabsOffset > this.pages.size() - maxTabs / 3 * 2)
-                    this.tabsOffset = (this.pages.size() / maxTabs) * maxTabs / 3 * 2;
+                    this.tabsOffset = this.pages.size() - maxTabs / 3 * 2;
                 break;
             default:
                 break;
