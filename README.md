@@ -13,6 +13,7 @@ An improvement to the Minecraft achievement screen
     * In depth control of the rendering of your achievements
         * Set Background colour
         * Custom Icon Renderer
+        * Custom Tooltip Renderer
     * In depth control of the rendering of your achievement page
         * Custom background
         * Set custom arrow colours (this will override user settings)
