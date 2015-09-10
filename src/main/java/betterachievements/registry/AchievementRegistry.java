@@ -1,7 +1,6 @@
 package betterachievements.registry;
 
 import betterachievements.api.components.page.ICustomIcon;
-import betterachievements.handler.SaveHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;

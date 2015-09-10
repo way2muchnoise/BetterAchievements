@@ -1,8 +1,8 @@
 package betterachievements.handler;
 
+import betterachievements.api.util.ColourHelper;
 import betterachievements.gui.GuiBetterAchievements;
 import betterachievements.reference.Reference;
-import betterachievements.api.util.ColourHelper;
 import betterachievements.registry.AchievementRegistry;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
