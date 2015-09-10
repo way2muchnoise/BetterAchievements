@@ -79,7 +79,12 @@ public class ConfigHandler
     public static void saveUserSetIcons()
     {
         SaveHandler.userSetIcons = AchievementRegistry.instance().dumpUserSetIcons();
-        config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]).set(SaveHandler.userSetIcons);
+
+        Property prop = config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]);
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.listTabIcons.desc");
+        prop.setLanguageKey("betterachievements.config.listTabIcons");
+        prop.set(SaveHandler.userSetIcons);
+
         config.save();
     }
 

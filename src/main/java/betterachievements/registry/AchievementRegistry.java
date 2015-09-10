@@ -6,6 +6,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.AchievementPage;
@@ -114,8 +118,10 @@ public final class AchievementRegistry
         for (Map.Entry<String, ItemStack> entry : this.userSetIcons.entrySet())
         {
             String pageName = entry.getKey();
-            String itemName = GameRegistry.findUniqueIdentifierFor(entry.getValue().getItem()).toString();
-            list.add(pageName + "->" + itemName + ":" + entry.getValue().getItemDamage());
+            ItemStack itemStack = entry.getValue();
+            String itemName = GameRegistry.findUniqueIdentifierFor(itemStack.getItem()).toString();
+            String nbtCompoundTag = itemStack.hasTagCompound() ? itemStack.getTagCompound().toString() : "";
+            list.add(pageName + "->" + itemName + ":" + entry.getValue().getItemDamage() + ":" + nbtCompoundTag);
         }
         return list.toArray(new String[list.size()]);
     }
@@ -126,12 +132,34 @@ public final class AchievementRegistry
         {
             String[] split = entry.split("->");
             if (split.length != 2) continue;
-            String[] itemSplit = split[1].split(":");
-            if (itemSplit.length != 3) continue;
+            String[] itemSplit = split[1].split(":", 4);
+            if (itemSplit.length < 2) continue;
             Item item = GameRegistry.findItem(itemSplit[0], itemSplit[1]);
-            Integer meta = Integer.valueOf(itemSplit[2]);
-            if (item != null && meta != null)
-                this.userSetIcons.put(split[0], new ItemStack(item, 0, meta));
+            int meta = 0;
+            try
+            {
+                meta = itemSplit.length > 2 ? Integer.parseInt(itemSplit[2]) : 0;
+            } catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+            }
+            NBTBase nbtTag = null;
+            try
+            {
+                nbtTag = itemSplit.length > 3 ? JsonToNBT.func_150315_a(itemSplit[3]) : null;
+            } catch (NBTException e)
+            {
+                e.printStackTrace();
+            }
+            ItemStack itemStack = null;
+            if (item != null)
+                itemStack = new ItemStack(item, 0, meta);
+            if (itemStack != null)
+            {
+                if (nbtTag != null && nbtTag instanceof NBTTagCompound)
+                    itemStack.setTagCompound((NBTTagCompound) nbtTag);
+                this.userSetIcons.put(split[0], itemStack);
+            }
         }
     }
 }
