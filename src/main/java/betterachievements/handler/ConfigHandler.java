@@ -78,7 +78,8 @@ public class ConfigHandler
 
     public static void saveUserSetIcons()
     {
-        config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]).set(AchievementRegistry.instance().dumpUserSetIcons());
+        SaveHandler.userSetIcons = AchievementRegistry.instance().dumpUserSetIcons();
+        config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]).set(SaveHandler.userSetIcons);
         config.save();
     }
 

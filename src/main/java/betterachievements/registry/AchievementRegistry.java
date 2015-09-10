@@ -1,6 +1,7 @@
 package betterachievements.registry;
 
 import betterachievements.api.components.page.ICustomIcon;
+import betterachievements.handler.SaveHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -130,7 +131,7 @@ public final class AchievementRegistry
             Item item = GameRegistry.findItem(itemSplit[0], itemSplit[1]);
             Integer meta = Integer.valueOf(itemSplit[2]);
             if (item != null && meta != null)
-                this.userSetIcons.put(split[0], new ItemStack(item, meta));
+                this.userSetIcons.put(split[0], new ItemStack(item, 0, meta));
         }
     }
 }
