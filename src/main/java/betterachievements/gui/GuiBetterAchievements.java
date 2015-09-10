@@ -2,6 +2,7 @@ package betterachievements.gui;
 
 import betterachievements.api.components.achievement.ICustomBackgroundColour;
 import betterachievements.api.components.achievement.ICustomIconRenderer;
+import betterachievements.api.components.achievement.ICustomTooltip;
 import betterachievements.api.components.page.ICustomArrows;
 import betterachievements.api.components.page.ICustomBackground;
 import betterachievements.api.components.page.ICustomPosition;
@@ -481,42 +482,49 @@ public class GuiBetterAchievements extends GuiScreen
             AchievementRegistry.instance().registerIcon(this.pages.get(this.currentPage).getName(), this.hoveredAchievement.theItemStack, true);
         }
 
-        String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
-        String desc = this.hoveredAchievement.getDescription();
         int tooltipX = mouseX + 12;
         int tooltipY = mouseY - 4;
-        int depth = this.statFileWriter.func_150874_c(this.hoveredAchievement);
-        boolean unlocked = this.statFileWriter.hasAchievementUnlocked(this.hoveredAchievement);
-        boolean canUnlock = this.statFileWriter.canUnlockAchievement(this.hoveredAchievement);
-        boolean special = this.hoveredAchievement.getSpecial();
-        int tooltipWidth = defaultTooltipWidth;
 
-        if (!canUnlock)
+        if (this.hoveredAchievement instanceof ICustomTooltip)
+            ((ICustomTooltip) this.hoveredAchievement).renderTooltip(mouseX, mouseY, this.statFileWriter);
+        else
         {
-            if (depth > 3)
-                return;
-            else
-                desc = this.getChatComponentTranslation("achievement.requires", this.hoveredAchievement.parentAchievement.func_150951_e());
+            String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
+            String desc = this.hoveredAchievement.getDescription();
 
-            if (depth == 3)
-                title = I18n.format("achievement.unknown");
+            int depth = this.statFileWriter.func_150874_c(this.hoveredAchievement);
+            boolean unlocked = this.statFileWriter.hasAchievementUnlocked(this.hoveredAchievement);
+            boolean canUnlock = this.statFileWriter.canUnlockAchievement(this.hoveredAchievement);
+            boolean special = this.hoveredAchievement.getSpecial();
+            int tooltipWidth = defaultTooltipWidth;
+
+            if (!canUnlock)
+            {
+                if (depth > 3)
+                    return;
+                else
+                    desc = this.getChatComponentTranslation("achievement.requires", this.hoveredAchievement.parentAchievement.func_150951_e());
+
+                if (depth == 3)
+                    title = I18n.format("achievement.unknown");
+            }
+
+            tooltipWidth = Math.max(this.fontRendererObj.getStringWidth(title), tooltipWidth);
+            int tooltipHeight = this.fontRendererObj.splitStringWidth(desc, tooltipWidth);
+
+            if (unlocked) tooltipHeight += lineSize;
+
+            this.drawGradientRect(
+                    tooltipX - achievementTooltipOffset,
+                    tooltipY - achievementTooltipOffset,
+                    tooltipX + tooltipWidth + achievementTooltipOffset,
+                    tooltipY + tooltipHeight + achievementTooltipOffset + lineSize,
+                    -1073741824, -1073741824);
+            this.fontRendererObj.drawStringWithShadow(title, tooltipX, tooltipY, canUnlock ? (special ? -128 : -1) : (special ? -8355776 : -8355712));
+            this.fontRendererObj.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
+            if (unlocked)
+                this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
         }
-
-        tooltipWidth = Math.max(this.fontRendererObj.getStringWidth(title), tooltipWidth);
-        int tooltipHeight = this.fontRendererObj.splitStringWidth(desc, tooltipWidth);
-
-        if (unlocked) tooltipHeight += lineSize;
-
-        this.drawGradientRect(
-                tooltipX - achievementTooltipOffset,
-                tooltipY - achievementTooltipOffset,
-                tooltipX + tooltipWidth + achievementTooltipOffset,
-                tooltipY + tooltipHeight + achievementTooltipOffset + lineSize,
-                -1073741824, -1073741824);
-        this.fontRendererObj.drawStringWithShadow(title, tooltipX, tooltipY, canUnlock ? (special ? -128 : -1) : (special ? -8355776 : -8355712));
-        this.fontRendererObj.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
-        if (unlocked)
-            this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
 
         this.hoveredAchievement = null;
     }
