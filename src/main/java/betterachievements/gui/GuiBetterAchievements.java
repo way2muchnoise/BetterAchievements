@@ -303,9 +303,14 @@ public class GuiBetterAchievements extends GuiScreen
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         if (page instanceof ICustomBackground)
+        {
+            GL11.glPushMatrix();
             ((ICustomBackground) page).drawBackground(this.left, this.top, innerWidth + borderWidthX, innerHeight + borderWidthY, this.zLevel, this.scale);
+            GL11.glPopMatrix();
+        }
         else
         {
+            GL11.glPushMatrix();
             float scaleInverse = 1.0F / this.scale;
             GL11.glScalef(scaleInverse, scaleInverse, 1.0F);
             float scale = blockSize / this.scale;
@@ -345,6 +350,7 @@ public class GuiBetterAchievements extends GuiScreen
                     this.drawTexturedModelRectFromIcon(x * blockSize - antiJumpX, y * blockSize - antiJumpY, block, blockSize, blockSize);
                 }
             }
+            GL11.glPopMatrix();
         }
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -393,6 +399,9 @@ public class GuiBetterAchievements extends GuiScreen
         int colourCanUnlock = customColours ? ((ICustomArrows) page).getColourForCanUnlockArrow() : GuiBetterAchievements.colourCanUnlock;
         int colourUnlocked = customColours ? ((ICustomArrows) page).getColourForUnlockedArrow() : GuiBetterAchievements.colourUnlocked;
         Collections.reverse(achievements);
+        GL11.glPushMatrix();
+        float inverseScale = 1.0F / scale;
+        GL11.glScalef(inverseScale, inverseScale, 1.0F);
         for (Achievement achievement : achievements)
             if (achievement.parentAchievement != null && achievements.contains(achievement.parentAchievement))
                 this.drawArrow(achievement, colourCantUnlock, colourCanUnlock, colourUnlocked);
@@ -402,6 +411,7 @@ public class GuiBetterAchievements extends GuiScreen
             if (onAchievement(achievement, mouseX, mouseY))
                 this.hoveredAchievement = achievement;
         }
+        GL11.glPopMatrix();
     }
 
     private void drawAchievement(Achievement achievement)
@@ -445,7 +455,11 @@ public class GuiBetterAchievements extends GuiScreen
             this.drawTexturedModalRect(achievementXPos - achievementOffset, achievementYPos - achievementOffset, achievementX, achievementY, achievementTextureSize, achievementTextureSize);
 
         if (achievement instanceof ICustomIconRenderer)
+        {
+            GL11.glPushMatrix();
             ((ICustomIconRenderer) achievement).renderIcon(achievementXPos, achievementYPos);
+            GL11.glPopMatrix();
+        }
         else
         {
             RenderItem renderItem = new RenderItem();
