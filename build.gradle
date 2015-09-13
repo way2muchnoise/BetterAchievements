@@ -61,6 +61,12 @@ minecraft {
     replace "@MAJOR@", version_major
     replace "@MINOR@", version_minor
     replace "@REVIS@", version_revis
+
+    // TODO: fix this
+    // replaceIn "api/**/package-info.java"
+    // replace "@MAJOR@", version_major
+    // replace "@MINOR@", version_minor
+    // replace "@REVIS@", version_revis
 }
 
 processResources {
