@@ -145,7 +145,7 @@ public final class AchievementRegistry
             NBTBase nbtTag = null;
             try
             {
-                nbtTag = itemSplit.length > 3 ? JsonToNBT.func_150315_a(itemSplit[3]) : null;
+                nbtTag = itemSplit.length > 3 && !itemSplit[3].equals("") ? JsonToNBT.func_150315_a(itemSplit[3]) : null;
             } catch (NBTException e)
             {
                 e.printStackTrace();
