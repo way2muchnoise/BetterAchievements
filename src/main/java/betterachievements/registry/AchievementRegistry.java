@@ -1,6 +1,7 @@
 package betterachievements.registry;
 
 import betterachievements.api.components.page.ICustomIcon;
+import betterachievements.util.LogHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -127,6 +128,7 @@ public final class AchievementRegistry
 
     public void setUserSetIcons(String[] array)
     {
+        int i = 0;
         for (String entry : array)
         {
             String[] split = entry.split("->");
@@ -140,7 +142,7 @@ public final class AchievementRegistry
                 meta = itemSplit.length > 2 ? Integer.parseInt(itemSplit[2]) : 0;
             } catch (NumberFormatException e)
             {
-                e.printStackTrace();
+                LogHelper.instance().error(e, "Invalid input for meta data on entry " + i);
             }
             NBTBase nbtTag = null;
             try
@@ -148,7 +150,7 @@ public final class AchievementRegistry
                 nbtTag = itemSplit.length > 3 && !itemSplit[3].equals("") ? JsonToNBT.func_150315_a(itemSplit[3]) : null;
             } catch (NBTException e)
             {
-                e.printStackTrace();
+                LogHelper.instance().error(e, "Invalid input for nbt data on entry " + i);
             }
             ItemStack itemStack = null;
             if (item != null)
@@ -159,6 +161,7 @@ public final class AchievementRegistry
                     itemStack.setTagCompound((NBTTagCompound) nbtTag);
                 this.userSetIcons.put(split[0], itemStack);
             }
+            i++;
         }
     }
 }
