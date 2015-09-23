@@ -16,7 +16,9 @@ public class AchievementRegistry
                 @Override
                 public int recolourBackground(float greyScale)
                 {
-                    return ColourHelper.blendWithGreyScale(ColourHelper.RGB(0, 0, 255), greyScale);
+                    return ColourHelper.blendWithGreyScale(
+                            ColourHelper.getRainbowColour(0.3F, 0.3F, 0.3F, 0, 2, 4, 128, 127, 50),
+                            greyScale);
                 }
             };
     private static Achievement red =

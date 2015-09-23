@@ -143,4 +143,13 @@ public class ColourHelper
     {
         return ColourHelper.blend(colour, ColourHelper.RGB(greyScale, greyScale, greyScale));
     }
+
+    public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, int center, int width, int length)
+    {
+        long i = Math.abs((int) System.currentTimeMillis()) / length;
+        double r = Math.sin(freqR*i + phaseR) * width + center;
+        double g = Math.sin(freqG*i + phaseG) * width + center;
+        double b = Math.sin(freqB*i + phaseB) * width + center;
+        return RGB((float)r, (float)g, (float)b);
+    }
 }
