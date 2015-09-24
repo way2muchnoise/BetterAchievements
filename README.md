@@ -21,7 +21,9 @@ An improvement to the Minecraft achievement screen
         * Position on load, center around an achievement
         * Min and Max scale
         * Page Icon on the tab (with interface instead of IMC message
+    * The API includes a helper class for colours
         
 ## Screenshots
 ![](http://puu.sh/k3rCx/fa12b26861.png)
 ![](http://i.imgur.com/Njeh2Is.png)
+![](http://puu.sh/klxix/55822a49a2.gif)
