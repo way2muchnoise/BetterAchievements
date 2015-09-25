@@ -26,4 +26,4 @@ An improvement to the Minecraft achievement screen
 ## Screenshots
 ![](http://puu.sh/k3rCx/fa12b26861.png)
 ![](http://i.imgur.com/Njeh2Is.png)
-![](http://puu.sh/klxix/55822a49a2.gif)
+![](http://puu.sh/knUXF/b99657c2ed.gif)

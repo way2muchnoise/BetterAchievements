@@ -144,6 +144,20 @@ public class ColourHelper
         return ColourHelper.blend(colour, ColourHelper.RGB(greyScale, greyScale, greyScale));
     }
 
+    /**
+     * Gives a colour based of {@link System#currentTimeMillis()} and given params
+     *
+     * @param freqR strength of the reds
+     * @param freqG strength of the greens
+     * @param freqB strength of the blues
+     * @param phaseR phase shift red
+     * @param phaseG phase shift green
+     * @param phaseB phase shift blue
+     * @param center center value
+     * @param width width of colour range
+     * @param length change rate
+     * @return an int colour
+     */
     public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, int center, int width, int length)
     {
         long i = Math.abs((int) System.currentTimeMillis()) / length;
