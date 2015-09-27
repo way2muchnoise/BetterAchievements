@@ -62,6 +62,11 @@ public class ConfigHandler
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
         GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(prop.getString());
 
+        prop = config.get(Configuration.CATEGORY_GENERAL, "userColourOverride", false);
+        prop.comment = StatCollector.translateToLocal("betterachievements.config.userColourOverride.desc");
+        prop.setLanguageKey("betterachievements.config.userColourOverride");
+        GuiBetterAchievements.userColourOverride = prop.getBoolean();
+
         prop = config.get(Configuration.CATEGORY_GENERAL, "iconReset", false);
         prop.comment = StatCollector.translateToLocal("betterachievements.config.iconReset.desc");
         prop.setLanguageKey("betterachievements.config.iconReset");

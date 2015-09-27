@@ -11,3 +11,5 @@ betterachievements.config.listTabIcons=List of Tab Icons
 betterachievements.config.listTabIcons.desc=A list that defines the user set tab icons this will override all code set icons
 betterachievements.config.iconReset=Ingame Icon changing
 betterachievements.config.iconReset.desc=Change a tab icon ingame by middle clicking on an achievement on the page
+betterachievements.config.userColourOverride=Always use user set colours for the arrows
+betterachievements.config.userColourOverride.desc=Overrides mod set colours for arrows
