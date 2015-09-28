@@ -41,6 +41,7 @@ public class ConfigHandler
     private static void loadConfig()
     {
         Property prop;
+        String colourCode;
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "scrollButtons", true);
         prop.comment = StatCollector.translateToLocal("betterachievements.config.scrollButtons.desc");
@@ -50,17 +51,47 @@ public class ConfigHandler
         prop = config.get(Configuration.CATEGORY_GENERAL, "cantUnlockArrowColour", "#000000");
         prop.comment = StatCollector.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc");
         prop.setLanguageKey("betterachievements.config.cantUnlockArrowColour");
-        GuiBetterAchievements.colourCantUnlock = ColourHelper.RGB(prop.getString());
+        colourCode = prop.getString();
+        if (colourCode.startsWith("#"))
+        {
+            GuiBetterAchievements.colourCantUnlockRainbow = false;
+            GuiBetterAchievements.colourCantUnlock = ColourHelper.RGB(colourCode);
+        }
+        else if (colourCode.startsWith("rainbow"))
+        {
+            GuiBetterAchievements.colourCantUnlockRainbow = true;
+            GuiBetterAchievements.colourCantUnlockRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
+        }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "canUnlockArrowColour", "#00FF00");
         prop.comment = StatCollector.translateToLocal("betterachievements.config.canUnlockArrowColour.desc");
         prop.setLanguageKey("betterachievements.config.canUnlockArrowColour");
-        GuiBetterAchievements.colourCanUnlock = ColourHelper.RGB(prop.getString());
+        colourCode = prop.getString();
+        if (colourCode.startsWith("#"))
+        {
+            GuiBetterAchievements.colourCanUnlockRainbow = false;
+            GuiBetterAchievements.colourCanUnlock = ColourHelper.RGB(colourCode);
+        }
+        else if (colourCode.startsWith("rainbow"))
+        {
+            GuiBetterAchievements.colourCanUnlockRainbow = true;
+            GuiBetterAchievements.colourCanUnlockRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
+        }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "completeArrowColour", "#A0A0A0");
         prop.comment = StatCollector.translateToLocal("betterachievements.config.completeArrowColour.desc");
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
-        GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(prop.getString());
+        colourCode = prop.getString();
+        if (colourCode.startsWith("#"))
+        {
+            GuiBetterAchievements.colourUnlockedRainbow = false;
+            GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(colourCode);
+        }
+        else if (colourCode.startsWith("rainbow"))
+        {
+            GuiBetterAchievements.colourUnlockedRainbow = true;
+            GuiBetterAchievements.colourUnlockedRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
+        }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "userColourOverride", false);
         prop.comment = StatCollector.translateToLocal("betterachievements.config.userColourOverride.desc");

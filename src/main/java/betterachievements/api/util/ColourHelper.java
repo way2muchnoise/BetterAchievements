@@ -1,5 +1,7 @@
 package betterachievements.api.util;
 
+import betterachievements.util.LogHelper;
+
 public class ColourHelper
 {
     /**
@@ -158,12 +160,46 @@ public class ColourHelper
      * @param length change rate
      * @return an int colour
      */
-    public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, int center, int width, int length)
+    public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, float center, float width, float length)
     {
-        long i = Math.abs((int) System.currentTimeMillis()) / length;
+        long i = Math.abs((int) System.currentTimeMillis()) / (int)length;
         double r = Math.sin(freqR*i + phaseR) * width + center;
         double g = Math.sin(freqG*i + phaseG) * width + center;
         double b = Math.sin(freqB*i + phaseB) * width + center;
         return RGB((float)r, (float)g, (float)b);
+    }
+
+    /**
+     * Short had for parsing array of params
+     *
+     * @param params all parameters for {@link #getRainbowColour(float, float, float, float, float, float, float, float, float)}
+     * @return an int rainbow colour
+     */
+    public static int getRainbowColour(float[] params)
+    {
+        return getRainbowColour(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8]);
+    }
+
+    /**
+     * Create settings for rainbow colour
+     *
+     * @param colourCode a string representation of the rainbow settings
+     * @return an array containing parameters for {@link #getRainbowColour(float, float, float, float, float, float, float, float, float)}
+     */
+    public static float[] getRainbowSettings(String colourCode)
+    {
+        String[] splitted = colourCode.split(";");
+        float[] result = {0.3F, 0.3F, 0.3F, 0, 2, 4, 128, 127, 50};
+        for (int i = 1; i < splitted.length; i++)
+        {
+            try
+            {
+                result[i-1] = Float.parseFloat(splitted[i]);
+            } catch (NumberFormatException e)
+            {
+                LogHelper.instance().error(e, "Parsing error while creating rainbow settings");
+            }
+        }
+        return result;
     }
 }

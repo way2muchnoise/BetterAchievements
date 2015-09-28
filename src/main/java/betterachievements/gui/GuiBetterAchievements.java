@@ -7,6 +7,7 @@ import betterachievements.api.components.page.ICustomArrows;
 import betterachievements.api.components.page.ICustomBackground;
 import betterachievements.api.components.page.ICustomPosition;
 import betterachievements.api.components.page.ICustomScale;
+import betterachievements.api.util.ColourHelper;
 import betterachievements.handler.MessageHandler;
 import betterachievements.handler.message.AchievementUnlockMessage;
 import betterachievements.reference.Resources;
@@ -69,7 +70,9 @@ public class GuiBetterAchievements extends GuiScreen
             minZoom = 1.0F, maxZoom = 2.0F;
     private static final Random random = new Random();
     public static int colourUnlocked, colourCanUnlock, colourCantUnlock;
-    public static boolean scrollButtons, iconReset, userColourOverride;
+    public static boolean scrollButtons, iconReset, userColourOverride,
+            colourUnlockedRainbow, colourCanUnlockRainbow, colourCantUnlockRainbow;
+    public static float[] colourUnlockedRainbowSettings, colourCanUnlockRainbowSettings, colourCantUnlockRainbowSettings;
     private GuiScreen prevScreen;
     private StatFileWriter statFileWriter;
     private int top, left;
@@ -395,9 +398,9 @@ public class GuiBetterAchievements extends GuiScreen
     {
         List<Achievement> achievements = new LinkedList<Achievement>(AchievementRegistry.instance().getAchievements(page));
         boolean customColours = page instanceof ICustomArrows;
-        int colourCantUnlock = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForCantUnlockArrow() : GuiBetterAchievements.colourCantUnlock;
-        int colourCanUnlock = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForCanUnlockArrow() : GuiBetterAchievements.colourCanUnlock;
-        int colourUnlocked = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForUnlockedArrow() : GuiBetterAchievements.colourUnlocked;
+        int colourCantUnlock = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForCantUnlockArrow() : (GuiBetterAchievements.colourCantUnlockRainbow ? ColourHelper.getRainbowColour(GuiBetterAchievements.colourCantUnlockRainbowSettings) : GuiBetterAchievements.colourCantUnlock);
+        int colourCanUnlock = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForCanUnlockArrow() : (GuiBetterAchievements.colourCanUnlockRainbow ? ColourHelper.getRainbowColour(GuiBetterAchievements.colourCanUnlockRainbowSettings) : GuiBetterAchievements.colourCanUnlock);
+        int colourUnlocked = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForUnlockedArrow() : (GuiBetterAchievements.colourUnlockedRainbow ? ColourHelper.getRainbowColour(GuiBetterAchievements.colourUnlockedRainbowSettings) : GuiBetterAchievements.colourUnlocked);
         Collections.reverse(achievements);
         GL11.glPushMatrix();
         float inverseScale = 1.0F / scale;
