@@ -115,6 +115,8 @@ public class GuiBetterAchievements extends GuiScreen
         this.hoveredAchievement = null;
         this.pages = AchievementRegistry.instance().getAllPages();
         this.tabsOffset = this.currentPage < maxTabs/3*2 ? 0 : this.currentPage - maxTabs/3*2;
+        if (this.tabsOffset < 0 )
+            this.tabsOffset = 0;
 
         AchievementPage page = this.pages.get(this.currentPage);
         if (page instanceof ICustomScale)
@@ -584,7 +586,7 @@ public class GuiBetterAchievements extends GuiScreen
 
         if (this.tabsOffset > this.pages.size() - maxTabs / 3 * 2)
             this.tabsOffset = this.pages.size() - maxTabs / 3 * 2;
-        else if(this.tabsOffset < 0)
+        if(this.tabsOffset < 0)
             this.tabsOffset = 0;
     }
 
