@@ -57,16 +57,12 @@ archivesBaseName = "BetterAchievements"
 minecraft {
     version = "${version_minecraft}-${version_forge}"
 
-    replaceIn "reference/Reference.java"
     replace "@MAJOR@", version_major
     replace "@MINOR@", version_minor
     replace "@REVIS@", version_revis
 
-    // TODO: fix this
-    // replaceIn "api/**/package-info.java"
-    // replace "@MAJOR@", version_major
-    // replace "@MINOR@", version_minor
-    // replace "@REVIS@", version_revis
+    replaceIn "reference/Reference.java"
+    replaceIn "package-info.java"
 }
 
 processResources {
