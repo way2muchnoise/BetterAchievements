@@ -651,9 +651,9 @@ public class GuiBetterAchievements extends GuiScreen
     private boolean onAchievement(Achievement achievement, int mouseX, int mouseY)
     {
         int achievementXPos = achievement.displayColumn * achievementSize - this.xPos;
-        int achievementYPos = achievement.displayRow * achievementSize - this.yPos + achievementSize;
+        int achievementYPos = achievement.displayRow * achievementSize - this.yPos + achievementInnerSize;
         return mouseX > this.left + achievementXPos / scale
-                && mouseX < this.left + (achievementXPos+ achievementInnerSize) / scale
+                && mouseX < this.left + (achievementXPos + achievementInnerSize) / scale
                 && mouseY > this.top + achievementYPos / scale
                 && mouseY < this.top + (achievementYPos + achievementInnerSize) / scale;
     }
