@@ -1,6 +1,7 @@
 # BetterAchievements
 An improvement to the Minecraft achievement screen
 [Screenshots](#screenshots)
+or [Imgur album](http://imgur.com/a/22tud)
 
 ## Features
 * Tabs per Achievement page. So no more spamming the button to find a page.
