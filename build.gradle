@@ -1,26 +1,17 @@
 buildscript {
     repositories {
-        mavenCentral()
-		jcenter()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            // Add maven repo for SpecialSource
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
     }
 }
-
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
 
 repositories {
     maven {
@@ -43,9 +34,9 @@ repositories {
 }
 
 dependencies {
-    compile group: 'codechicken', name: 'NotEnoughItems', version: "${version_minecraft}-${version_nei}", ext: 'jar', classifier: "dev"
-    compile group: 'codechicken', name: 'CodeChickenCore', version: "${version_minecraft}-${version_cccore}", ext: 'jar', classifier: "dev"
-    compile group: 'codechicken', name: 'CodeChickenLib', version: "${version_minecraft}-${version_cclib}", ext: 'jar', classifier: "dev"
+    compile "codechicken:NotEnoughItems:${version_minecraft}-${version_nei}:dev"
+    compile "codechicken:CodeChickenLib:${version_minecraft}-${version_cclib}:dev"
+    compile "codechicken:CodeChickenCore:${version_minecraft}-${version_cccore}:dev"
     compile "mcp.mobius.waila:Waila:${waila_version}_${version_minecraft}:dev"
 
 	compile fileTree(dir: 'lib', include: '*.jar')
@@ -92,7 +83,7 @@ task deobfJar(type: Jar) {
     exclude('betterachievementsdemo/**')
 }
 
-task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
+task sourcesJar(type: Jar, dependsOn: 'sourceMainJava') {
     from "build/sources/java"
     from "build/resources/main/java"
     classifier "sources"
@@ -100,7 +91,7 @@ task sourceJar(type: Jar, dependsOn: 'sourceMainJava') {
 }
 
 artifacts {
-    archives sourceJar, deobfJar
+    archives sourcesJar, deobfJar
 }
 
 sourceSets {
