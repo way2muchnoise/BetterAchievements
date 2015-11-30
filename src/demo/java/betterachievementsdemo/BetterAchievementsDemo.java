@@ -5,11 +5,11 @@ import betterachievementsdemo.proxy.CommonProxy;
 import betterachievementsdemo.reference.MetaData;
 import betterachievementsdemo.reference.Reference;
 import betterachievementsdemo.registry.AchievementRegistry;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.init.Blocks;
 
 @Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL)

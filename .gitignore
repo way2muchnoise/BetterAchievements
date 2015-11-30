@@ -21,7 +21,7 @@ lib/1.6.4/
 /build
 /eclipse
 ## ForgeGradle
-/run
+/run*
 /out
 
 ## idea

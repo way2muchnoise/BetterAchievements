@@ -2,7 +2,7 @@ package betterachievements.registry;
 
 import betterachievements.api.components.page.ICustomIcon;
 import betterachievements.util.LogHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -144,10 +144,10 @@ public final class AchievementRegistry
             {
                 LogHelper.instance().error(e, "Invalid input for meta data on entry " + i);
             }
-            NBTBase nbtTag = null;
+            NBTTagCompound nbtTag = null;
             try
             {
-                nbtTag = itemSplit.length > 3 && !itemSplit[3].equals("") ? JsonToNBT.func_150315_a(itemSplit[3]) : null;
+                nbtTag = itemSplit.length > 3 && !itemSplit[3].equals("") ? JsonToNBT.getTagFromJson(itemSplit[3]) : null;
             } catch (NBTException e)
             {
                 LogHelper.instance().error(e, "Invalid input for nbt data on entry " + i);
@@ -157,8 +157,8 @@ public final class AchievementRegistry
                 itemStack = new ItemStack(item, 0, meta);
             if (itemStack != null)
             {
-                if (nbtTag != null && nbtTag instanceof NBTTagCompound)
-                    itemStack.setTagCompound((NBTTagCompound) nbtTag);
+                if (nbtTag != null)
+                    itemStack.setTagCompound(nbtTag);
                 this.userSetIcons.put(split[0], itemStack);
             }
             i++;

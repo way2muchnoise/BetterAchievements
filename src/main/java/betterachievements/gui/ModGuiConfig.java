@@ -2,7 +2,7 @@ package betterachievements.gui;
 
 import betterachievements.handler.ConfigHandler;
 import betterachievements.reference.Reference;
-import cpw.mods.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ModGuiConfig extends GuiConfig

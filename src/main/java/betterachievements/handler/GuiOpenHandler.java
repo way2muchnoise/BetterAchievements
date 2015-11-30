@@ -2,7 +2,7 @@ package betterachievements.handler;
 
 import betterachievements.gui.GuiAchievementsOld;
 import betterachievements.gui.GuiBetterAchievements;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
@@ -18,7 +18,7 @@ public class GuiOpenHandler
     {
         try
         {
-            prevScreen = GuiAchievements.class.getDeclaredField("field_146562_a");
+            prevScreen = GuiAchievements.class.getDeclaredField("parentScreen"); // field_146562_a
             prevScreen.setAccessible(true);
             currentPage = GuiAchievements.class.getDeclaredField("currentPage");
             currentPage.setAccessible(true);

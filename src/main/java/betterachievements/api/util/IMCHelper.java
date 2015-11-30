@@ -1,7 +1,7 @@
 package betterachievements.api.util;
 
 import betterachievements.api.components.page.ICustomIcon;
-import cpw.mods.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

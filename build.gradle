@@ -47,6 +47,8 @@ archivesBaseName = "BetterAchievements"
 
 minecraft {
     version = "${version_minecraft}-${version_forge}"
+    mappings = "${version_mappings}"
+    runDir = "run"
 
     replace "@MAJOR@", version_major
     replace "@MINOR@", version_minor

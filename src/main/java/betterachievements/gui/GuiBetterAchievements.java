@@ -12,12 +12,14 @@ import betterachievements.handler.MessageHandler;
 import betterachievements.handler.message.AchievementUnlockMessage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import betterachievements.util.RenderHelper;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -27,7 +29,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.AchievementPage;
 import org.lwjgl.input.Keyboard;
@@ -35,6 +36,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -136,7 +138,7 @@ public class GuiBetterAchievements extends GuiScreen
     }
 
     @Override
-    protected void keyTyped(char c, int i)
+    protected void keyTyped(char c, int i) throws IOException
     {
         if (i == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
@@ -216,12 +218,12 @@ public class GuiBetterAchievements extends GuiScreen
         AchievementPage page = this.pages.get(this.currentPage);
         this.handleMouseInput(mouseX, mouseY, page);
         this.drawUnselectedTabs(page);
-        GL11.glDepthFunc(GL11.GL_GEQUAL);
-        GL11.glPushMatrix();
+        GlStateManager.depthFunc(GL11.GL_GEQUAL);
+        GlStateManager.pushMatrix();
         this.drawAchievementsBackground(page);
         this.drawAchievements(page, mouseX, mouseY);
-        GL11.glPopMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
+        GlStateManager.popMatrix();
+        GlStateManager.enableBlend();
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(this.left, this.top + tabHeight / 2, 0, 0, guiWidth, guiHeight);
@@ -257,8 +259,8 @@ public class GuiBetterAchievements extends GuiScreen
         {
             AchievementPage page = this.pages.get(i);
             if (page == selected) continue;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
+            GlStateManager.disableLighting();
+            GlStateManager.enableBlend();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             int j = (i - this.tabsOffset) * tabWidth;
             this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
@@ -273,8 +275,8 @@ public class GuiBetterAchievements extends GuiScreen
         {
             AchievementPage page = this.pages.get(i);
             if (page != selected) continue;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
+            GlStateManager.disableLighting();
+            GlStateManager.enableBlend();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             int j = (i - this.tabsOffset) * tabWidth;
             this.mc.getTextureManager().bindTexture(Resources.GUI.TABS);
@@ -290,11 +292,11 @@ public class GuiBetterAchievements extends GuiScreen
         {
             this.zLevel = 100.0F;
             itemRender.zLevel = 100.0F;
-            RenderHelper.enableGUIStandardItemLighting();
+            net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), itemStack, tabLeft + 6, tabTop + 9);
+            itemRender.renderItemAndEffectIntoGUI(itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
+            GlStateManager.disableLighting();
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.zLevel = 0.0F;
         }
@@ -304,18 +306,18 @@ public class GuiBetterAchievements extends GuiScreen
     {
         GL11.glTranslatef(this.left, this.top + borderWidthY, -200.0F);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LIGHTING);
+        GlStateManager.disableLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         if (page instanceof ICustomBackground)
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
             ((ICustomBackground) page).drawBackground(this.left, this.top, innerWidth + borderWidthX, innerHeight + borderWidthY, this.zLevel, this.scale);
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
         else
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
             float scaleInverse = 1.0F / this.scale;
             GL11.glScalef(scaleInverse, scaleInverse, 1.0F);
             float scale = blockSize / this.scale;
@@ -329,33 +331,34 @@ public class GuiBetterAchievements extends GuiScreen
             {
                 float darkness = 0.7F - (dragY + y) / 80.0F;
                 GL11.glColor4f(darkness, darkness, darkness, 1.0F);
+                this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
                 for (int x = 1; x * scale - antiJumpX < innerWidth + borderWidthX; x++)
                 {
                     random.setSeed(this.mc.getSession().getPlayerID().hashCode() + dragY + y + (dragX + x) * 16);
                     int r = random.nextInt(1 + dragY + y) + (dragY + y) / 2;
-                    IIcon block = Blocks.grass.getIcon(0, 0);
+                    TextureAtlasSprite icon = RenderHelper.getIcon(Blocks.grass);
                     if (r == 40)
                     {
                         if (random.nextInt(3) == 0)
-                            block = Blocks.diamond_ore.getIcon(0, 0);
+                            icon = RenderHelper.getIcon(Blocks.diamond_ore);
                         else
-                            block = Blocks.redstone_ore.getIcon(0, 0);
+                            icon = RenderHelper.getIcon(Blocks.redstone_ore);
                     }
                     else if (r == 20)
-                        block = Blocks.iron_ore.getIcon(0, 0);
+                        icon = RenderHelper.getIcon(Blocks.iron_ore);
                     else if (r == 12)
-                        block = Blocks.coal_ore.getIcon(0, 0);
+                        icon = RenderHelper.getIcon(Blocks.coal_ore);
                     else if (r > 60)
-                        block = Blocks.bedrock.getIcon(0, 0);
+                        icon = RenderHelper.getIcon(Blocks.bedrock);
                     else if (r > 4)
-                        block = Blocks.stone.getIcon(0, 0);
+                        icon = RenderHelper.getIcon(Blocks.stone);
                     else if (r > 0)
-                        block = Blocks.dirt.getIcon(0, 0);
+                        icon = RenderHelper.getIcon(Blocks.dirt);
 
-                    this.drawTexturedModelRectFromIcon(x * blockSize - antiJumpX, y * blockSize - antiJumpY, block, blockSize, blockSize);
+                    this.drawTexturedModalRect(x * blockSize - antiJumpX, y * blockSize - antiJumpY, icon, blockSize, blockSize);
                 }
             }
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -384,7 +387,7 @@ public class GuiBetterAchievements extends GuiScreen
             this.drawVerticalLine(parentXPos, achievementYPos, parentYPos, colour);
 
             this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
-            GL11.glEnable(GL11.GL_BLEND);
+            GlStateManager.enableBlend();
             if (achievementXPos > parentXPos)
                 this.drawTexturedModalRect(achievementXPos - achievementInnerSize/2 - arrowHeadHeight, achievementYPos - arrowOffset, arrowRightX, arrowRightY, arrowHeadHeight, arrowHeadWidth);
             else if (achievementXPos < parentXPos)
@@ -404,7 +407,7 @@ public class GuiBetterAchievements extends GuiScreen
         int colourCanUnlock = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForCanUnlockArrow() : (GuiBetterAchievements.colourCanUnlockRainbow ? ColourHelper.getRainbowColour(GuiBetterAchievements.colourCanUnlockRainbowSettings) : GuiBetterAchievements.colourCanUnlock);
         int colourUnlocked = !userColourOverride && customColours ? ((ICustomArrows) page).getColourForUnlockedArrow() : (GuiBetterAchievements.colourUnlockedRainbow ? ColourHelper.getRainbowColour(GuiBetterAchievements.colourUnlockedRainbowSettings) : GuiBetterAchievements.colourUnlocked);
         Collections.reverse(achievements);
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         float inverseScale = 1.0F / scale;
         GL11.glScalef(inverseScale, inverseScale, 1.0F);
         for (Achievement achievement : achievements)
@@ -416,7 +419,7 @@ public class GuiBetterAchievements extends GuiScreen
             if (onAchievement(achievement, mouseX, mouseY))
                 this.hoveredAchievement = achievement;
         }
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     private void drawAchievement(Achievement achievement)
@@ -453,7 +456,7 @@ public class GuiBetterAchievements extends GuiScreen
         else
             GL11.glColor4f(brightness, brightness, brightness, 1.0F);
         this.mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
-        GL11.glEnable(GL11.GL_BLEND);
+        GlStateManager.enableBlend();
         if (special)
             this.drawTexturedModalRect(achievementXPos - achievementOffset, achievementYPos - achievementOffset, achievementX + achievementTextureSize, achievementY, achievementTextureSize, achievementTextureSize);
         else
@@ -461,25 +464,29 @@ public class GuiBetterAchievements extends GuiScreen
 
         if (achievement instanceof ICustomIconRenderer)
         {
-            GL11.glPushMatrix();
+            GlStateManager.pushMatrix();
             ((ICustomIconRenderer) achievement).renderIcon(achievementXPos, achievementYPos);
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
         else
         {
-            RenderItem renderItem = new RenderItem();
+            RenderItem renderItem = RenderHelper.getRenderItem();
             if (!canUnlock)
             {
                 GL11.glColor4f(0.1F, 0.1F, 0.1F, 1.0F);
-                renderItem.renderWithColor = false;
+                renderItem.func_175039_a(false); // Render with colour
             }
 
-            RenderHelper.enableGUIStandardItemLighting();
-            GL11.glEnable(GL11.GL_CULL_FACE);
-            renderItem.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
+            net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
+            GlStateManager.enableCull();
+            renderItem.renderItemAndEffectIntoGUI(achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
+
+            if (!canUnlock)
+                renderItem.func_175039_a(true); // Render with colour
         }
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_LIGHTING);
+        GlStateManager.disableLighting();
+        GlStateManager.disableLighting();
     }
 
     private void drawMouseOverAchievement(int mouseX, int mouseY)
@@ -508,7 +515,7 @@ public class GuiBetterAchievements extends GuiScreen
             ((ICustomTooltip) this.hoveredAchievement).renderTooltip(mouseX, mouseY, this.statFileWriter);
         else
         {
-            String title = this.hoveredAchievement.func_150951_e().getUnformattedText();
+            String title = this.hoveredAchievement.getStatName().getUnformattedText();
             String desc = this.hoveredAchievement.getDescription();
 
             int depth = this.statFileWriter.func_150874_c(this.hoveredAchievement);
@@ -522,7 +529,7 @@ public class GuiBetterAchievements extends GuiScreen
                 if (depth > 3)
                     return;
                 else
-                    desc = this.getChatComponentTranslation("achievement.requires", this.hoveredAchievement.parentAchievement.func_150951_e());
+                    desc = this.getChatComponentTranslation("achievement.requires", this.hoveredAchievement.parentAchievement.getStatName());
 
                 if (depth == 3)
                     title = I18n.format("achievement.unknown");
