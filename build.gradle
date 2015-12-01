@@ -37,7 +37,7 @@ dependencies {
     compile "codechicken:NotEnoughItems:${version_minecraft}-${version_nei}:dev"
     compile "codechicken:CodeChickenLib:${version_minecraft}-${version_cclib}:dev"
     compile "codechicken:CodeChickenCore:${version_minecraft}-${version_cccore}:dev"
-    compile "mcp.mobius.waila:Waila:${waila_version}_${version_minecraft}:dev"
+    //compile "mcp.mobius.waila:Waila:${waila_version}_${version_minecraft}:dev"
 
 	compile fileTree(dir: 'lib', include: '*.jar')
 }
