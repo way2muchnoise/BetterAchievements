@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
 
@@ -18,9 +19,9 @@ public class GuiOpenHandler
     {
         try
         {
-            prevScreen = GuiAchievements.class.getDeclaredField("parentScreen"); // field_146562_a
+            prevScreen = ReflectionHelper.findField(GuiAchievements.class, "parentScreen", "field_146562_a");
             prevScreen.setAccessible(true);
-            currentPage = GuiAchievements.class.getDeclaredField("currentPage");
+            currentPage = ReflectionHelper.findField(GuiAchievements.class, "currentPage");
             currentPage.setAccessible(true);
         } catch (Exception e)
         {
