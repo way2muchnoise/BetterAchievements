@@ -3,7 +3,6 @@ package betterachievements.proxy;
 import betterachievements.handler.ConfigHandler;
 import betterachievements.handler.GuiOpenHandler;
 import betterachievements.handler.SaveHandler;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
@@ -21,6 +20,6 @@ public class ClientProxy extends CommonProxy
     public void initConfig(File file)
     {
         ConfigHandler.init(file);
-        FMLCommonHandler.instance().bus().register(new ConfigHandler());
+        MinecraftForge.EVENT_BUS.register(new ConfigHandler());
     }
 }
