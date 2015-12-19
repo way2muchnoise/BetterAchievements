@@ -297,14 +297,14 @@ public class GuiBetterAchievements extends GuiScreen
             itemRender.renderItemAndEffectIntoGUI(itemStack, tabLeft + 6, tabTop + 9);
             itemRender.zLevel = 0.0F;
             GlStateManager.disableLighting();
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.zLevel = 0.0F;
         }
     }
 
     private void drawAchievementsBackground(AchievementPage page)
     {
-        GL11.glTranslatef(this.left, this.top + borderWidthY, -200.0F);
+        GlStateManager.translate(this.left, this.top + borderWidthY, -200.0F);
         GlStateManager.enableTexture2D();
         GlStateManager.disableLighting();
         GlStateManager.enableRescaleNormal();
@@ -330,7 +330,7 @@ public class GuiBetterAchievements extends GuiScreen
             for (int y = 1; y * scale - antiJumpY < innerHeight + borderWidthY; y++)
             {
                 float darkness = 0.7F - (dragY + y) / 80.0F;
-                GL11.glColor4f(darkness, darkness, darkness, 1.0F);
+                GlStateManager.color(darkness, darkness, darkness, 1.0F);
                 this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
                 for (int x = 1; x * scale - antiJumpX < innerWidth + borderWidthX; x++)
                 {
