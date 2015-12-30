@@ -124,7 +124,6 @@ public class ConfigHandler
         config.save();
     }
 
-    @SuppressWarnings("unchecked")
     public static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> list = new ArrayList<IConfigElement>();

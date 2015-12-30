@@ -34,7 +34,6 @@ import net.minecraftforge.common.AchievementPage;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -94,8 +93,7 @@ public class GuiBetterAchievements extends GuiScreen
         this.statFileWriter = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
         this.pause = true;
     }
-
-    @SuppressWarnings("unchecked")
+    
     @Override
     public void initGui()
     {
