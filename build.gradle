@@ -18,37 +18,29 @@ repositories {
         name = "forge"
         url = "http://files.minecraftforge.net/maven"
     }
-    maven { // the repo from which to get NEI and stuff
-        name 'CB Repo'
-        url "http://chickenbones.net/maven"
-    }
     maven {
-        name "Waila Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
+        name = "jei"
+        url =  "http://dvs1.progwml6.com/files/maven"
     }
-    ivy {
-        name 'FMP'
-        artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
-    }
-
 }
 
 dependencies {
-    //compile "codechicken:NotEnoughItems:${version_minecraft}-${version_nei}:dev"
-    //compile "codechicken:CodeChickenLib:${version_minecraft}-${version_cclib}:dev"
-    //compile "codechicken:CodeChickenCore:${version_minecraft}-${version_cccore}:dev"
-    //compile "mcp.mobius.waila:Waila:${waila_version}_${version_minecraft}:dev"
-
-	compile fileTree(dir: 'lib', include: '*.jar')
+    deobfCompile "mezz.jei:jei_${version_minecraft}:${version_jei}"
+    compile fileTree(dir: 'lib', include: '*.jar')
 }
 
-group = "BetterAchievements"
+group = "betterachievements"
 archivesBaseName = "BetterAchievements"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 minecraft {
     version = "${version_minecraft}-${version_forge}"
     mappings = "${version_mappings}"
     runDir = "run"
+
+    useDepAts = true
 
     replace "@MAJOR@", version_major
     replace "@MINOR@", version_minor
@@ -68,38 +60,37 @@ processResources {
     }
 
     from(sourceSets.main.resources.srcDirs) { exclude '**/*.info' }
+
+    // Move access transformers to META-INF
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 version = "${version_minecraft}-${version_major}.${version_minor}.${version_revis}"
 
 jar {
-    from "build/sources/main"
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
-    exclude('betterachievementsdemo/**')
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
-    exclude('betterachievementsdemo/**')
+    exclude("**/betterachievementsdemo/**")
 }
 
 task sourcesJar(type: Jar, dependsOn: 'sourceMainJava') {
-    from "build/sources/java"
-    from "build/resources/main/java"
+    from "build/sources/main"
+    from "build/resources/main"
     classifier "sources"
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
 }
 
-artifacts {
-    archives sourcesJar, deobfJar
+task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
+    from "build/sources/main/java/betterachievements/api"
+    classifier "api"
+    destinationDir = file (rootProject.getRootDir().getPath() + '/output')
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs += "src/demo/java"
-        }
-    }
+artifacts {
+    archives deobfJar, sourcesJar, apiJar
 }

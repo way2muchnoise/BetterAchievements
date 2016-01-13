@@ -2,17 +2,16 @@ package betterachievements.registry;
 
 import betterachievements.api.components.page.ICustomIcon;
 import betterachievements.util.LogHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

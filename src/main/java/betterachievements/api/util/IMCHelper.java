@@ -1,11 +1,11 @@
 package betterachievements.api.util;
 
 import betterachievements.api.components.page.ICustomIcon;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /**
  * Used to send an IMC message containing the {@link ItemStack} to render on the tab

@@ -1,8 +1,8 @@
 package betterachievements.handler;
 
 import betterachievements.registry.AchievementRegistry;
-import  net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SaveHandler
 {
