@@ -68,6 +68,7 @@ processResources {
 version = "${version_minecraft}-${version_major}.${version_minor}.${version_revis}"
 
 jar {
+    exclude("**/betterachievementsdemo/**")
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
 }
 
