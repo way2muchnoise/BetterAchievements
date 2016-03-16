@@ -17,7 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -26,8 +26,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -472,7 +472,7 @@ public class GuiBetterAchievements extends GuiScreen
             if (!canUnlock)
             {
                 GlStateManager.color(0.1F, 0.1F, 0.1F, 1.0F);
-                renderItem.func_175039_a(false); // Render with colour
+                renderItem.isNotRenderingEffectsInGUI(false);
             }
 
             net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
@@ -480,7 +480,7 @@ public class GuiBetterAchievements extends GuiScreen
             renderItem.renderItemAndEffectIntoGUI(achievement.theItemStack, achievementXPos + 3, achievementYPos + 3);
 
             if (!canUnlock)
-                renderItem.func_175039_a(true); // Render with colour
+                renderItem.isNotRenderingEffectsInGUI(true);
         }
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableLighting();
@@ -691,6 +691,6 @@ public class GuiBetterAchievements extends GuiScreen
 
     private String getChatComponentTranslation(String s, Object... objects)
     {
-        return (new ChatComponentTranslation(s, objects)).getUnformattedTextForChat();
+        return (new TextComponentTranslation(s, objects)).getUnformattedTextForChat();
     }
 }

@@ -46,7 +46,7 @@ public final class AchievementRegistry
 
     private void init()
     {
-        for (Object oa : AchievementList.achievementList)
+        for (Object oa : AchievementList.ACHIEVEMENTS)
         {
             Achievement achievement = (Achievement)oa;
             this.statIdMap.put(achievement.statId, achievement);

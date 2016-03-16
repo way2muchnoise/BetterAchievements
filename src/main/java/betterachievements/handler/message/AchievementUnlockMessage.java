@@ -53,6 +53,6 @@ public class AchievementUnlockMessage implements IMessage, IMessageHandler<Achie
     {
         if (achievement.parentAchievement != null)
             unlockAchievement(achievement.parentAchievement, player);
-        player.triggerAchievement(achievement);
+        player.addStat(achievement);
     }
 }
