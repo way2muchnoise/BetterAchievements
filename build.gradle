@@ -22,10 +22,14 @@ repositories {
         name = "jei"
         url =  "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "modmuss50"
+        url = "http://maven.modmuss50.me/"
+    }
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_${version_minecraft}:${version_jei}"
+    //deobfCompile "mezz.jei:jei_${version_minecraft}:${version_jei}"
     compile fileTree(dir: 'lib', include: '*.jar')
 }
 
