@@ -1,4 +1,6 @@
 # BetterAchievements
+[![Build Status](https://drone.io/github.com/way2muchnoise/BetterAchievements/status.png)](https://drone.io/github.com/way2muchnoise/BetterAchievements/latest)
+
 An improvement to the Minecraft achievement screen
 [Screenshots](#screenshots)
 or [Imgur album](http://imgur.com/a/22tud)
