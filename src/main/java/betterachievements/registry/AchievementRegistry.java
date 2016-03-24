@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.LinkedHashMap;
@@ -38,10 +39,10 @@ public final class AchievementRegistry
     private AchievementRegistry()
     {
         this.firstLoad = true;
-        this.mcAchievements = new LinkedList<Achievement>();
-        this.iconMap = new LinkedHashMap<String, ItemStack>();
-        this.statIdMap = new LinkedHashMap<String, Achievement>();
-        this.userSetIcons = new LinkedHashMap<String, ItemStack>();
+        this.mcAchievements = new LinkedList<>();
+        this.iconMap = new LinkedHashMap<>();
+        this.statIdMap = new LinkedHashMap<>();
+        this.userSetIcons = new LinkedHashMap<>();
     }
 
     private void init()
@@ -118,7 +119,7 @@ public final class AchievementRegistry
         {
             String pageName = entry.getKey();
             ItemStack itemStack = entry.getValue();
-            String itemName = GameRegistry.findUniqueIdentifierFor(itemStack.getItem()).toString();
+            String itemName = GameData.getItemRegistry().getNameForObject(itemStack.getItem()).toString();
             String nbtCompoundTag = itemStack.hasTagCompound() ? itemStack.getTagCompound().toString() : "";
             list.add(pageName + "->" + itemName + ":" + entry.getValue().getItemDamage() + ":" + nbtCompoundTag);
         }

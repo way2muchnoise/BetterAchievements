@@ -33,15 +33,15 @@ public class GuiOpenHandler
     public void onGuiOpen(GuiOpenEvent event)
     {
         // Do nothing if I want to open the old GUI
-        if (event.gui instanceof GuiAchievementsOld)
+        if (event.getGui() instanceof GuiAchievementsOld)
             return;
 
-        if (event.gui instanceof GuiAchievements)
+        if (event.getGui() instanceof GuiAchievements)
         {
             event.setCanceled(true);
             try
             {
-                Minecraft.getMinecraft().displayGuiScreen(new GuiBetterAchievements((GuiScreen)prevScreen.get(event.gui), (Integer)currentPage.get(event.gui) + 1));
+                Minecraft.getMinecraft().displayGuiScreen(new GuiBetterAchievements((GuiScreen)prevScreen.get(event.getGui()), (Integer)currentPage.get(event.getGui()) + 1));
             } catch (IllegalAccessException e)
             {
                 throw new RuntimeException(e);

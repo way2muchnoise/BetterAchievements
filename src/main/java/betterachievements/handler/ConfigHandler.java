@@ -32,7 +32,7 @@ public class ConfigHandler
     @SubscribeEvent
     public void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
     {
-        if (event.modID.equalsIgnoreCase(Reference.ID))
+        if (event.getModID().equalsIgnoreCase(Reference.ID))
         {
             loadConfig();
         }
@@ -44,12 +44,12 @@ public class ConfigHandler
         String colourCode;
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "scrollButtons", true);
-        prop.comment = I18n.translateToLocal("betterachievements.config.scrollButtons.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.scrollButtons.desc"));
         prop.setLanguageKey("betterachievements.config.scrollButtons");
         GuiBetterAchievements.scrollButtons = prop.getBoolean();
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "cantUnlockArrowColour", "#000000");
-        prop.comment = I18n.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.cantUnlockArrowColour");
         colourCode = prop.getString();
         if (colourCode.startsWith("#"))
@@ -64,7 +64,7 @@ public class ConfigHandler
         }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "canUnlockArrowColour", "#00FF00");
-        prop.comment = I18n.translateToLocal("betterachievements.config.canUnlockArrowColour.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.canUnlockArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.canUnlockArrowColour");
         colourCode = prop.getString();
         if (colourCode.startsWith("#"))
@@ -79,7 +79,7 @@ public class ConfigHandler
         }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "completeArrowColour", "#A0A0A0");
-        prop.comment = I18n.translateToLocal("betterachievements.config.completeArrowColour.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.completeArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
         colourCode = prop.getString();
         if (colourCode.startsWith("#"))
@@ -94,17 +94,17 @@ public class ConfigHandler
         }
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "userColourOverride", false);
-        prop.comment = I18n.translateToLocal("betterachievements.config.userColourOverride.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.userColourOverride.desc"));
         prop.setLanguageKey("betterachievements.config.userColourOverride");
         GuiBetterAchievements.userColourOverride = prop.getBoolean();
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "iconReset", false);
-        prop.comment = I18n.translateToLocal("betterachievements.config.iconReset.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.iconReset.desc"));
         prop.setLanguageKey("betterachievements.config.iconReset");
         GuiBetterAchievements.iconReset = prop.getBoolean();
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]);
-        prop.comment = I18n.translateToLocal("betterachievements.config.listTabIcons.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.listTabIcons.desc"));
         prop.setLanguageKey("betterachievements.config.listTabIcons");
         SaveHandler.userSetIcons = prop.getStringList();
 
@@ -117,7 +117,7 @@ public class ConfigHandler
         SaveHandler.userSetIcons = AchievementRegistry.instance().dumpUserSetIcons();
 
         Property prop = config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]);
-        prop.comment = I18n.translateToLocal("betterachievements.config.listTabIcons.desc");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.listTabIcons.desc"));
         prop.setLanguageKey("betterachievements.config.listTabIcons");
         prop.set(SaveHandler.userSetIcons);
 
