@@ -51,8 +51,11 @@ public class AchievementUnlockMessage implements IMessage, IMessageHandler<Achie
 
     private void unlockAchievement(Achievement achievement, EntityPlayer player)
     {
-        if (achievement.parentAchievement != null)
-            unlockAchievement(achievement.parentAchievement, player);
-        player.addStat(achievement);
+        Achievement parent = achievement.parentAchievement;
+        while (achievement.parentAchievement != null)
+        {
+            player.addStat(achievement);
+            parent = parent.parentAchievement;
+        }
     }
 }
