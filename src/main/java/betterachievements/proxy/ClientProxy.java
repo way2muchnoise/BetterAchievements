@@ -12,6 +12,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerHandlers()
     {
+        super.registerHandlers();
         MinecraftForge.EVENT_BUS.register(new GuiOpenHandler());
         MinecraftForge.EVENT_BUS.register(new SaveHandler());
     }
@@ -19,6 +20,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void initConfig(File file)
     {
+        super.initConfig(file);
         ConfigHandler.init(file);
         MinecraftForge.EVENT_BUS.register(new ConfigHandler());
     }
