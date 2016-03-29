@@ -32,7 +32,7 @@ public class BetterAchievements
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = MetaData.init(metadata);
-        proxy.initConfig(event.getSuggestedConfigurationFile());
+        proxy.initConfig(event.getModConfigurationDirectory());
         MessageHandler.init();
     }
 

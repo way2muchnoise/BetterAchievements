@@ -21,16 +21,20 @@ public class ConfigHandler
     public static Configuration config;
     private static File configDir;
 
-    public static void init(File configDir)
+    public static void init()
     {
         if (config == null)
         {
-            configDir = new File(configDir, Reference.ID);
-            configDir.mkdir();
-            ConfigHandler.configDir = configDir;
             config = new Configuration(new File(configDir, Reference.ID + ".cfg"));
             loadConfig();
         }
+    }
+
+    public static void initConfigDir(File configDir)
+    {
+        configDir = new File(configDir, Reference.ID);
+        configDir.mkdir();
+        ConfigHandler.configDir = configDir;
     }
 
     public static File getConfigDir()

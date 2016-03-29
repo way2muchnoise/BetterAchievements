@@ -18,10 +18,10 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void initConfig(File file)
+    public void initConfig(File configDir)
     {
-        super.initConfig(file);
-        ConfigHandler.init(file);
+        super.initConfig(configDir);
+        ConfigHandler.init();
         MinecraftForge.EVENT_BUS.register(new ConfigHandler());
     }
 }
