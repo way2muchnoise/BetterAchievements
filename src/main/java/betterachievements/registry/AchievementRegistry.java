@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -119,7 +120,7 @@ public final class AchievementRegistry
         {
             String pageName = entry.getKey();
             ItemStack itemStack = entry.getValue();
-            String itemName = GameData.getItemRegistry().getNameForObject(itemStack.getItem()).toString();
+            String itemName = itemStack.getItem().getRegistryName().toString();
             String nbtCompoundTag = itemStack.hasTagCompound() ? itemStack.getTagCompound().toString() : "";
             list.add(pageName + "->" + itemName + ":" + entry.getValue().getItemDamage() + ":" + nbtCompoundTag);
         }
@@ -135,7 +136,7 @@ public final class AchievementRegistry
             if (split.length != 2) continue;
             String[] itemSplit = split[1].split(":", 4);
             if (itemSplit.length < 2) continue;
-            Item item = GameRegistry.findItem(itemSplit[0], itemSplit[1]);
+            Item item = Item.itemRegistry.getObject(new ResourceLocation(itemSplit[0], itemSplit[1]));
             int meta = 0;
             try
             {
