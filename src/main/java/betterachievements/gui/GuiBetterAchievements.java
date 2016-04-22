@@ -324,34 +324,34 @@ public class GuiBetterAchievements extends GuiScreen
             int antiJumpX = (this.xPos - minDisplayColumn) % 16;
             int antiJumpY = (this.yPos - minDisplayRow) % 16;
             // TODO: some smarter background gen
-            this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+            this.mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             for (int y = 1; y * scale - antiJumpY < innerHeight + borderWidthY; y++)
             {
                 float darkness = 0.7F - (dragY + y) / 80.0F;
                 GlStateManager.color(darkness, darkness, darkness, 1.0F);
-                this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+                this.mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 for (int x = 1; x * scale - antiJumpX < innerWidth + borderWidthX; x++)
                 {
                     random.setSeed(this.mc.getSession().getPlayerID().hashCode() + dragY + y + (dragX + x) * 16);
                     int r = random.nextInt(1 + dragY + y) + (dragY + y) / 2;
-                    TextureAtlasSprite icon = RenderHelper.getIcon(Blocks.grass);
+                    TextureAtlasSprite icon = RenderHelper.getIcon(Blocks.GRASS);
                     if (r == 40)
                     {
                         if (random.nextInt(3) == 0)
-                            icon = RenderHelper.getIcon(Blocks.diamond_ore);
+                            icon = RenderHelper.getIcon(Blocks.DIAMOND_ORE);
                         else
-                            icon = RenderHelper.getIcon(Blocks.redstone_ore);
+                            icon = RenderHelper.getIcon(Blocks.REDSTONE_ORE);
                     }
                     else if (r == 20)
-                        icon = RenderHelper.getIcon(Blocks.iron_ore);
+                        icon = RenderHelper.getIcon(Blocks.IRON_ORE);
                     else if (r == 12)
-                        icon = RenderHelper.getIcon(Blocks.coal_ore);
+                        icon = RenderHelper.getIcon(Blocks.COAL_ORE);
                     else if (r > 60)
-                        icon = RenderHelper.getIcon(Blocks.bedrock);
+                        icon = RenderHelper.getIcon(Blocks.BEDROCK);
                     else if (r > 4)
-                        icon = RenderHelper.getIcon(Blocks.stone);
+                        icon = RenderHelper.getIcon(Blocks.STONE);
                     else if (r > 0)
-                        icon = RenderHelper.getIcon(Blocks.dirt);
+                        icon = RenderHelper.getIcon(Blocks.DIRT);
 
                     this.drawTexturedModalRect(x * blockSize - antiJumpX, y * blockSize - antiJumpY, icon, blockSize, blockSize);
                 }
@@ -364,7 +364,7 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawArrow(Achievement achievement, int colourCantUnlock, int colourCanUnlock, int colourUnlocked)
     {
-        int depth = this.statFileWriter.func_150874_c(achievement); // How far is the nearest unlocked parent
+        int depth = this.statFileWriter.countRequirementsUntilAvailable(achievement); // How far is the nearest unlocked parent
 
         if (depth < 5)
         {
@@ -427,7 +427,7 @@ public class GuiBetterAchievements extends GuiScreen
 
         if (!onScreen(achievementXPos, achievementYPos)) return;
 
-        int depth = this.statFileWriter.func_150874_c(achievement);
+        int depth = this.statFileWriter.countRequirementsUntilAvailable(achievement);
         boolean unlocked = this.statFileWriter.hasAchievementUnlocked(achievement);
         boolean canUnlock = this.statFileWriter.canUnlockAchievement(achievement);
         boolean special = achievement.getSpecial();
@@ -515,7 +515,7 @@ public class GuiBetterAchievements extends GuiScreen
             String title = this.hoveredAchievement.getStatName().getUnformattedText();
             String desc = this.hoveredAchievement.getDescription();
 
-            int depth = this.statFileWriter.func_150874_c(this.hoveredAchievement);
+            int depth = this.statFileWriter.countRequirementsUntilAvailable(this.hoveredAchievement);
             boolean unlocked = this.statFileWriter.hasAchievementUnlocked(this.hoveredAchievement);
             boolean canUnlock = this.statFileWriter.canUnlockAchievement(this.hoveredAchievement);
             boolean special = this.hoveredAchievement.getSpecial();
@@ -691,6 +691,6 @@ public class GuiBetterAchievements extends GuiScreen
 
     private String getChatComponentTranslation(String s, Object... objects)
     {
-        return (new TextComponentTranslation(s, objects)).getUnformattedTextForChat();
+        return (new TextComponentTranslation(s, objects)).getUnformattedComponentText();
     }
 }

@@ -55,7 +55,7 @@ public final class AchievementRegistry
             if (!AchievementPage.isAchievementInPages(achievement))
                this.mcAchievements.add(achievement);
         }
-        this.iconMap.put(mcPage.getName(), new ItemStack(Blocks.grass));
+        this.iconMap.put(mcPage.getName(), new ItemStack(Blocks.GRASS));
         this.iconMap.putAll(this.userSetIcons);
         this.firstLoad = false;
     }
@@ -136,7 +136,7 @@ public final class AchievementRegistry
             if (split.length != 2) continue;
             String[] itemSplit = split[1].split(":", 4);
             if (itemSplit.length < 2) continue;
-            Item item = Item.itemRegistry.getObject(new ResourceLocation(itemSplit[0], itemSplit[1]));
+            Item item = Item.REGISTRY.getObject(new ResourceLocation(itemSplit[0], itemSplit[1]));
             int meta = 0;
             try
             {
