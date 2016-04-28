@@ -10,6 +10,11 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
+
+plugins {
+    id "com.matthewprenger.cursegradle" version "1.0.7"
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'idea'
 
@@ -97,4 +102,26 @@ task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
 
 artifacts {
     archives deobfJar, sourcesJar, apiJar
+}
+
+curseforge {
+    apiKey = System.getenv().CURSE_KEY == null ? '0' : System.getenv().CURSE_KEY
+    project {
+        id = curse_project_id
+        changelog = 'git log -1 --pretty=%B'.execute().text.trim()
+        changelogType = 'text'
+        releaseType = 'alpha'
+        mainArtifact (jar) {
+            displayName = "${jar.archiveName}".replace(".jar", "")
+        }
+        addArtifact (deobfJar) {
+            displayName = "${deobfJar.archiveName}".replace(".jar", "")
+        }
+        addArtifact (sourcesJar) {
+            displayName = "${sourcesJar.archiveName}".replace(".jar", "")
+        }
+        addArtifact (apiJar) {
+            displayName = "${apiJar.archiveName}".replace(".jar", "")
+        }
+    }
 }
