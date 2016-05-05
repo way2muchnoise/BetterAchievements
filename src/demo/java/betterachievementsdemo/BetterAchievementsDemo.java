@@ -5,12 +5,12 @@ import betterachievementsdemo.proxy.CommonProxy;
 import betterachievementsdemo.reference.MetaData;
 import betterachievementsdemo.reference.Reference;
 import betterachievementsdemo.registry.AchievementRegistry;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraft.init.Blocks;
 
 @Mod(modid = Reference.ID, name = Reference.NAME, version = Reference.VERSION_FULL)
 public class BetterAchievementsDemo
@@ -34,6 +34,6 @@ public class BetterAchievementsDemo
     public void init(FMLInitializationEvent event)
     {
         AchievementRegistry.registerAchievements();
-        IMCHelper.sendIconForPage("demoPage5", Blocks.gold_block);
+        IMCHelper.sendIconForPage("demoPage5", Blocks.GOLD_BLOCK);
     }
 }

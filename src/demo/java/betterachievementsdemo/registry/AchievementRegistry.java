@@ -12,7 +12,7 @@ import net.minecraftforge.common.AchievementPage;
 public class AchievementRegistry
 {
     private static Achievement blue =
-            new DemoAchievement("demo.blue", "Blue", 0, 0, Blocks.wool, null)
+            new DemoAchievement("demo.blue", "Blue", 0, 0, Blocks.WOOL, null)
             {
                 @Override
                 public int recolourBackground(float greyScale)
@@ -21,7 +21,7 @@ public class AchievementRegistry
                 }
             };
     private static Achievement red =
-            new DemoAchievement("demo.red", "Red", 2, -1, Blocks.wool, blue)
+            new DemoAchievement("demo.red", "Red", 2, -1, Blocks.WOOL, blue)
             {
                 @Override
                 public int recolourBackground(float greyScale)
@@ -30,7 +30,7 @@ public class AchievementRegistry
                 }
             };
     private static Achievement rainbow =
-            new DemoAchievement("demo.rainbow", "Rainbow", 2, 1, Items.nether_star, red)
+            new DemoAchievement("demo.rainbow", "Rainbow", 2, 1, Items.NETHER_STAR, red)
             {
                 @Override
                 public int recolourBackground(float greyScale)
@@ -46,7 +46,7 @@ public class AchievementRegistry
                 @Override
                 public ItemStack getPageIcon()
                 {
-                    return new ItemStack(Blocks.diamond_block);
+                    return new ItemStack(Blocks.DIAMOND_BLOCK);
                 }
             };
     private static AchievementPage page2 =
@@ -55,7 +55,7 @@ public class AchievementRegistry
                 @Override
                 public ItemStack getPageIcon()
                 {
-                    return new ItemStack(Blocks.diamond_block);
+                    return new ItemStack(Blocks.DIAMOND_BLOCK);
                 }
             };
     private static AchievementPage page3 =
@@ -64,7 +64,7 @@ public class AchievementRegistry
                 @Override
                 public ItemStack getPageIcon()
                 {
-                    return new ItemStack(Blocks.diamond_block);
+                    return new ItemStack(Blocks.DIAMOND_BLOCK);
                 }
             };
     private static AchievementPage page4 =
@@ -73,7 +73,7 @@ public class AchievementRegistry
                 @Override
                 public ItemStack getPageIcon()
                 {
-                    return new ItemStack(Blocks.diamond_block);
+                    return new ItemStack(Blocks.DIAMOND_BLOCK);
                 }
             };
 
