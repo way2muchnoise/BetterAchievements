@@ -4,7 +4,7 @@ import betterachievements.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.StatisticsFile;
+import net.minecraft.stats.StatisticsManagerServer;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -39,7 +39,7 @@ public class AchievementHandler
     {
         if(event.getEntityPlayer() instanceof EntityPlayerMP)
         {
-            StatisticsFile stats = ((EntityPlayerMP) event.getEntityPlayer()).getStatFile();
+            StatisticsManagerServer stats = ((EntityPlayerMP) event.getEntityPlayer()).getStatFile();
             if (stats.canUnlockAchievement(event.getAchievement()))
             {
                 stats.unlockAchievement(event.getEntityPlayer(), event.getAchievement(), 1);

@@ -25,7 +25,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.StatFileWriter;
+import net.minecraft.stats.StatisticsManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.AchievementPage;
@@ -75,7 +75,7 @@ public class GuiBetterAchievements extends GuiScreen
             colourUnlockedRainbow, colourCanUnlockRainbow, colourCantUnlockRainbow;
     public static float[] colourUnlockedRainbowSettings, colourCanUnlockRainbowSettings, colourCantUnlockRainbowSettings;
     private GuiScreen prevScreen;
-    private StatFileWriter statFileWriter;
+    private StatisticsManager statisticsManager;
     private int top, left;
     private float scale;
     private boolean pause, newDrag;
@@ -90,7 +90,7 @@ public class GuiBetterAchievements extends GuiScreen
     {
         this.prevScreen = currentScreen;
         this.currentPage = page == 0 ? lastPage : page;
-        this.statFileWriter = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
+        this.statisticsManager = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
         this.pause = true;
     }
     
@@ -181,7 +181,7 @@ public class GuiBetterAchievements extends GuiScreen
         switch (button.id)
         {
             case buttonOld:
-                this.mc.displayGuiScreen(new GuiAchievementsOld(this.prevScreen, this.statFileWriter));
+                this.mc.displayGuiScreen(new GuiAchievementsOld(this.prevScreen, this.statisticsManager));
                 break;
             case buttonDone:
                 this.mc.displayGuiScreen(this.prevScreen);
@@ -364,7 +364,7 @@ public class GuiBetterAchievements extends GuiScreen
 
     private void drawArrow(Achievement achievement, int colourCantUnlock, int colourCanUnlock, int colourUnlocked)
     {
-        int depth = this.statFileWriter.countRequirementsUntilAvailable(achievement); // How far is the nearest unlocked parent
+        int depth = this.statisticsManager.countRequirementsUntilAvailable(achievement); // How far is the nearest unlocked parent
 
         if (depth < 5)
         {
@@ -372,8 +372,8 @@ public class GuiBetterAchievements extends GuiScreen
             int achievementYPos = achievement.displayRow * achievementSize - this.yPos + achievementInnerSize/2;
             int parentXPos = achievement.parentAchievement.displayColumn * achievementSize - this.xPos + achievementInnerSize/2;
             int parentYPos = achievement.parentAchievement.displayRow * achievementSize - this.yPos + achievementInnerSize/2;
-            boolean unlocked = this.statFileWriter.hasAchievementUnlocked(achievement);
-            boolean canUnlock = this.statFileWriter.canUnlockAchievement(achievement);
+            boolean unlocked = this.statisticsManager.hasAchievementUnlocked(achievement);
+            boolean canUnlock = this.statisticsManager.canUnlockAchievement(achievement);
             int colour = colourCantUnlock;
 
             if (unlocked)
@@ -427,9 +427,9 @@ public class GuiBetterAchievements extends GuiScreen
 
         if (!onScreen(achievementXPos, achievementYPos)) return;
 
-        int depth = this.statFileWriter.countRequirementsUntilAvailable(achievement);
-        boolean unlocked = this.statFileWriter.hasAchievementUnlocked(achievement);
-        boolean canUnlock = this.statFileWriter.canUnlockAchievement(achievement);
+        int depth = this.statisticsManager.countRequirementsUntilAvailable(achievement);
+        boolean unlocked = this.statisticsManager.hasAchievementUnlocked(achievement);
+        boolean canUnlock = this.statisticsManager.canUnlockAchievement(achievement);
         boolean special = achievement.getSpecial();
         float brightness;
 
@@ -509,15 +509,15 @@ public class GuiBetterAchievements extends GuiScreen
         int tooltipY = mouseY - 4;
 
         if (this.hoveredAchievement instanceof ICustomTooltip)
-            ((ICustomTooltip) this.hoveredAchievement).renderTooltip(mouseX, mouseY, this.statFileWriter);
+            ((ICustomTooltip) this.hoveredAchievement).renderTooltip(mouseX, mouseY, this.statisticsManager);
         else
         {
             String title = this.hoveredAchievement.getStatName().getUnformattedText();
             String desc = this.hoveredAchievement.getDescription();
 
-            int depth = this.statFileWriter.countRequirementsUntilAvailable(this.hoveredAchievement);
-            boolean unlocked = this.statFileWriter.hasAchievementUnlocked(this.hoveredAchievement);
-            boolean canUnlock = this.statFileWriter.canUnlockAchievement(this.hoveredAchievement);
+            int depth = this.statisticsManager.countRequirementsUntilAvailable(this.hoveredAchievement);
+            boolean unlocked = this.statisticsManager.hasAchievementUnlocked(this.hoveredAchievement);
+            boolean canUnlock = this.statisticsManager.canUnlockAchievement(this.hoveredAchievement);
             boolean special = this.hoveredAchievement.getSpecial();
             int tooltipWidth = defaultTooltipWidth;
 
