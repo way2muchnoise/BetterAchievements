@@ -108,6 +108,7 @@ public final class AchievementRegistry
 
     public Achievement getAchievement(String statId)
     {
+        if (this.firstLoad) init();
         return this.statIdMap.get(statId);
     }
 
