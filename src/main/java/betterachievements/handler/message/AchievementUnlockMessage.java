@@ -1,12 +1,16 @@
 package betterachievements.handler.message;
 
 import betterachievements.registry.AchievementRegistry;
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.stats.Achievement;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.List;
 
 public class AchievementUnlockMessage implements IMessage, IMessageHandler<AchievementUnlockMessage, IMessage>
 {
@@ -38,21 +42,46 @@ public class AchievementUnlockMessage implements IMessage, IMessageHandler<Achie
     }
 
     @Override
-    public IMessage onMessage(AchievementUnlockMessage message, MessageContext ctx)
+    public IMessage onMessage(final AchievementUnlockMessage message, final MessageContext ctx)
     {
-        EntityPlayer player = ctx.getServerHandler().playerEntity;
-        if (player.capabilities.isCreativeMode)
+        if (!FMLCommonHandler.instance().getMinecraftServerInstance().isCallingFromMinecraftThread())
         {
-            Achievement achievement = AchievementRegistry.instance().getAchievement(message.achievementId);
-            unlockAchievement(achievement, player);
+            FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(new Runnable()
+            {
+                public void run()
+                {
+                    onServerMessage(message, ctx);
+                }
+            });
+        }
+        else
+        {
+            onServerMessage(message, ctx);
         }
         return null;
     }
 
-    private void unlockAchievement(Achievement achievement, EntityPlayer player)
+    public void onServerMessage(AchievementUnlockMessage message, MessageContext ctx) {
+        EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+        if (player.getServer() != null && player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
+        {
+            Achievement achievement = AchievementRegistry.instance().getAchievement(message.achievementId);
+            unlockAchievement(achievement, player);
+        }
+    }
+
+    private void unlockAchievement(Achievement achievement, EntityPlayerMP player)
     {
-        if (achievement.parentAchievement != null)
-            unlockAchievement(achievement.parentAchievement, player);
-        player.addStat(achievement);
+        List<Achievement> list = Lists.newArrayList(achievement);
+        while(achievement.parentAchievement != null && !player.getStatFile().hasAchievementUnlocked(achievement.parentAchievement))
+        {
+            list.add(achievement.parentAchievement);
+            achievement = achievement.parentAchievement;
+        }
+
+        for (Achievement achievement1 : Lists.reverse(list))
+        {
+            player.addStat(achievement1);
+        }
     }
 }
