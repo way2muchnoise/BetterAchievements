@@ -13,10 +13,8 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.AchievementPage;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class AchievementRegistry
 {
@@ -26,6 +24,7 @@ public final class AchievementRegistry
     private Map<String, Achievement> statIdMap;
     private Map<String, ItemStack> iconMap;
     private Map<String, ItemStack> userSetIcons;
+    private Map<String, List<String>> childernMap;
     private boolean firstLoad;
 
     public static AchievementRegistry instance()
@@ -42,16 +41,23 @@ public final class AchievementRegistry
         this.iconMap = new LinkedHashMap<>();
         this.statIdMap = new LinkedHashMap<>();
         this.userSetIcons = new LinkedHashMap<>();
+        this.childernMap = new LinkedHashMap<>();
     }
 
     private void init()
     {
-        for (Object oa : AchievementList.ACHIEVEMENTS)
+        for (Achievement achievement : AchievementList.ACHIEVEMENTS)
         {
-            Achievement achievement = (Achievement)oa;
             this.statIdMap.put(achievement.statId, achievement);
             if (!AchievementPage.isAchievementInPages(achievement))
                this.mcAchievements.add(achievement);
+            if (achievement.parentAchievement != null)
+            {
+                List<String> children = this.childernMap.get(achievement.parentAchievement.statId);
+                if (children == null) children = new LinkedList<>();
+                children.add(achievement.statId);
+                this.childernMap.put(achievement.parentAchievement.statId, children);
+            }
         }
         this.iconMap.put(mcPage.getName(), new ItemStack(Blocks.GRASS));
         this.iconMap.putAll(this.userSetIcons);
@@ -67,7 +73,7 @@ public final class AchievementRegistry
     public List<AchievementPage> getAllPages()
     {
         if (this.firstLoad) init();
-        List<AchievementPage> pages = new LinkedList<AchievementPage>();
+        List<AchievementPage> pages = new LinkedList<>();
         pages.add(mcPage);
         int size = AchievementPage.getAchievementPages().size();
         for (int i = 0; i < size; i++) // Make sure to get pages in same order
@@ -112,9 +118,42 @@ public final class AchievementRegistry
         return this.statIdMap.get(statId);
     }
 
+    public List<Achievement> getAllChildren(Achievement achievement)
+    {
+        return toAchievements(getAllChildren(achievement.statId));
+    }
+
+    public List<String> getAllChildren(String statId)
+    {
+        List<String> children = new LinkedList<>();
+        List<String> directChildren = getDirectChildren(statId);
+        while(!directChildren.isEmpty())
+        {
+            children.addAll(directChildren);
+            directChildren = directChildren.stream().map(this::getDirectChildren).flatMap(List::stream).collect(Collectors.toList());
+        }
+        return children;
+    }
+
+    public List<Achievement> getDirectChildren(Achievement achievement)
+    {
+        return toAchievements(getDirectChildren(achievement.statId));
+    }
+
+    public List<String> getDirectChildren(String statId)
+    {
+        if (this.firstLoad) init();
+        return this.childernMap.containsKey(statId) ? this.childernMap.get(statId) : new ArrayList<>();
+    }
+
+    public List<Achievement> toAchievements(List<String> statIds)
+    {
+        return statIds.stream().map(this::getAchievement).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
     public String[] dumpUserSetIcons()
     {
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         for (Map.Entry<String, ItemStack> entry : this.userSetIcons.entrySet())
         {
             String pageName = entry.getKey();
