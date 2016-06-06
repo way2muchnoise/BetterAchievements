@@ -1,11 +1,12 @@
 package betterachievements.gui;
 
 
+import betterachievements.api.components.achievement.ICustomTitle;
 import betterachievements.api.util.ColourHelper;
 import betterachievements.reference.Resources;
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
@@ -13,9 +14,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchievement
+public class GuiBetterAchievement extends GuiAchievement
 {
     private Minecraft mc;
     private int width;
@@ -28,12 +29,13 @@ public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchi
     private RenderItem renderItem;
     private boolean permanentNotification;
 
-    private ArrayList<Achievement> queue = Lists.newArrayList();
+    private Queue<Achievement> queue;
 
-    public GuiAchievement(Minecraft mc) {
+    public GuiBetterAchievement(Minecraft mc) {
         super(mc);
         this.mc = mc;
         this.renderItem = mc.getRenderItem();
+        this.queue = new LinkedList<>();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchi
     {
         if (notificationTime == 0 || permanentNotification)
         {
-            achievementTitle = I18n.format("achievement.get", new Object[0]);
+            achievementTitle = achievement instanceof ICustomTitle ? ((ICustomTitle) achievement).getTitle() : I18n.format("achievement.get");
             achievementDescription = achievement.getStatName().getUnformattedText();
             notificationTime = Minecraft.getSystemTime();
             theAchievement = achievement;
@@ -100,8 +102,8 @@ public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchi
                 {
                     if (!queue.isEmpty())
                     {
-                        Achievement achievement = queue.remove(0);
-                        achievementTitle = I18n.format("achievement.get", new Object[0]);
+                        Achievement achievement = queue.poll();
+                        achievementTitle = I18n.format("achievement.get");
                         achievementDescription = achievement.getStatName().getUnformattedText();
                         notificationTime = Minecraft.getSystemTime();
                         theAchievement = achievement;
@@ -126,18 +128,12 @@ public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchi
             GlStateManager.depthMask(false);
             double d1 = d0 * 2.0D;
 
-            if (d1 > 1.0D)
-            {
-                d1 = 2.0D - d1;
-            }
+            if (d1 > 1.0D) d1 = 2.0D - d1;
 
             d1 = d1 * 4.0D;
             d1 = 1.0D - d1;
 
-            if (d1 < 0.0D)
-            {
-                d1 = 0.0D;
-            }
+            if (d1 < 0.0D) d1 = 0.0D;
 
             d1 = d1 * d1;
             d1 = d1 * d1;
@@ -182,12 +178,8 @@ public class GuiAchievement extends net.minecraft.client.gui.achievement.GuiAchi
     public AchievementPage getPageOfAchievement(Achievement achievement)
     {
         for (AchievementPage page : AchievementPage.getAchievementPages())
-        {
             if (page.getAchievements().contains(achievement))
-            {
                 return page;
-            }
-        }
         return null;
     }
 }

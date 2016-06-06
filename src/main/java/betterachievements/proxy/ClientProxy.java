@@ -1,6 +1,6 @@
 package betterachievements.proxy;
 
-import betterachievements.gui.GuiAchievement;
+import betterachievements.gui.GuiBetterAchievement;
 import betterachievements.handler.ConfigHandler;
 import betterachievements.handler.GuiOpenHandler;
 import betterachievements.handler.SaveHandler;
@@ -18,7 +18,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForge.EVENT_BUS.register(new GuiOpenHandler());
         MinecraftForge.EVENT_BUS.register(new SaveHandler());
 
-        Minecraft.getMinecraft().guiAchievement = new GuiAchievement(Minecraft.getMinecraft());
+        Minecraft.getMinecraft().guiAchievement = new GuiBetterAchievement(Minecraft.getMinecraft());
     }
 
     @Override

@@ -9,7 +9,7 @@ import betterachievements.api.components.page.ICustomPosition;
 import betterachievements.api.components.page.ICustomScale;
 import betterachievements.api.util.ColourHelper;
 import betterachievements.handler.MessageHandler;
-import betterachievements.handler.message.AchievementUnlockMessage;
+import betterachievements.handler.message.AchievementLockUnlockMessage;
 import betterachievements.reference.Resources;
 import betterachievements.registry.AchievementRegistry;
 import betterachievements.util.RenderHelper;
@@ -493,7 +493,7 @@ public class GuiBetterAchievements extends GuiScreen
         if (Mouse.isButtonDown(1))
         {
             this.pause = false;
-            MessageHandler.INSTANCE.sendToServer(new AchievementUnlockMessage(this.hoveredAchievement));
+            MessageHandler.INSTANCE.sendToServer(new AchievementLockUnlockMessage(this.hoveredAchievement, !GuiScreen.isShiftKeyDown()));
         }
         else
         {
