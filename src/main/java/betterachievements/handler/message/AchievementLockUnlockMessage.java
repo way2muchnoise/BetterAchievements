@@ -43,6 +43,8 @@ public class AchievementLockUnlockMessage implements IMessage
 
     public static class Handler implements IMessageHandler<AchievementLockUnlockMessage, IMessage>
     {
+        public static boolean opLockUnlock = true;
+
         @Override
         public IMessage onMessage(final AchievementLockUnlockMessage message, final MessageContext ctx)
         {
@@ -53,7 +55,7 @@ public class AchievementLockUnlockMessage implements IMessage
         public void onServerMessage(AchievementLockUnlockMessage message, MessageContext ctx)
         {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-            if (player.getServer() != null && player.getServer().getPlayerList().canSendCommands(player.getGameProfile()))
+            if (canLockUnlock(player))
             {
                 Achievement achievement = AchievementRegistry.instance().getAchievement(message.achievementId);
                 if (message.lockUnlock)
@@ -78,6 +80,12 @@ public class AchievementLockUnlockMessage implements IMessage
         private void lockAchievement(Achievement achievement, EntityPlayerMP player)
         {
             AchievementRegistry.instance().getAllChildren(achievement).forEach(player::takeStat);
+        }
+
+        private boolean canLockUnlock(EntityPlayerMP player)
+        {
+            if (opLockUnlock) return player.getServer() != null && player.getServer().getPlayerList().canSendCommands(player.getGameProfile());
+            else return player.isCreative();
         }
     }
 }

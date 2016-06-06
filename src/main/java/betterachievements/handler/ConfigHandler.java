@@ -2,6 +2,7 @@ package betterachievements.handler;
 
 import betterachievements.api.util.ColourHelper;
 import betterachievements.gui.GuiBetterAchievements;
+import betterachievements.handler.message.AchievementLockUnlockMessage;
 import betterachievements.reference.Reference;
 import betterachievements.registry.AchievementRegistry;
 import net.minecraft.util.text.translation.I18n;
@@ -60,6 +61,11 @@ public class ConfigHandler
         prop.setComment(I18n.translateToLocal("betterachievements.config.scrollButtons.desc"));
         prop.setLanguageKey("betterachievements.config.scrollButtons");
         GuiBetterAchievements.scrollButtons = prop.getBoolean();
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "opLockUnlock", true);
+        prop.setComment(I18n.translateToLocal("betterachievements.config.opLockUnlock.desc"));
+        prop.setLanguageKey("betterachievements.config.opLockUnlock");
+        AchievementLockUnlockMessage.Handler.opLockUnlock = prop.getBoolean();
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "cantUnlockArrowColour", "#000000");
         prop.setComment(I18n.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc"));
@@ -139,7 +145,7 @@ public class ConfigHandler
 
     public static List<IConfigElement> getConfigElements()
     {
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = new ArrayList<>();
         list.addAll(new ConfigElement(config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         return list;
     }
