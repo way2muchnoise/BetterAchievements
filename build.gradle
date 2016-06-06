@@ -37,8 +37,8 @@ dependencies {
 group = "betterachievements"
 archivesBaseName = "BetterAchievements-" + version_minecraft
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 version = version_major + '.' + version_minor + '.' + version_revis
 
