@@ -96,7 +96,7 @@ public class AchievementHandler
         }
         try
         {
-            Files.write(new File(ConfigHandler.getConfigDir(), worldName + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
+            Files.write(new File(ConfigHandler.getConfigDir(), worldName.replaceAll("[^a-zA-Z0-9.-]", "_") + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
         } catch (IOException e)
         {
             LogHelper.instance().error(e, "couldn't write " + worldName + " " + FILENAME);
@@ -111,7 +111,7 @@ public class AchievementHandler
             achievementMap.put(achievement.statId, achievement);
         try
         {
-            File file = new File(ConfigHandler.getConfigDir(), worldName + " " + FILENAME);
+            File file = new File(ConfigHandler.getConfigDir(), worldName.replaceAll("[^a-zA-Z0-9.-]", "_") + " " + FILENAME);
             if (!file.exists()) return;
 
             List<String> lines = Files.readAllLines(file.toPath() , Charset.defaultCharset());
