@@ -96,10 +96,12 @@ public final class AchievementRegistry
                     if (achievement.parentAchievement == null)
                     {
                         itemStack = achievement.theItemStack;
-                        this.iconMap.put(page.getName(), itemStack);
                         break;
                     }
                 }
+                if (itemStack == null && page.getAchievements().size() > 0)
+                    itemStack = page.getAchievements().get(0).theItemStack;
+                this.iconMap.put(page.getName(), itemStack);
             }
         }
         return itemStack;
