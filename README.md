@@ -1,4 +1,4 @@
-# BetterAchievements
+# BetterAchievements [![](http://cf.way2muchnoise.eu/short_235716_downloads.svg)](https://minecraft.curseforge.com/projects/235716)
 [![Build Status](https://drone.io/github.com/way2muchnoise/BetterAchievements/status.png)](https://drone.io/github.com/way2muchnoise/BetterAchievements/files)
 
 An improvement to the Minecraft achievement screen
