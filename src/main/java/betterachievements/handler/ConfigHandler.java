@@ -1,6 +1,7 @@
 package betterachievements.handler;
 
 import betterachievements.api.util.ColourHelper;
+import betterachievements.gui.GuiBetterAchievement;
 import betterachievements.gui.GuiBetterAchievements;
 import betterachievements.handler.message.AchievementLockUnlockMessage;
 import betterachievements.reference.Reference;
@@ -116,6 +117,16 @@ public class ConfigHandler
         prop.setComment(I18n.translateToLocal("betterachievements.config.userColourOverride.desc"));
         prop.setLanguageKey("betterachievements.config.userColourOverride");
         GuiBetterAchievements.userColourOverride = prop.getBoolean();
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "modNameColour", "#5555FF");
+        prop.setComment(I18n.translateToLocal("betterachievements.config.modNameColour.desc"));
+        prop.setLanguageKey("betterachievements.config.modNameColour");
+        GuiBetterAchievement.modNameColour = ColourHelper.RGB(prop.getString());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "showModName", true);
+        prop.setComment(I18n.translateToLocal("betterachievements.config.showModName.desc"));
+        prop.setLanguageKey("betterachievements.config.showModName");
+        GuiBetterAchievement.showModName = prop.getBoolean();
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "iconReset", false);
         prop.setComment(I18n.translateToLocal("betterachievements.config.iconReset.desc"));

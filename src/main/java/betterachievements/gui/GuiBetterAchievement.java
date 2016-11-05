@@ -18,6 +18,9 @@ import java.util.*;
 
 public class GuiBetterAchievement extends GuiAchievement
 {
+    public static boolean showModName = true;
+    public static int modNameColour = ColourHelper.RGB("#5555FF");
+
     private Minecraft mc;
     private int width;
     private int height;
@@ -152,12 +155,15 @@ public class GuiBetterAchievement extends GuiAchievement
             else
             {
                 drawTexturedModalRect(i, j, 96, 202, 160, 28);
-                drawTexturedModalRect(i, j + 28, 96, 207, 160, 11);
-                drawTexturedModalRect(i, j + 39, 96, 230, 160, 4);
+                if (GuiBetterAchievement.showModName)
+                    drawTexturedModalRect(i, j + 28, 96, 207, 160, 11);
+                drawTexturedModalRect(i, j + (GuiBetterAchievement.showModName ? 39 : 28), 96, 230, 160, 4);
                 mc.fontRendererObj.drawString(achievementTitle, i + 30, j + 7, -256);
                 mc.fontRendererObj.drawString(achievementDescription, i + 30, j + 18, -1);
-                String s = mc.fontRendererObj.getStringWidth(achievementPageName) > 120 ? mc.fontRendererObj.trimStringToWidth(achievementPageName, 120) + "...": achievementPageName;
-                mc.fontRendererObj.drawString(s, i + 30, j + 29, ColourHelper.RGB("#5555FF"));
+                if (GuiBetterAchievement.showModName) {
+                    String s = mc.fontRendererObj.getStringWidth(achievementPageName) > 120 ? mc.fontRendererObj.trimStringToWidth(achievementPageName, 120) + "..." : achievementPageName;
+                    mc.fontRendererObj.drawString(s, i + 30, j + 29, GuiBetterAchievement.modNameColour);
+                }
             }
 
 
@@ -168,7 +174,7 @@ public class GuiBetterAchievement extends GuiAchievement
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableColorMaterial();
             GlStateManager.enableLighting();
-            renderItem.renderItemAndEffectIntoGUI(theAchievement.theItemStack, i + 8, j + (permanentNotification ? 8: 14));
+            renderItem.renderItemAndEffectIntoGUI(theAchievement.theItemStack, i + 8, j + (permanentNotification ? 8: 14) - (GuiBetterAchievement.showModName ? 0 : 6));
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();

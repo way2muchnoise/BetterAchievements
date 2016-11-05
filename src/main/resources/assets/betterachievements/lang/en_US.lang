@@ -15,3 +15,7 @@ betterachievements.config.userColourOverride=Always use user set colours for the
 betterachievements.config.userColourOverride.desc=Overrides mod set colours for arrows
 betterachievements.config.opLockUnlock=OPs can unlock and lock achievements
 betterachievements.config.opLockUnlock.desc=Will only work in creative if false (Use right click and shift right click to unlock, lock achievements)
+betterachievements.config.showModName=Show the mod name in the achievement popup
+betterachievements.config.showModName.desc=If the mod name should be added in the popup on achievement unlock
+betterachievements.config.modNameColour=Colour of the mod name in the achievement popup
+betterachievements.config.modNameColour.desc=Colour of the mod name in the achievement unlocked popup in #RRGGBB format
