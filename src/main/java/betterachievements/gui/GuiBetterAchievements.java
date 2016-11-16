@@ -90,7 +90,7 @@ public class GuiBetterAchievements extends GuiScreen
     {
         this.prevScreen = currentScreen;
         this.currentPage = page == 0 ? lastPage : page;
-        this.statisticsManager = Minecraft.getMinecraft().thePlayer.getStatFileWriter();
+        this.statisticsManager = Minecraft.getMinecraft().player.getStatFileWriter();
         this.pause = true;
     }
     
