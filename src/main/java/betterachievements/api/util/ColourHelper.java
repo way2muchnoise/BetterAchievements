@@ -167,7 +167,7 @@ public class ColourHelper
         double r = Math.sin(freqR*i + phaseR) * width + center;
         double g = Math.sin(freqG*i + phaseG) * width + center;
         double b = Math.sin(freqB*i + phaseB) * width + center;
-        return RGB((float)r, (float)g, (float)b);
+        return RGB((int)r, (int)g, (int)b);
     }
 
     /**
