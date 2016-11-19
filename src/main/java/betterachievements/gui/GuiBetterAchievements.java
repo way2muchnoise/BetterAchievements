@@ -607,7 +607,7 @@ public class GuiBetterAchievements extends GuiScreen
         boolean customScale = page instanceof ICustomScale;
         float minZoom =  customScale ? ((ICustomScale) page).getMinScale() : GuiBetterAchievements.minZoom;
         float maxZoom = customScale ? ((ICustomScale) page).getMaxScale() : GuiBetterAchievements.maxZoom;
-        this.scale = MathHelper.clamp_float(this.scale, minZoom, maxZoom);
+        this.scale = MathHelper.clamp(this.scale, minZoom, maxZoom);
 
         if (this.scale != prevScale)
         {

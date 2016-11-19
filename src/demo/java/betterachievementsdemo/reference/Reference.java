@@ -6,7 +6,7 @@ public class Reference
     public static final String NAME = "Better Achievements Demo";
 
     // Internal mod name used for reference purposes and resource gathering.
-    public static final String ID = "BetterAchievementsDemo";
+    public static final String ID = "betterachievementsdemo";
 
     // Main version information that will be displayed in mod listing and for other purposes.
     public static final String V_MAJOR = "@MAJOR@";
