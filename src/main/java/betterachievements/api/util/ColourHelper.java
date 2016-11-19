@@ -163,7 +163,7 @@ public class ColourHelper
      */
     public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, float center, float width, float length)
     {
-        long i = Math.abs((int) System.currentTimeMillis()) / (int)length;
+        double i = (System.currentTimeMillis() * 2 * Math.PI) / (double) length;
         double r = Math.sin(freqR*i + phaseR) * width + center;
         double g = Math.sin(freqG*i + phaseG) * width + center;
         double b = Math.sin(freqB*i + phaseB) * width + center;
