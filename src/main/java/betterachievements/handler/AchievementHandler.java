@@ -40,12 +40,7 @@ public class AchievementHandler
         if(event.getEntityPlayer() instanceof EntityPlayerMP)
         {
             StatisticsManagerServer stats = ((EntityPlayerMP) event.getEntityPlayer()).getStatFile();
-            if (stats.canUnlockAchievement(event.getAchievement()))
-            {
-                stats.unlockAchievement(event.getEntityPlayer(), event.getAchievement(), 1);
-                event.setCanceled(true);
-            }
-            else
+            if (!stats.canUnlockAchievement(event.getAchievement()))
                 addAchievementToMap(event.getEntityPlayer().getUniqueID(), event.getAchievement());
             if (!this.currentItrs.contains(event.getEntityPlayer().getUniqueID()))
                 tryUnlock((EntityPlayerMP) event.getEntityPlayer());
