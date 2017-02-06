@@ -1,5 +1,5 @@
 # BetterAchievements [![Downloads](http://cf.way2muchnoise.eu/short_235716_downloads.svg)](https://minecraft.curseforge.com/projects/235716)
-[![Build Status](https://travis-ci.org/way2muchnoise/JustEnoughResources.svg?branch=master)](https://drone.io/github.com/way2muchnoise/BetterAchievements/files)
+[![Build Status](https://travis-ci.org/way2muchnoise/BetterAchievements.svg?branch=master)](https://travis-ci.org/way2muchnoise/BetterAchievements)
 
 An improvement to the Minecraft achievement screen
 [Screenshots](#screenshots)
