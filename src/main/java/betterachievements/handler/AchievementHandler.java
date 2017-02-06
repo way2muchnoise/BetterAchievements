@@ -98,6 +98,18 @@ public class AchievementHandler
         }
     }
 
+    public void compat(String worldName, File worldFolder) {
+        File file = new File(ConfigHandler.getConfigDir(), worldName.replaceAll("[^a-zA-Z0-9.-]", "_") + " " + FILENAME);
+        if (file.exists()) {
+            try {
+                File newLocation = new File(worldFolder, FILENAME);
+                Files.move(file.toPath(), newLocation.toPath());
+            } catch (IOException e) {
+                LogHelper.instance().error(e, "couldn't copy old toUnlockAchievements");
+            }
+        }
+    }
+
     public void constructFromData(File worldFolder)
     {
         this.playerAchievementMap.clear();

@@ -533,7 +533,7 @@ public class GuiBetterAchievements extends GuiScreen
             }
 
             tooltipWidth = Math.max(this.fontRendererObj.getStringWidth(title), tooltipWidth);
-            int tooltipHeight = this.fontRendererObj.splitStringWidth(desc, tooltipWidth);
+            int tooltipHeight = this.fontRendererObj.getWordWrappedHeight(desc, tooltipWidth);
 
             if (unlocked) tooltipHeight += lineSize;
 
