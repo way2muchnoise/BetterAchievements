@@ -78,7 +78,7 @@ public class AchievementHandler
         this.currentItrs.remove(player.getUniqueID());
     }
 
-    public void dumpAchievementData(String worldName)
+    public void dumpAchievementData(File worldFolder)
     {
         List<String> lines = new ArrayList<>();
         for (Map.Entry<UUID, Set<Achievement>> entry : this.playerAchievementMap.entrySet())
@@ -91,14 +91,14 @@ public class AchievementHandler
         }
         try
         {
-            Files.write(new File(ConfigHandler.getConfigDir(), worldName.replaceAll("[^a-zA-Z0-9.-]", "_") + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
+            Files.write(new File(worldFolder + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
         } catch (IOException e)
         {
-            LogHelper.instance().error(e, "couldn't write " + worldName + " " + FILENAME);
+            LogHelper.instance().error(e, "couldn't write " + FILENAME);
         }
     }
 
-    public void constructFromData(String worldName)
+    public void constructFromData(File worldFolder)
     {
         this.playerAchievementMap.clear();
         Map<String, Achievement> achievementMap = new HashMap<>();
@@ -106,7 +106,7 @@ public class AchievementHandler
             achievementMap.put(achievement.statId, achievement);
         try
         {
-            File file = new File(ConfigHandler.getConfigDir(), worldName.replaceAll("[^a-zA-Z0-9.-]", "_") + " " + FILENAME);
+            File file = new File(worldFolder, FILENAME);
             if (!file.exists()) return;
 
             List<String> lines = Files.readAllLines(file.toPath() , Charset.defaultCharset());
@@ -121,7 +121,7 @@ public class AchievementHandler
                 }
                 catch (IllegalArgumentException e)
                 {
-                    LogHelper.instance().error(e, "bad uuid \"" + splitted[0] + "\" in " + worldName + " " + FILENAME);
+                    LogHelper.instance().error(e, "bad uuid \"" + splitted[0] + "\" in " + FILENAME);
                     continue;
                 }
                 Set<Achievement> achievementSet = new HashSet<>();
@@ -135,7 +135,7 @@ public class AchievementHandler
             }
         } catch (IOException e)
         {
-            LogHelper.instance().error(e, "couldn't read " + worldName + " " + FILENAME);
+            LogHelper.instance().error(e, "couldn't read " + FILENAME);
         }
     }
 }

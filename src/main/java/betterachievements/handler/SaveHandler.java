@@ -12,13 +12,13 @@ public class SaveHandler
     public void onWorldUnload(WorldEvent.Unload event)
     {
         ConfigHandler.saveUserSetIcons();
-        AchievementHandler.getInstance().dumpAchievementData(event.getWorld().getWorldInfo().getWorldName());
+        AchievementHandler.getInstance().dumpAchievementData(event.getWorld().getSaveHandler().getWorldDirectory());
     }
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event)
     {
         AchievementRegistry.instance().setUserSetIcons(userSetIcons);
-        AchievementHandler.getInstance().constructFromData(event.getWorld().getWorldInfo().getWorldName());
+        AchievementHandler.getInstance().constructFromData(event.getWorld().getSaveHandler().getWorldDirectory());
     }
 }
