@@ -5,4 +5,9 @@ before_install:
   - ./gradlew clean
 install: ./gradlew setupCIWorkSpace
 script: ./gradlew build
-after_success: ./gradlew curseforge
+after_success: 
+  - ./gradlew curseforge
+  - ./gradlew bintrayUpload
+
+notifications:
+  email: false
