@@ -14,37 +14,30 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
  * NOTE: IMC will most likely register before the {@link ICustomIcon#getPageIcon()} will ever be called
  * In short this will override what ever is set there, so use only one of both
  */
-public class IMCHelper
-{
+public class IMCHelper {
     private static final String MOD_ID = "BetterAchievements";
 
-    public static void sendIconForPage(String pageName, ItemStack itemStack)
-    {
+    public static void sendIconForPage(String pageName, ItemStack itemStack) {
         FMLInterModComms.sendMessage(MOD_ID, pageName, itemStack);
     }
 
-    public static void sendIconForPage(AchievementPage page, ItemStack itemStack)
-    {
+    public static void sendIconForPage(AchievementPage page, ItemStack itemStack) {
         sendIconForPage(page.getName(), itemStack);
     }
 
-    public static void sendIconForPage(String pageName, Item item)
-    {
+    public static void sendIconForPage(String pageName, Item item) {
         sendIconForPage(pageName, new ItemStack(item));
     }
 
-    public static void sendIconForPage(AchievementPage page, Item item)
-    {
+    public static void sendIconForPage(AchievementPage page, Item item) {
         sendIconForPage(page.getName(), new ItemStack(item));
     }
 
-    public static void sendIconForPage(String pageName, Block block)
-    {
+    public static void sendIconForPage(String pageName, Block block) {
         sendIconForPage(pageName, new ItemStack(block));
     }
 
-    public static void sendIconForPage(AchievementPage page, Block block)
-    {
+    public static void sendIconForPage(AchievementPage page, Block block) {
         sendIconForPage(page.getName(), new ItemStack(block));
     }
 }

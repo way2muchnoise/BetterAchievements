@@ -4,10 +4,8 @@ import net.minecraftforge.fml.common.ModMetadata;
 
 import java.util.Arrays;
 
-public class MetaData
-{
-    public static ModMetadata init(ModMetadata metadata)
-    {
+public class MetaData {
+    public static ModMetadata init(ModMetadata metadata) {
         metadata.modId = Reference.ID;
         metadata.name = Reference.NAME;
         metadata.description = "A rewrite of the achievement screen so it makes more sense";

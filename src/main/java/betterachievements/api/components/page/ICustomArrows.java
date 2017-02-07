@@ -1,7 +1,6 @@
 package betterachievements.api.components.page;
 
-public interface ICustomArrows
-{
+public interface ICustomArrows {
     /**
      * The integer value of the arrow for unlocked achievements
      * Use {@link betterachievements.api.util.ColourHelper#RGB(String)} to use #RRGGBB format to integer

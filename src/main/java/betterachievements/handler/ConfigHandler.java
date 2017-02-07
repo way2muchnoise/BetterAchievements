@@ -18,43 +18,35 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigHandler
-{
+public class ConfigHandler {
     public static Configuration config;
     private static File configDir;
 
-    public static void init()
-    {
-        if (config == null)
-        {
+    public static void init() {
+        if (config == null) {
             config = new Configuration(new File(configDir, Reference.ID + ".cfg"));
             loadConfig();
         }
     }
 
-    public static void initConfigDir(File configDir)
-    {
+    public static void initConfigDir(File configDir) {
         configDir = new File(configDir, Reference.ID);
         configDir.mkdir();
         ConfigHandler.configDir = configDir;
     }
 
-    public static File getConfigDir()
-    {
+    public static File getConfigDir() {
         return configDir;
     }
 
     @SubscribeEvent
-    public void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        if (event.getModID().equalsIgnoreCase(Reference.ID))
-        {
+    public void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equalsIgnoreCase(Reference.ID)) {
             loadConfig();
         }
     }
 
-    private static void loadConfig()
-    {
+    private static void loadConfig() {
         Property prop;
         String colourCode;
 
@@ -72,13 +64,10 @@ public class ConfigHandler
         prop.setComment(I18n.translateToLocal("betterachievements.config.cantUnlockArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.cantUnlockArrowColour");
         colourCode = prop.getString();
-        if (colourCode.startsWith("#"))
-        {
+        if (colourCode.startsWith("#")) {
             GuiBetterAchievements.colourCantUnlockRainbow = false;
             GuiBetterAchievements.colourCantUnlock = ColourHelper.RGB(colourCode);
-        }
-        else if (colourCode.startsWith("rainbow"))
-        {
+        } else if (colourCode.startsWith("rainbow")) {
             GuiBetterAchievements.colourCantUnlockRainbow = true;
             GuiBetterAchievements.colourCantUnlockRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
         }
@@ -87,13 +76,10 @@ public class ConfigHandler
         prop.setComment(I18n.translateToLocal("betterachievements.config.canUnlockArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.canUnlockArrowColour");
         colourCode = prop.getString();
-        if (colourCode.startsWith("#"))
-        {
+        if (colourCode.startsWith("#")) {
             GuiBetterAchievements.colourCanUnlockRainbow = false;
             GuiBetterAchievements.colourCanUnlock = ColourHelper.RGB(colourCode);
-        }
-        else if (colourCode.startsWith("rainbow"))
-        {
+        } else if (colourCode.startsWith("rainbow")) {
             GuiBetterAchievements.colourCanUnlockRainbow = true;
             GuiBetterAchievements.colourCanUnlockRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
         }
@@ -102,13 +88,10 @@ public class ConfigHandler
         prop.setComment(I18n.translateToLocal("betterachievements.config.completeArrowColour.desc"));
         prop.setLanguageKey("betterachievements.config.completeArrowColour");
         colourCode = prop.getString();
-        if (colourCode.startsWith("#"))
-        {
+        if (colourCode.startsWith("#")) {
             GuiBetterAchievements.colourUnlockedRainbow = false;
             GuiBetterAchievements.colourUnlocked = ColourHelper.RGB(colourCode);
-        }
-        else if (colourCode.startsWith("rainbow"))
-        {
+        } else if (colourCode.startsWith("rainbow")) {
             GuiBetterAchievements.colourUnlockedRainbow = true;
             GuiBetterAchievements.colourUnlockedRainbowSettings = ColourHelper.getRainbowSettings(colourCode);
         }
@@ -142,8 +125,7 @@ public class ConfigHandler
             config.save();
     }
 
-    public static void saveUserSetIcons()
-    {
+    public static void saveUserSetIcons() {
         SaveHandler.userSetIcons = AchievementRegistry.instance().dumpUserSetIcons();
 
         Property prop = config.get(Configuration.CATEGORY_GENERAL, "listTabIcons", new String[0]);
@@ -154,8 +136,7 @@ public class ConfigHandler
         config.save();
     }
 
-    public static List<IConfigElement> getConfigElements()
-    {
+    public static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<>();
         list.addAll(new ConfigElement(config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         return list;

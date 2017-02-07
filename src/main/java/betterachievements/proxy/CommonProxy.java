@@ -6,15 +6,12 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
 
-public class CommonProxy
-{
-    public void registerHandlers()
-    {
+public class CommonProxy {
+    public void registerHandlers() {
         MinecraftForge.EVENT_BUS.register(AchievementHandler.getInstance());
     }
 
-    public void initConfig(File configDir)
-    {
+    public void initConfig(File configDir) {
         ConfigHandler.initConfigDir(configDir);
     }
 }

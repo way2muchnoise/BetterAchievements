@@ -14,31 +14,26 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.*;
 
-public class AchievementHandler
-{
+public class AchievementHandler {
     private final Map<UUID, Set<Achievement>> playerAchievementMap;
     private final Set<UUID> currentItrs;
     private static final String FILENAME = "toUnlockAchievements.dat";
     private static AchievementHandler instance;
 
-    public static AchievementHandler getInstance()
-    {
+    public static AchievementHandler getInstance() {
         if (instance == null)
             instance = new AchievementHandler();
         return instance;
     }
 
-    private AchievementHandler()
-    {
+    private AchievementHandler() {
         this.playerAchievementMap = new HashMap<>();
         this.currentItrs = new HashSet<>();
     }
 
     @SubscribeEvent
-    public void onAchievementUnlocked(AchievementEvent event)
-    {
-        if(event.getEntityPlayer() instanceof EntityPlayerMP)
-        {
+    public void onAchievementUnlocked(AchievementEvent event) {
+        if (event.getEntityPlayer() instanceof EntityPlayerMP) {
             StatisticsManagerServer stats = ((EntityPlayerMP) event.getEntityPlayer()).getStatFile();
             if (!stats.canUnlockAchievement(event.getAchievement()))
                 addAchievementToMap(event.getEntityPlayer().getUniqueID(), event.getAchievement());
@@ -47,28 +42,23 @@ public class AchievementHandler
         }
     }
 
-    public void addAchievementToMap(UUID uuid, Achievement achievement)
-    {
+    public void addAchievementToMap(UUID uuid, Achievement achievement) {
         Set<Achievement> achievements = this.playerAchievementMap.get(uuid);
         if (achievements == null) achievements = new HashSet<>();
         achievements.add(achievement);
         this.playerAchievementMap.put(uuid, achievements);
     }
 
-    public void tryUnlock(EntityPlayerMP player)
-    {
+    public void tryUnlock(EntityPlayerMP player) {
         this.currentItrs.add(player.getUniqueID());
         Set<Achievement> achievements = this.playerAchievementMap.get(player.getUniqueID());
         boolean doItr = achievements != null;
-        while (doItr)
-        {
+        while (doItr) {
             doItr = false;
             Iterator<Achievement> itr = achievements.iterator();
-            while (itr.hasNext())
-            {
+            while (itr.hasNext()) {
                 Achievement current = itr.next();
-                if (player.getStatFile().canUnlockAchievement(current))
-                {
+                if (player.getStatFile().canUnlockAchievement(current)) {
                     player.addStat(current);
                     itr.remove();
                     doItr = true;
@@ -78,22 +68,18 @@ public class AchievementHandler
         this.currentItrs.remove(player.getUniqueID());
     }
 
-    public void dumpAchievementData(File worldFolder)
-    {
+    public void dumpAchievementData(File worldFolder) {
         List<String> lines = new ArrayList<>();
-        for (Map.Entry<UUID, Set<Achievement>> entry : this.playerAchievementMap.entrySet())
-        {
+        for (Map.Entry<UUID, Set<Achievement>> entry : this.playerAchievementMap.entrySet()) {
             StringBuilder sb = new StringBuilder();
             sb.append(entry.getKey().toString()).append("->");
             for (Achievement achievement : entry.getValue())
                 sb.append(achievement.statId).append(",");
             lines.add(sb.toString());
         }
-        try
-        {
+        try {
             Files.write(new File(worldFolder + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             LogHelper.instance().error(e, "couldn't write " + FILENAME);
         }
     }
@@ -110,44 +96,36 @@ public class AchievementHandler
         }
     }
 
-    public void constructFromData(File worldFolder)
-    {
+    public void constructFromData(File worldFolder) {
         this.playerAchievementMap.clear();
         Map<String, Achievement> achievementMap = new HashMap<>();
         for (Achievement achievement : AchievementList.ACHIEVEMENTS)
             achievementMap.put(achievement.statId, achievement);
-        try
-        {
+        try {
             File file = new File(worldFolder, FILENAME);
             if (!file.exists()) return;
 
-            List<String> lines = Files.readAllLines(file.toPath() , Charset.defaultCharset());
-            for (String line : lines)
-            {
+            List<String> lines = Files.readAllLines(file.toPath(), Charset.defaultCharset());
+            for (String line : lines) {
                 String[] splitted = line.split("->");
                 if (splitted.length != 2) continue;
                 UUID uuid;
-                try
-                {
-                     uuid = UUID.fromString(splitted[0]);
-                }
-                catch (IllegalArgumentException e)
-                {
-                    LogHelper.instance().error(e, "bad uuid \"" + splitted[0] + "\" in " + worldName + " " + FILENAME);
+                try {
+                    uuid = UUID.fromString(splitted[0]);
+                } catch (IllegalArgumentException e) {
+                    LogHelper.instance().error(e, "bad uuid \"" + splitted[0] + "\" in " + FILENAME);
                     continue;
                 }
                 Set<Achievement> achievementSet = new HashSet<>();
-                for (String sAchievement : splitted[1].split(","))
-                {
+                for (String sAchievement : splitted[1].split(",")) {
                     Achievement achievement = achievementMap.get(sAchievement);
                     if (achievement == null) continue;
                     achievementSet.add(achievement);
                 }
                 this.playerAchievementMap.put(uuid, achievementSet);
             }
-        } catch (IOException e)
-        {
-            LogHelper.instance().error(e, "couldn't read " + worldName + " " + FILENAME);
+        } catch (IOException e) {
+            LogHelper.instance().error(e, "couldn't read " + FILENAME);
         }
     }
 }

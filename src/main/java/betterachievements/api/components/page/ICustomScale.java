@@ -1,7 +1,6 @@
 package betterachievements.api.components.page;
 
-public interface ICustomScale
-{
+public interface ICustomScale {
     /**
      * Resets the current scale to a given one on page open
      *

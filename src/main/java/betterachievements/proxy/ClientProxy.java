@@ -9,11 +9,9 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     @Override
-    public void registerHandlers()
-    {
+    public void registerHandlers() {
         super.registerHandlers();
         MinecraftForge.EVENT_BUS.register(new GuiOpenHandler());
         MinecraftForge.EVENT_BUS.register(new SaveHandler());
@@ -22,8 +20,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void initConfig(File configDir)
-    {
+    public void initConfig(File configDir) {
         super.initConfig(configDir);
         ConfigHandler.init();
         MinecraftForge.EVENT_BUS.register(new ConfigHandler());

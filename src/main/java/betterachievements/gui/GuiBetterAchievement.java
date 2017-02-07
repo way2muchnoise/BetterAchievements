@@ -14,10 +14,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class GuiBetterAchievement extends GuiAchievement
-{
+public class GuiBetterAchievement extends GuiAchievement {
     public static boolean showModName = true;
     public static int modNameColour = ColourHelper.RGB("#5555FF");
 
@@ -42,27 +42,22 @@ public class GuiBetterAchievement extends GuiAchievement
     }
 
     @Override
-    public void displayAchievement(Achievement achievement)
-    {
-        if (notificationTime == 0 || permanentNotification)
-        {
+    public void displayAchievement(Achievement achievement) {
+        if (notificationTime == 0 || permanentNotification) {
             achievementTitle = achievement instanceof ICustomTitle ? ((ICustomTitle) achievement).getTitle() : I18n.format("achievement.get");
             achievementDescription = achievement.getStatName().getUnformattedText();
             notificationTime = Minecraft.getSystemTime();
             theAchievement = achievement;
             AchievementPage page = getPageOfAchievement(achievement);
-            achievementPageName = page != null ? page.getName(): "Minecraft";
+            achievementPageName = page != null ? page.getName() : "Minecraft";
             permanentNotification = false;
-        }
-        else
-        {
+        } else {
             queue.add(achievement);
         }
     }
 
     @Override
-    public void displayUnformattedAchievement(Achievement achievement)
-    {
+    public void displayUnformattedAchievement(Achievement achievement) {
         achievementTitle = achievement.getStatName().getUnformattedText();
         achievementDescription = achievement.getDescription();
         notificationTime = Minecraft.getSystemTime() + 2500L;
@@ -70,8 +65,7 @@ public class GuiBetterAchievement extends GuiAchievement
         permanentNotification = true;
     }
 
-    private void updateAchievementWindowScale()
-    {
+    private void updateAchievementWindowScale() {
         GlStateManager.viewport(0, 0, mc.displayWidth, mc.displayHeight);
         GlStateManager.matrixMode(5889);
         GlStateManager.loadIdentity();
@@ -85,44 +79,35 @@ public class GuiBetterAchievement extends GuiAchievement
         GlStateManager.clear(256);
         GlStateManager.matrixMode(5889);
         GlStateManager.loadIdentity();
-        GlStateManager.ortho(0.0D, (double)width, (double)height, 0.0D, 1000.0D, 3000.0D);
+        GlStateManager.ortho(0.0D, (double) width, (double) height, 0.0D, 1000.0D, 3000.0D);
         GlStateManager.matrixMode(5888);
         GlStateManager.loadIdentity();
         GlStateManager.translate(0.0F, 0.0F, -2000.0F);
     }
 
     @Override
-    public void updateAchievementWindow()
-    {
-        if (theAchievement != null && notificationTime != 0L && Minecraft.getMinecraft().player != null)
-        {
+    public void updateAchievementWindow() {
+        if (theAchievement != null && notificationTime != 0L && Minecraft.getMinecraft().player != null) {
             // When there is more then 1 achievement show them faster
-            double d0 = (double)(Minecraft.getSystemTime() - notificationTime) / (queue.isEmpty() ? 3000.0D: 2000.0D);
+            double d0 = (double) (Minecraft.getSystemTime() - notificationTime) / (queue.isEmpty() ? 3000.0D : 2000.0D);
 
-            if (!permanentNotification)
-            {
-                if (d0 < 0.0D || d0 > 1.0D)
-                {
-                    if (!queue.isEmpty())
-                    {
+            if (!permanentNotification) {
+                if (d0 < 0.0D || d0 > 1.0D) {
+                    if (!queue.isEmpty()) {
                         Achievement achievement = queue.poll();
                         achievementTitle = I18n.format("achievement.get");
                         achievementDescription = achievement.getStatName().getUnformattedText();
                         notificationTime = Minecraft.getSystemTime();
                         theAchievement = achievement;
                         AchievementPage page = getPageOfAchievement(achievement);
-                        achievementPageName = page != null ? page.getName(): "Minecraft";
+                        achievementPageName = page != null ? page.getName() : "Minecraft";
                         permanentNotification = false;
-                    }
-                    else
-                    {
+                    } else {
                         notificationTime = 0L;
                     }
                     return;
                 }
-            }
-            else if (d0 > 0.5D)
-            {
+            } else if (d0 > 0.5D) {
                 d0 = 0.5D;
             }
 
@@ -141,19 +126,16 @@ public class GuiBetterAchievement extends GuiAchievement
             d1 = d1 * d1;
             d1 = d1 * d1;
             int i = width - 160;
-            int j = 0 - (int)(d1 * (permanentNotification ? 36.0D: 43.0D));
+            int j = 0 - (int) (d1 * (permanentNotification ? 36.0D : 43.0D));
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableTexture2D();
             mc.getTextureManager().bindTexture(Resources.GUI.SPRITES);
             GlStateManager.disableLighting();
 
-            if (permanentNotification)
-            {
+            if (permanentNotification) {
                 drawTexturedModalRect(i, j, 96, 202, 160, 32);
                 mc.fontRendererObj.drawSplitString(achievementDescription, i + 30, j + 7, 120, -1);
-            }
-            else
-            {
+            } else {
                 drawTexturedModalRect(i, j, 96, 202, 160, 28);
                 if (GuiBetterAchievement.showModName)
                     drawTexturedModalRect(i, j + 28, 96, 207, 160, 11);
@@ -174,15 +156,14 @@ public class GuiBetterAchievement extends GuiAchievement
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableColorMaterial();
             GlStateManager.enableLighting();
-            renderItem.renderItemAndEffectIntoGUI(theAchievement.theItemStack, i + 8, j + (permanentNotification ? 8: 14) - (GuiBetterAchievement.showModName ? 0 : 6));
+            renderItem.renderItemAndEffectIntoGUI(theAchievement.theItemStack, i + 8, j + (permanentNotification ? 8 : 14) - (GuiBetterAchievement.showModName ? 0 : 6));
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();
         }
     }
 
-    public AchievementPage getPageOfAchievement(Achievement achievement)
-    {
+    public AchievementPage getPageOfAchievement(Achievement achievement) {
         for (AchievementPage page : AchievementPage.getAchievementPages())
             if (page.getAchievements().contains(achievement))
                 return page;

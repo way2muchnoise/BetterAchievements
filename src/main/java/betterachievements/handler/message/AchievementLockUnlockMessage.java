@@ -11,52 +11,45 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.Stack;
 
-public class AchievementLockUnlockMessage implements IMessage
-{
+public class AchievementLockUnlockMessage implements IMessage {
     private String achievementId;
     private boolean lockUnlock; // true for unlock
 
-    public AchievementLockUnlockMessage() {}
+    public AchievementLockUnlockMessage() {
+    }
 
-    public AchievementLockUnlockMessage(Achievement achievement, boolean lockUnlock)
-    {
+    public AchievementLockUnlockMessage(Achievement achievement, boolean lockUnlock) {
         this.achievementId = achievement.statId;
         this.lockUnlock = lockUnlock;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         this.lockUnlock = buf.readBoolean();
         int length = buf.readInt();
         this.achievementId = new String(buf.readBytes(length).array());
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeBoolean(this.lockUnlock);
         byte[] bytes = this.achievementId.getBytes();
         buf.writeInt(bytes.length);
         buf.writeBytes(bytes);
     }
 
-    public static class Handler implements IMessageHandler<AchievementLockUnlockMessage, IMessage>
-    {
+    public static class Handler implements IMessageHandler<AchievementLockUnlockMessage, IMessage> {
         public static boolean opLockUnlock = true;
 
         @Override
-        public IMessage onMessage(final AchievementLockUnlockMessage message, final MessageContext ctx)
-        {
+        public IMessage onMessage(final AchievementLockUnlockMessage message, final MessageContext ctx) {
             FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> onServerMessage(message, ctx));
             return null;
         }
 
-        public void onServerMessage(AchievementLockUnlockMessage message, MessageContext ctx)
-        {
+        public void onServerMessage(AchievementLockUnlockMessage message, MessageContext ctx) {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-            if (canLockUnlock(player))
-            {
+            if (canLockUnlock(player)) {
                 Achievement achievement = AchievementRegistry.instance().getAchievement(message.achievementId);
                 if (message.lockUnlock)
                     unlockAchievement(achievement, player);
@@ -65,26 +58,23 @@ public class AchievementLockUnlockMessage implements IMessage
             }
         }
 
-        private void unlockAchievement(Achievement achievement, EntityPlayerMP player)
-        {
+        private void unlockAchievement(Achievement achievement, EntityPlayerMP player) {
             Stack<Achievement> stack = new Stack<>();
             stack.push(achievement);
-            while (achievement.parentAchievement != null && !player.getStatFile().hasAchievementUnlocked(achievement.parentAchievement))
-            {
+            while (achievement.parentAchievement != null && !player.getStatFile().hasAchievementUnlocked(achievement.parentAchievement)) {
                 stack.push(achievement.parentAchievement);
                 achievement = achievement.parentAchievement;
             }
             while (!stack.isEmpty()) player.addStat(stack.pop());
         }
 
-        private void lockAchievement(Achievement achievement, EntityPlayerMP player)
-        {
+        private void lockAchievement(Achievement achievement, EntityPlayerMP player) {
             AchievementRegistry.instance().getAllChildren(achievement).forEach(player::takeStat);
         }
 
-        private boolean canLockUnlock(EntityPlayerMP player)
-        {
-            if (opLockUnlock) return player.getServer() != null && player.getServer().getPlayerList().canSendCommands(player.getGameProfile());
+        private boolean canLockUnlock(EntityPlayerMP player) {
+            if (opLockUnlock)
+                return player.getServer() != null && player.getServer().getPlayerList().canSendCommands(player.getGameProfile());
             else return player.isCreative();
         }
     }
