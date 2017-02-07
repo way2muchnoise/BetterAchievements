@@ -94,7 +94,7 @@ public class GuiBetterAchievement extends GuiAchievement
     @Override
     public void updateAchievementWindow()
     {
-        if (theAchievement != null && notificationTime != 0L && Minecraft.getMinecraft().thePlayer != null)
+        if (theAchievement != null && notificationTime != 0L && Minecraft.getMinecraft().player != null)
         {
             // When there is more then 1 achievement show them faster
             double d0 = (double)(Minecraft.getSystemTime() - notificationTime) / (queue.isEmpty() ? 3000.0D: 2000.0D);
