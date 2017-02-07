@@ -31,7 +31,7 @@ public class ColourHelper
      */
     public static int RGBA(int r, int g, int b, int a)
     {
-        return (a << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
+        return ((a & 255) << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
     }
 
     /**
@@ -46,7 +46,7 @@ public class ColourHelper
      */
     public static int RGB(float red, float green, float blue)
     {
-        return RGBA((int) red * 255, (int) green * 255, (int) blue * 255, 255);
+        return RGBA((int) (red * 255), (int) (green * 255), (int) (blue * 255), 255);
     }
 
     /**
@@ -61,7 +61,7 @@ public class ColourHelper
      */
     public static int RGB(float red, float green, float blue, float alpha)
     {
-        return RGBA((int) red * 255, (int) green * 255, (int) blue * 255, (int) alpha * 255);
+        return RGBA((int) (red * 255), (int) (green * 255), (int) (blue * 255), (int) (alpha * 255));
     }
 
     /**
@@ -149,9 +149,9 @@ public class ColourHelper
     /**
      * Gives a colour based of {@link System#currentTimeMillis()} and given params
      *
-     * @param freqR strength of the reds
-     * @param freqG strength of the greens
-     * @param freqB strength of the blues
+     * @param freqR frequency of the reds
+     * @param freqG frequency of the greens
+     * @param freqB frequency of the blues
      * @param phaseR phase shift red
      * @param phaseG phase shift green
      * @param phaseB phase shift blue
@@ -162,11 +162,11 @@ public class ColourHelper
      */
     public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB, float center, float width, float length)
     {
-        long i = Math.abs((int) System.currentTimeMillis()) / (int)length;
+        double i = (System.currentTimeMillis() * 2 * Math.PI) / (double) length;
         double r = Math.sin(freqR*i + phaseR) * width + center;
         double g = Math.sin(freqG*i + phaseG) * width + center;
         double b = Math.sin(freqB*i + phaseB) * width + center;
-        return RGB((float)r, (float)g, (float)b);
+        return RGB((int)r, (int)g, (int)b);
     }
 
     /**
