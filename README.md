@@ -1,5 +1,5 @@
-# BetterAchievements [![](http://cf.way2muchnoise.eu/short_235716_downloads.svg)](https://minecraft.curseforge.com/projects/235716)
-[![Build Status](https://drone.io/github.com/way2muchnoise/BetterAchievements/status.png)](https://drone.io/github.com/way2muchnoise/BetterAchievements/files)
+# BetterAchievements [![Downloads](http://cf.way2muchnoise.eu/short_235716_downloads.svg)](https://minecraft.curseforge.com/projects/235716)
+[![Build Status](https://travis-ci.org/way2muchnoise/BetterAchievements.svg?branch=1.10)](https://travis-ci.org/way2muchnoise/BetterAchievements)[ ![Download](https://api.bintray.com/packages/way2muchnoise/dev/BetterAchievements/images/download.svg) ](https://bintray.com/way2muchnoise/dev/BetterAchievements/_latestVersion)
 
 An improvement to the Minecraft achievement screen
 [Screenshots](#screenshots)
