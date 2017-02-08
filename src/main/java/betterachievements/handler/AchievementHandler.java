@@ -78,7 +78,7 @@ public class AchievementHandler {
             lines.add(sb.toString());
         }
         try {
-            Files.write(new File(worldFolder + " " + FILENAME).toPath(), lines, Charset.defaultCharset());
+            Files.write(new File(worldFolder, FILENAME).toPath(), lines, Charset.defaultCharset());
         } catch (IOException e) {
             LogHelper.instance().error(e, "couldn't write " + FILENAME);
         }
