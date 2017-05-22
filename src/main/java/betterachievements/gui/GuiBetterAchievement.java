@@ -150,7 +150,7 @@ public class GuiBetterAchievement extends GuiAchievement
             if (permanentNotification)
             {
                 drawTexturedModalRect(i, j, 96, 202, 160, 32);
-                mc.fontRendererObj.drawSplitString(achievementDescription, i + 30, j + 7, 120, -1);
+                mc.fontRenderer.drawSplitString(achievementDescription, i + 30, j + 7, 120, -1);
             }
             else
             {
@@ -158,11 +158,11 @@ public class GuiBetterAchievement extends GuiAchievement
                 if (GuiBetterAchievement.showModName)
                     drawTexturedModalRect(i, j + 28, 96, 207, 160, 11);
                 drawTexturedModalRect(i, j + (GuiBetterAchievement.showModName ? 39 : 28), 96, 230, 160, 4);
-                mc.fontRendererObj.drawString(achievementTitle, i + 30, j + 7, -256);
-                mc.fontRendererObj.drawString(achievementDescription, i + 30, j + 18, -1);
+                mc.fontRenderer.drawString(achievementTitle, i + 30, j + 7, -256);
+                mc.fontRenderer.drawString(achievementDescription, i + 30, j + 18, -1);
                 if (GuiBetterAchievement.showModName) {
-                    String s = mc.fontRendererObj.getStringWidth(achievementPageName) > 120 ? mc.fontRendererObj.trimStringToWidth(achievementPageName, 120) + "..." : achievementPageName;
-                    mc.fontRendererObj.drawString(s, i + 30, j + 29, GuiBetterAchievement.modNameColour);
+                    String s = mc.fontRenderer.getStringWidth(achievementPageName) > 120 ? mc.fontRenderer.trimStringToWidth(achievementPageName, 120) + "..." : achievementPageName;
+                    mc.fontRenderer.drawString(s, i + 30, j + 29, GuiBetterAchievement.modNameColour);
                 }
             }
 

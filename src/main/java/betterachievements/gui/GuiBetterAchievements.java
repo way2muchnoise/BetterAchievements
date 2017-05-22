@@ -226,7 +226,7 @@ public class GuiBetterAchievements extends GuiScreen
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawTexturedModalRect(this.left, this.top + tabHeight / 2, 0, 0, guiWidth, guiHeight);
         this.drawCurrentTab(page);
-        this.fontRendererObj.drawString(page.getName() + " " + I18n.format("gui.achievements"), this.left + 15, this.top + tabHeight / 2 + 5, 4210752);
+        this.fontRenderer.drawString(page.getName() + " " + I18n.format("gui.achievements"), this.left + 15, this.top + tabHeight / 2 + 5, 4210752);
         super.drawScreen(mouseX, mouseY, renderPartialTicks);
         this.drawMouseOverAchievement(mouseX, mouseY);
         this.drawMouseOverTab(mouseX, mouseY);
@@ -532,8 +532,8 @@ public class GuiBetterAchievements extends GuiScreen
                     title = I18n.format("achievement.unknown");
             }
 
-            tooltipWidth = Math.max(this.fontRendererObj.getStringWidth(title), tooltipWidth);
-            int tooltipHeight = this.fontRendererObj.getWordWrappedHeight(desc, tooltipWidth);
+            tooltipWidth = Math.max(this.fontRenderer.getStringWidth(title), tooltipWidth);
+            int tooltipHeight = this.fontRenderer.getWordWrappedHeight(desc, tooltipWidth);
 
             if (unlocked) tooltipHeight += lineSize;
 
@@ -543,10 +543,10 @@ public class GuiBetterAchievements extends GuiScreen
                     tooltipX + tooltipWidth + achievementTooltipOffset,
                     tooltipY + tooltipHeight + achievementTooltipOffset + lineSize,
                     -1073741824, -1073741824);
-            this.fontRendererObj.drawStringWithShadow(title, tooltipX, tooltipY, canUnlock ? (special ? -128 : -1) : (special ? -8355776 : -8355712));
-            this.fontRendererObj.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
+            this.fontRenderer.drawStringWithShadow(title, tooltipX, tooltipY, canUnlock ? (special ? -128 : -1) : (special ? -8355776 : -8355712));
+            this.fontRenderer.drawSplitString(desc, tooltipX, tooltipY + lineSize, tooltipWidth, -6250336);
             if (unlocked)
-                this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
+                this.fontRenderer.drawStringWithShadow(I18n.format("achievement.taken"), tooltipX, tooltipY + tooltipHeight + 4, -7302913);
         }
 
         this.hoveredAchievement = null;
@@ -559,7 +559,7 @@ public class GuiBetterAchievements extends GuiScreen
         AchievementPage page = pages.get(onTab);
         List<String> tooltip = new LinkedList<String>();
         tooltip.add(page.getName());
-        drawHoveringText(tooltip, mouseX, mouseY, this.fontRendererObj);
+        drawHoveringText(tooltip, mouseX, mouseY, this.fontRenderer);
     }
 
     private void handleMouseClick(int mouseX, int mouseY)

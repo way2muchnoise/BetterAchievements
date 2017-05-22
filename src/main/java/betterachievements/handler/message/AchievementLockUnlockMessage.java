@@ -54,7 +54,7 @@ public class AchievementLockUnlockMessage implements IMessage
 
         public void onServerMessage(AchievementLockUnlockMessage message, MessageContext ctx)
         {
-            EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+            EntityPlayerMP player = ctx.getServerHandler().player;
             if (canLockUnlock(player))
             {
                 Achievement achievement = AchievementRegistry.instance().getAchievement(message.achievementId);
