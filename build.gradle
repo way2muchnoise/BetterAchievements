@@ -99,6 +99,7 @@ task sourcesJar(type: Jar, dependsOn: 'sourceMainJava') {
 
 task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
     from "build/sources/main/java/betterachievements/api"
+    println "build/classes/main/java/betterachievements/api"
     classifier "api"
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
 }
