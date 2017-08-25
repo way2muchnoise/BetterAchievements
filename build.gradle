@@ -81,6 +81,8 @@ processResources {
 jar {
     exclude("**/betterachievementsdemo/**")
     destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+    
+    finalizedBy reobfJar
 }
 
 task deobfJar(type: Jar) {
